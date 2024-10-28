@@ -16,8 +16,9 @@ export default function ChallengeListActionStart({ notodoId }: ChallengeListActi
     <form action={action}>
       <FormButton
         variant="light"
-        startContent={<FaFlag />}
-        className="no-hover-effect w-full flex items-center justify-start"
+        startContent={<div><FaFlag size="10" /></div>}
+        className="no-hover-effect w-full flex items-center justify-start text-stone-700"
+        size="sm"
       >Start Challenge!</FormButton>
     </form>
   )

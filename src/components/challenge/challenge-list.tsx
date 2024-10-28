@@ -13,9 +13,9 @@ export default async function ChallengeList({ fetchChallenges, notodoId, userId 
 
   const renderedChallenges = challenges.map((challenge) => {
     return (
-      <div key={challenge.id} className="border rounded py-2 px-4 border-gray-500">
+      <div key={challenge.id} className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50">
         <Link href={paths.challengeShowPage(userId, notodoId, challenge.id)}>
-          <h3 className="text-lg font-semibold my-1">{challenge.startTime.toString()}</h3>
+          <h3 className="text-lg font-semibold my-1">{challenge.startTime.toLocaleString()}</h3>
         </Link>
       </div>
     )

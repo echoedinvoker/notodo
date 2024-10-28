@@ -13,11 +13,12 @@ export default function NotodoCreateForm({ userId }: CreateNotodoFormState) {
   return (
     <form action={action}>
       <div className="flex flex-col gap-4 p4 w-80">
-        <h3 className="text-lg">Create a Notodo</h3>
+        <h3 className="text-lg text-stone-700">Create a Notodo</h3>
         <Input
           name='title'
           label="Title"
           labelPlacement="outside"
+          className="rounded-lg"
           placeholder="Enter the notodo name"
           isInvalid={!!formState.errors.title}
           errorMessage={formState.errors.title?.join(", ")}

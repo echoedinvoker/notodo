@@ -14,8 +14,9 @@ export default function ChallengeListActionGiveUp({ notodoId }: ChallengeListAct
     <form action={action}>
       <FormButton
         variant="light"
-        startContent={<FaHandPaper />}
-        className="no-hover-effect w-full flex items-center justify-start"
+        startContent={<div><FaHandPaper size="10" /></div>}
+        className="no-hover-effect w-full flex items-center justify-start text-stone-700"
+        size="sm"
       >Give up...</FormButton>
     </form>
   )

@@ -11,7 +11,10 @@ interface NotodoPopoverProps {
 export default function NotodoPopover({ userId }: NotodoPopoverProps) {
 
   return (
-    <Popover placement="left-start">
+    <Popover
+      placement="left-start"
+      backdrop="blur"
+    >
       <PopoverTrigger>
         <Button
           variant="light"
@@ -22,7 +25,7 @@ export default function NotodoPopover({ userId }: NotodoPopoverProps) {
           Create Notodo
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className="bg-stone-50 p-2">
         <NotodoCreateForm userId={userId} />
       </PopoverContent>
     </Popover>

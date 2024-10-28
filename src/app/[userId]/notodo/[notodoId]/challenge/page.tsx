@@ -1,6 +1,8 @@
 import ChallengeList from "@/components/challenge/challenge-list";
 import ChallengeListActions from "@/components/challenge/challenge-list-actions";
 import { fetchChallenges } from "@/db/queries/challenges";
+import { paths } from "@/paths";
+import Link from "next/link";
 
 interface ChallengeListPageProps {
   params: {
@@ -13,14 +15,14 @@ export default async function ChallengeListPage({ params: { notodoId, userId } }
   const challenges = await fetchChallenges(notodoId);
 
   return <div className="flex flex-col gap-4 p-4">
-    <h1 className="text-xl font-bold">Challenge List</h1>
+    <Link href={paths.notodoShowPage(userId, notodoId)}>
+      <h1 className="text-xl font-bold text-stone-700">Challenge List</h1>
+    </Link>
     <div className="grid grid-cols-4 gap-4">
       <div className="col-span-3">
         <ChallengeList fetchChallenges={() => fetchChallenges(notodoId)} userId={userId} notodoId={notodoId} />
       </div>
-      <div className="border rounded p-4 border-gray-500">
-        <ChallengeListActions notodoId={notodoId} challenges={challenges} />
-      </div>
+      <ChallengeListActions notodoId={notodoId} challenges={challenges} />
     </div>
   </div>
 }
