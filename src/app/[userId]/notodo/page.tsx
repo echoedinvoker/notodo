@@ -23,9 +23,9 @@ export default function Home({ params: { userId } }: HomeProps) {
   )
 }
 
-// export async function generateStaticParams() {
-//   const users = await db.user.findMany()
-//   return users.map(user => ({
-//     id: user.id.toString()
-//   }));
-// }
+export async function generateStaticParams() {
+  const users = await db.user.findMany()
+  return users.map(user => ({
+    id: user.id.toString()
+  }));
+}

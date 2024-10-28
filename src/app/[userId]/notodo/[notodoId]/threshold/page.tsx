@@ -32,10 +32,10 @@ export default async function ThresholdListPage({ params: { notodoId, userId } }
   </div>
 }
 
-// export async function generateStaticParams() {
-//   const notodos = await db.notodo.findMany({ include: { user: { select: { id: true } } } });
-//   return notodos.map(notodo => ({
-//     notodoId: notodo.id.toString(),
-//     userId: notodo.user.id.toString()
-//   }));
-// }
+export async function generateStaticParams() {
+  const notodos = await db.notodo.findMany({ include: { user: { select: { id: true } } } });
+  return notodos.map(notodo => ({
+    notodoId: notodo.id.toString(),
+    userId: notodo.user.id.toString()
+  }));
+}

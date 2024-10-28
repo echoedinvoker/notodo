@@ -47,25 +47,25 @@ export default async function ThresholdShowPage({ params: { notodoId, thresholdI
   )
 }
 
-// export async function generateStaticParams() {
-//   const thresholds = await db.threshold.findMany({
-//     include: {
-//       notodo: {
-//         select: {
-//           id: true,
-//           user: {
-//             select: {
-//               id: true
-//             }
-//           }
-//         }
-//       }
-//     }
-//   });
-//   return thresholds.map(threshold => ({
-//     notodoId: threshold.notodo.id.toString(),
-//     thresholdId: threshold.id.toString(),
-//     userId: threshold.notodo.user.id.toString()
-//   }));
-// }
-//
+export async function generateStaticParams() {
+  const thresholds = await db.threshold.findMany({
+    include: {
+      notodo: {
+        select: {
+          id: true,
+          user: {
+            select: {
+              id: true
+            }
+          }
+        }
+      }
+    }
+  });
+  return thresholds.map(threshold => ({
+    notodoId: threshold.notodo.id.toString(),
+    thresholdId: threshold.id.toString(),
+    userId: threshold.notodo.user.id.toString()
+  }));
+}
+
