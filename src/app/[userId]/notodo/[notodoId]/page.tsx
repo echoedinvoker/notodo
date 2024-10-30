@@ -18,31 +18,35 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
     return <div>Notodo not found</div>
   }
 
-  return <div className="flex flex-col gap-4 p-4">
-    <Link href={paths.notodoListPage(userId)}>
-      <h1 className="text-xl font-bold text-stone-700">{notodo.title}</h1>
-    </Link>
+  return (
     <div>
-      <p className="text-stone-600 text-sm whitespace-pre-line">{notodo.content}</p>
-    </div>
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-3">
-        <div className="flex gap-4">
-          <Link className="flex-1" href={paths.thresholdListPage(userId, notodoId)}>
-            <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 mb-4">
-              <h3>Thresholds</h3>
+      <Link href={paths.notodoListPage(userId)}>
+        <h1 className="text-xl font-bold text-stone-700">{notodo.title}</h1>
+      </Link>
+      <div className="grid grid-cols-4 gap-4">
+        <div className="col-span-3">
+          <div className="flex flex-col gap-4 p-4">
+            <div>
+              <p className="text-stone-600 text-sm whitespace-pre-line">{notodo.content}</p>
             </div>
-          </Link>
-          <Link className="flex-1" href={paths.challengeListPage(userId, notodoId)}>
-            <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 mb-4">
-              <h3>Challenges</h3>
+            <div className="flex gap-4">
+              <Link className="flex-1" href={paths.thresholdListPage(userId, notodoId)}>
+                <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 mb-4">
+                  <h3>Thresholds</h3>
+                </div>
+              </Link>
+              <Link className="flex-1" href={paths.challengeListPage(userId, notodoId)}>
+                <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 mb-4">
+                  <h3>Challenges</h3>
+                </div>
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
+        <NotodoShowActions notodoId={notodoId} />
       </div>
-      <NotodoShowActions notodoId={notodoId} />
     </div>
-  </div>
+  )
 }
 
 export async function generateStaticParams() {

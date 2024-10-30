@@ -1,14 +1,14 @@
 'use client';
 
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import NotodoCreateForm from "./notodo-create-form";
-import { FaPlus } from "react-icons/fa";
 
 interface NotodoPopoverProps {
-  userId: string;
+  children: React.ReactNode;
+  startContent: React.ReactNode;
+  text: string;
 }
 
-export default function NotodoPopover({ userId }: NotodoPopoverProps) {
+export default function NotodoPopover({ children, startContent, text }: NotodoPopoverProps) {
 
   return (
     <Popover
@@ -19,14 +19,14 @@ export default function NotodoPopover({ userId }: NotodoPopoverProps) {
         <Button
           variant="light"
           className="no-hover-effect w-full flex items-center justify-start text-stone-700"
-          startContent={<div><FaPlus size="10" /></div>}
+          startContent={startContent}
           size="sm"
         >
-          Create Notodo
+          {text}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="bg-stone-50 p-2">
-        <NotodoCreateForm userId={userId} />
+        {children}
       </PopoverContent>
     </Popover>
   )

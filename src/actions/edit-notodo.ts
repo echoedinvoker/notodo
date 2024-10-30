@@ -3,17 +3,15 @@
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { paths } from "@/paths";
-import { Notodo } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
-const createNotodoSchema = z.object({
+const editNotodoSchema = z.object({
   title: z.string().min(2).max(100),
   content: z.string().min(10),
 });
 
-interface CreateNotodoFormState {
+interface EditNotodoFormState {
   errors: {
     title?: string[];
     content?: string[];
@@ -21,29 +19,29 @@ interface CreateNotodoFormState {
   }
 }
 
-export async function createNotodo(userId: string, formState: CreateNotodoFormState, formData: FormData): Promise<CreateNotodoFormState> {
+export async function editNotodo(notodoId: string, formState: EditNotodoFormState, formData: FormData): Promise<EditNotodoFormState> {
   const session = await auth();
   if (!session || !session.user) {
-    return { errors: { _form: ["You must be logged in to create a notodo"] } }
+    return { errors: { _form: ["You must be logged in to edit a notodo"] } }
   }
 
   let result: { title: string; content: string };
   try {
-    result = createNotodoSchema.parse({
+    result = editNotodoSchema.parse({
       title: formData.get("title"),
       content: formData.get("content"),
     });
   } catch (error) {
-    return { errors: (error as z.ZodError).flatten().fieldErrors } as CreateNotodoFormState;
+    return { errors: (error as z.ZodError).flatten().fieldErrors } as EditNotodoFormState;
   }
 
-  let notodo: Notodo;
+  // Update the notodo
   try {
-    notodo = await db.notodo.create({
+    await db.notodo.update({
+      where: { id: notodoId },
       data: {
         title: result.title,
         content: result.content,
-        userId: session.user.id,
       },
     });
   } catch (error: unknown) {
@@ -53,6 +51,7 @@ export async function createNotodo(userId: string, formState: CreateNotodoFormSt
     return { errors: { _form: ["An unknown error occurred"] } };
   }
 
-  revalidatePath(paths.homePage(userId))
-  redirect(paths.notodoShowPage(userId, notodo.id))
+  revalidatePath(paths.notodoShowPage(session.user.id, notodoId))
+  revalidatePath(paths.notodoListPage(session.user.id))
+  return { errors: {} };
 }
