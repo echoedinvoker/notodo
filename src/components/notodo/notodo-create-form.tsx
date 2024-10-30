@@ -1,14 +1,27 @@
-import * as actions from "@/actions"
 import { useFormState } from "react-dom";
 import FormButton from "../common/FormButton";
 import { Input, Textarea } from "@nextui-org/react";
 
 interface CreateNotodoFormState {
-  userId: string;
+  errors: {
+    title?: string[];
+    content?: string[];
+    _form?: string[];
+  };
 }
 
-export default function NotodoCreateForm({ userId }: CreateNotodoFormState) {
-  const [formState, action] = useFormState(actions.createNotodo.bind(null, userId), { errors: {} });
+type FormStateAction = (
+  state: CreateNotodoFormState,
+  formData: FormData
+) => Promise<CreateNotodoFormState>;
+
+interface NotodoCreateFormProps {
+  formStateAction: FormStateAction;
+}
+
+
+export default function NotodoCreateForm({ formStateAction }: NotodoCreateFormProps) {
+  const [formState, action] = useFormState(formStateAction, { errors: {} });
 
   return (
     <form action={action}>
