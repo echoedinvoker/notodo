@@ -22,3 +22,12 @@ export function formatTimeDifference(start: Date, end: Date): string {
 
   return parts.join(' ');
 }
+
+export function formatDigitalClock(start: Date, end: Date): string {
+  const diff = Math.abs(end.getTime() - start.getTime());
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}

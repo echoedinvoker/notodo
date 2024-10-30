@@ -1,10 +1,11 @@
-import type { Notodo, Threshold } from "@prisma/client";
+import type { Challenge, Notodo, Threshold } from "@prisma/client";
 import { db } from "..";
 // import { auth } from "@/auth";
 
 export type NotodoWithData = Notodo & {
   user: { name: string | null };
   thresholds: Threshold[];
+  challenges: Challenge[];
 }
 
 export async function fetchNotodos(userId: string): Promise<NotodoWithData[]> {
@@ -20,7 +21,8 @@ export async function fetchNotodos(userId: string): Promise<NotodoWithData[]> {
     where: { userId },
     include: {
       user: { select: { name: true } },
-      thresholds: true
+      thresholds: true,
+      challenges: true
     }
   })
 }

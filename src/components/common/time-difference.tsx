@@ -1,6 +1,6 @@
 'use client';
 
-import { formatTimeDifference } from "@/helpers/utils";
+import { formatTimeDifference, formatDigitalClock } from "@/helpers/utils";
 import { useEffect, useState } from "react";
 
 interface TimeDifferenceProps {
@@ -8,33 +8,39 @@ interface TimeDifferenceProps {
   endTime?: Date;
   showSkeleton?: boolean;
   skeletonClassName?: string;
+  formatType?: 'default' | 'digital';
+  className?: string;
 }
 
 export default function TimeDifference({
   startTime,
   endTime,
   showSkeleton = false,
-  skeletonClassName = "h-6 w-20 bg-gray-200 rounded animate-pulse"
+  skeletonClassName = "h-6 w-20 bg-gray-200 rounded animate-pulse",
+  formatType = 'default',
+  className = ''
 }: TimeDifferenceProps) {
   const [timeDifference, setTimeDifference] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+
     const updateTimeDifference = () => {
       const end = endTime || new Date();
-      setTimeDifference(formatTimeDifference(startTime, end));
-      setIsLoading(false);
+      const formatFunction = formatType === 'digital' ? formatDigitalClock : formatTimeDifference;
+      setTimeDifference(formatFunction(startTime, end));
     };
 
     updateTimeDifference();
     const intervalId = setInterval(updateTimeDifference, 1000);
 
     return () => clearInterval(intervalId);
-  }, [startTime, endTime]);
+  }, [startTime, endTime, formatType]);
 
-  if (isLoading && showSkeleton) {
-    return <div className={skeletonClassName}></div>;
+  if (!isClient) {
+    return showSkeleton ? <div className={skeletonClassName}></div> : null;
   }
 
-  return <>{timeDifference}</>;
+  return <div className={className}>{timeDifference}</div>;
 }
