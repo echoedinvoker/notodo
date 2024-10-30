@@ -3,7 +3,7 @@
 import { Listbox, ListboxItem } from "@nextui-org/react";
 import NotodoPopover from "./notodo-popover";
 import { FaPlus } from "react-icons/fa";
-import NotodoCreateForm from "./notodo-create-form";
+import NotodoForm from "./notodo-form";
 import * as actions from "@/actions"
 
 interface NotodoListboxProps {
@@ -18,7 +18,7 @@ export default function NotodoListbox({ userId }: NotodoListboxProps) {
           startContent={<div><FaPlus size="10" /></div>}
           text="Create Notodo"
         >
-          <NotodoCreateForm formStateAction={actions.createNotodo.bind(null, userId)} />
+          <NotodoForm formStateAction={actions.createNotodo.bind(null, userId)} />
         </NotodoPopover>
       </ListboxItem>
     </Listbox >

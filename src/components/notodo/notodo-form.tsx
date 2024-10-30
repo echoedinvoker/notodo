@@ -2,7 +2,7 @@ import { useFormState } from "react-dom";
 import FormButton from "../common/FormButton";
 import { Input, Textarea } from "@nextui-org/react";
 
-interface CreateNotodoFormState {
+interface NotodoFormState {
   errors: {
     title?: string[];
     content?: string[];
@@ -11,22 +11,26 @@ interface CreateNotodoFormState {
 }
 
 type FormStateAction = (
-  state: CreateNotodoFormState,
+  state: NotodoFormState,
   formData: FormData
-) => Promise<CreateNotodoFormState>;
+) => Promise<NotodoFormState>;
 
-interface NotodoCreateFormProps {
+interface NotodoFormProps {
   formStateAction: FormStateAction;
+  defaultValues?: {
+    title: string;
+    content: string;
+  };
 }
 
 
-export default function NotodoCreateForm({ formStateAction }: NotodoCreateFormProps) {
+export default function NotodoForm({ formStateAction, defaultValues }: NotodoFormProps) {
   const [formState, action] = useFormState(formStateAction, { errors: {} });
 
   return (
     <form action={action}>
       <div className="flex flex-col gap-4 p4 w-80">
-        <h3 className="text-lg text-stone-700">Create a Notodo</h3>
+        <h3 className="text-lg text-stone-700"> a Notodo</h3>
         <Input
           name='title'
           label="Title"
@@ -35,6 +39,7 @@ export default function NotodoCreateForm({ formStateAction }: NotodoCreateFormPr
           placeholder="Enter the notodo name"
           isInvalid={!!formState.errors.title}
           errorMessage={formState.errors.title?.join(", ")}
+          defaultValue={defaultValues?.title}
         />
         <Textarea
           name='content'
@@ -43,6 +48,7 @@ export default function NotodoCreateForm({ formStateAction }: NotodoCreateFormPr
           placeholder="Enter the notodo description"
           isInvalid={!!formState.errors.content}
           errorMessage={formState.errors.content?.join(", ")}
+          defaultValue={defaultValues?.content}
         />
         {formState.errors._form && (
           <div className="text-red-500">{formState.errors._form.join(", ")}</div>

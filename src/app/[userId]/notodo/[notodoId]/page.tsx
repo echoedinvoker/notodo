@@ -43,7 +43,7 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
             </div>
           </div>
         </div>
-        <NotodoShowActions notodoId={notodoId} />
+        <NotodoShowActions notodo={notodo} />
       </div>
     </div>
   )

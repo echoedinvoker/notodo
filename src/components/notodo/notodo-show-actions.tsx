@@ -4,12 +4,15 @@ import { Listbox, ListboxItem } from "@nextui-org/react";
 import NotodoShowActionDelete from "./notodo-show-action-delete";
 import NotodoPopover from "./notodo-popover";
 import { FaEdit } from "react-icons/fa";
+import NotodoForm from "./notodo-form";
+import * as actions from "@/actions"
+import type { Notodo } from "@prisma/client";
 
 interface NotodoShowActionsProps {
-  notodoId: string;
+  notodo: Notodo;
 }
 
-export default function NotodoShowActions({ notodoId }: NotodoShowActionsProps) {
+export default function NotodoShowActions({ notodo }: NotodoShowActionsProps) {
   return (
     <Listbox aria-label="Notodo Actions">
       <ListboxItem key="edit" className="p-0 m-0" textValue="Create Notodo">
@@ -17,11 +20,14 @@ export default function NotodoShowActions({ notodoId }: NotodoShowActionsProps) 
           startContent={<div><FaEdit size="10" /></div>}
           text="Edit Notodo"
         >
-          TODO: Edit Notodo Form
+          <NotodoForm
+            formStateAction={actions.editNotodo.bind(null, notodo.id)}
+            defaultValues={{ title: notodo.title, content: notodo.content }}
+          />
         </NotodoPopover>
       </ListboxItem>
       <ListboxItem key="delete" className="p-0 m-0" textValue="Delete Notodo">
-        <NotodoShowActionDelete notodoId={notodoId} />
+        <NotodoShowActionDelete notodoId={notodo.id} />
       </ListboxItem>
     </Listbox>
   )
