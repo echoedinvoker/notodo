@@ -51,6 +51,7 @@ export async function startChallenge(notodoId: string): Promise<StartChallengeFo
     });
 
     revalidatePath(paths.challengeListPage(session.user.id, notodoId));
+    revalidatePath(paths.notodoListPage(session.user.id));
   } catch (error) {
     return { errors: { _form: ["An unexpected error occurred"] } };
   }
