@@ -1,7 +1,9 @@
 import ThresholdForm from "@/components/threhold/threshold-form";
 import { db } from "@/db";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
+import * as actions from "@/actions";
+import { paths } from "@/paths";
 
 interface ThresholdShowPageProps {
   params: {
@@ -22,26 +24,24 @@ export default async function ThresholdShowPage({ params: { notodoId, thresholdI
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-xl font-bold">Threshold Form</h1>
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-3">
-          <ThresholdForm
-            actionType="edit"
-            notodoId={notodoId}
-            userId={userId}
-            thresholdId={thresholdId}
-            initialData={{
-              title: threshold.title,
-              content: threshold.content,
-              duration: threshold.duration.toString(),
-            }}
-          />
-        </div>
-        <div className="border rounded p-4">
-          <div className="flex flex-col m-2">
-            <Button color="primary">Test</Button>
-          </div>
-        </div>
+      <Link href={paths.notodoShowPage(userId, notodoId)}>
+        <h1 className="text-xl font-bold text-stone-700">{threshold.title}</h1>
+      </Link>
+      <div className="mx-auto shadow bg-stone-50 p-2">
+        <ThresholdForm
+          actionType="edit"
+          notodoId={notodoId}
+          userId={userId}
+          thresholdId={thresholdId}
+          initialData={{
+            title: threshold.title,
+            content: threshold.content,
+            duration: threshold.duration.toString(),
+          }}
+        />
+        <form className="flex justify-center mb-4">
+          <Button type="submit" className="w-72" color="danger">Delete</Button>
+        </form>
       </div>
     </div>
   )
