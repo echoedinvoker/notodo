@@ -1,9 +1,9 @@
 import ThresholdForm from "@/components/threhold/threshold-form";
 import { db } from "@/db";
-import { Button, Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
-import * as actions from "@/actions";
 import { paths } from "@/paths";
+import ThresholdDeleteForm from "@/components/threhold/threshold-delete-form";
 
 interface ThresholdShowPageProps {
   params: {
@@ -39,9 +39,7 @@ export default async function ThresholdShowPage({ params: { notodoId, thresholdI
             duration: threshold.duration.toString(),
           }}
         />
-        <form className="flex justify-center mb-4">
-          <Button type="submit" className="w-72" color="danger">Delete</Button>
-        </form>
+        <ThresholdDeleteForm notodoId={notodoId} thresholdId={thresholdId} />
       </div>
     </div>
   )

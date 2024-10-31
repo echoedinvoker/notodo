@@ -9,7 +9,7 @@ import { z } from "zod";
 
 const createThresholdSchema = z.object({
   title: z.string().min(3).max(100),
-  content: z.string().min(10),
+  content: z.string(),
   duration: z.number().min(1),
   multiplier: z.number().min(0),
 });

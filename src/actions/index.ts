@@ -7,3 +7,4 @@ export { deleteNotodo } from './delete-notodo';
 export { startChallenge } from './start-challenge';
 export { giveupChallenge } from './giveup-challenge';
 export { editNotodo } from './edit-notodo';
+export { deleteThreshold } from './delete-threshold';
