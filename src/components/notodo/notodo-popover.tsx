@@ -1,19 +1,29 @@
 'use client';
 
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { useState } from "react";
 
 interface NotodoPopoverProps {
   children: React.ReactNode;
   startContent: React.ReactNode;
   text: string;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
-export default function NotodoPopover({ children, startContent, text }: NotodoPopoverProps) {
+export default function NotodoPopover({
+  children,
+  startContent,
+  text,
+  onOpenChange
+}: NotodoPopoverProps) {
+  const [isOpen, setOpen] = useState(false);
 
   return (
     <Popover
       placement="left-start"
       backdrop="blur"
+      isOpen={isOpen}
+      onOpenChange={onOpenChange || setOpen}
     >
       <PopoverTrigger>
         <Button

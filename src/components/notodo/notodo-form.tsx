@@ -37,8 +37,8 @@ export default function NotodoForm({ formStateAction, defaultValues }: NotodoFor
           labelPlacement="outside"
           className="rounded-lg"
           placeholder="Enter the notodo name"
-          isInvalid={!!formState.errors.title}
-          errorMessage={formState.errors.title?.join(", ")}
+          isInvalid={!!formState?.errors?.title}
+          errorMessage={formState?.errors?.title?.join(", ")}
           defaultValue={defaultValues?.title}
         />
         <Textarea
@@ -46,11 +46,11 @@ export default function NotodoForm({ formStateAction, defaultValues }: NotodoFor
           label="Content"
           labelPlacement="outside"
           placeholder="Enter the notodo description"
-          isInvalid={!!formState.errors.content}
-          errorMessage={formState.errors.content?.join(", ")}
+          isInvalid={!!formState?.errors?.content}
+          errorMessage={formState?.errors?.content?.join(", ")}
           defaultValue={defaultValues?.content}
         />
-        {formState.errors._form && (
+        {formState?.errors?._form && (
           <div className="text-red-500">{formState.errors._form.join(", ")}</div>
         )}
         <FormButton>Submit</FormButton>

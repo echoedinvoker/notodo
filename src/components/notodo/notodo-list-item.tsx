@@ -21,7 +21,8 @@ export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) 
           {activeChallenge && (
             <Link href={paths.challengeShowPage(userId, notodo.id, activeChallenge.id)}>
               <TimeDifference
-                startTime={new Date(activeChallenge.startTime)} />
+                startTime={new Date(activeChallenge.startTime)}
+              />
             </Link>
           )}
         </div>

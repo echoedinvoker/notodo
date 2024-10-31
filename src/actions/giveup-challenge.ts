@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { paths } from "@/paths";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 interface GiveupChallengeFormState {
   errors: {
@@ -54,9 +55,11 @@ export async function giveupChallenge(notodoId: string): Promise<GiveupChallenge
     });
 
     revalidatePath(paths.challengeListPage(session.user.id, notodoId));
-    return { errors: {} };
+    revalidatePath(paths.notodoListPage(session.user.id));
   } catch (error) {
     return { errors: { _form: ["An unexpected error occurred"] } };
   }
+
+  redirect(paths.notodoListPage(session.user.id));
 }
 

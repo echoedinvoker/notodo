@@ -20,7 +20,12 @@ interface EditNotodoFormState {
   }
 }
 
-export async function editNotodo(notodoId: string, formState: EditNotodoFormState, formData: FormData): Promise<EditNotodoFormState> {
+export async function editNotodo(
+  notodoId: string,
+  formState: EditNotodoFormState,
+  formData: FormData
+): Promise<EditNotodoFormState> {
+
   const session = await auth();
   if (!session || !session.user) {
     return { errors: { _form: ["You must be logged in to edit a notodo"] } }

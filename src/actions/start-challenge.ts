@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { paths } from "@/paths";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 interface StartChallengeFormState {
   errors: {
@@ -50,8 +51,9 @@ export async function startChallenge(notodoId: string): Promise<StartChallengeFo
     });
 
     revalidatePath(paths.challengeListPage(session.user.id, notodoId));
-    return { errors: {} };
   } catch (error) {
     return { errors: { _form: ["An unexpected error occurred"] } };
   }
+
+  redirect(paths.notodoListPage(session.user.id));
 }
