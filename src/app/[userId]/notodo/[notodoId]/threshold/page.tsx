@@ -1,9 +1,10 @@
 import { db } from "@/db";
 import { fetchThresholds } from "@/db/queries/thresholds";
-import ThresholdListbox from "@/components/threhold/threshold-listbox";
+import ThresholdListbox from "@/components/threhold/threshold-list-actions";
 import ThresholdList from "@/components/threhold/threshold-list";
 import Link from "next/link";
 import { paths } from "@/paths";
+import ThresholdListActions from "@/components/threhold/threshold-list-actions";
 
 interface ThresholdListPageProps {
   params: {
@@ -13,13 +14,7 @@ interface ThresholdListPageProps {
 }
 
 export default async function ThresholdListPage({ params: { notodoId, userId } }: ThresholdListPageProps) {
-  const notodo = await db.notodo.findFirst({
-    where: { id: notodoId }
-  });
-
-  if (!notodo) {
-    return <div>Notodo not found</div>
-  }
+  const thresholds = await fetchThresholds(notodoId);
 
   return <div className="flex flex-col gap-4 p-4">
     <Link href={paths.notodoShowPage(userId, notodoId)}>
@@ -29,9 +24,7 @@ export default async function ThresholdListPage({ params: { notodoId, userId } }
       <div className="col-span-3">
         <ThresholdList fetchThresholds={() => fetchThresholds(notodoId)} notodoId={notodoId} userId={userId} />
       </div>
-      <div className="border rounded p-4 border-gray-500">
-        <ThresholdListbox userId={userId} notodoId={notodoId} />
-      </div>
+      <ThresholdListActions thresholds={thresholds} notodoId={notodoId} userId={userId} />
     </div>
   </div>
 }

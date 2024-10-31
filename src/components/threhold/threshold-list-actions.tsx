@@ -2,16 +2,15 @@
 
 import { Listbox, ListboxItem } from "@nextui-org/react";
 import ThresholdPopover from "./threshold-popover";
-import * as actions from "@/actions";
-import { useFormState } from "react-dom";
+import type { Threshold } from "@prisma/client";
 
-interface ThresholdListboxProps {
-  userId: string;
+interface ThresholdListActionsProps {
+  thresholds: Threshold[];
   notodoId: string;
+  userId: string;
 }
 
-export default function ThresholdListbox({ userId, notodoId }: ThresholdListboxProps) {
-  const [deleteFormState, deleteNotodoAction] = useFormState(actions.deleteNotodo.bind(null, notodoId), { errors: {} });
+export default function ThresholdListActions({ thresholds, notodoId, userId }: ThresholdListActionsProps) {
 
   return (
     <Listbox aria-label="Threshold Actions">

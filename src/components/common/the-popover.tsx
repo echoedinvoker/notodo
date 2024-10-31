@@ -3,19 +3,19 @@
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useState } from "react";
 
-interface NotodoPopoverProps {
+interface ThePopoverProps {
   children: React.ReactNode;
   startContent: React.ReactNode;
   text: string;
   onOpenChange?: (isOpen: boolean) => void;
 }
 
-export default function NotodoPopover({
+export default function ThePopover({
   children,
   startContent,
   text,
   onOpenChange
-}: NotodoPopoverProps) {
+}: ThePopoverProps) {
   const [isOpen, setOpen] = useState(false);
 
   return (
