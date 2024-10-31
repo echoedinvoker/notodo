@@ -71,6 +71,5 @@ export default function ThresholdForm({ actionType, userId, notodoId, thresholdI
         <FormButton>Submit</FormButton>
       </div>
     </form>
-
   )
 }

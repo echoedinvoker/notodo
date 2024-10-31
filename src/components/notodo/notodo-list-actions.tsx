@@ -10,7 +10,7 @@ interface NotodoListboxProps {
   userId: string;
 }
 
-export default function NotodoListbox({ userId }: NotodoListboxProps) {
+export default function NotodoListActions({ userId }: NotodoListboxProps) {
   return (
     <Listbox aria-label="Notodo Actions">
       <ListboxItem key="create" className="p-0 m-0" textValue="Create Notodo">

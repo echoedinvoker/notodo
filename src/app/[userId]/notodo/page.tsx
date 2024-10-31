@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { fetchNotodos } from "@/db/queries/notodos";
 import NotodoList from "@/components/notodo/notodo-list";
-import NotodoListbox from "@/components/notodo/notodo-list-actions";
+import NotodoListActions from "@/components/notodo/notodo-list-actions";
 
 interface HomeProps {
   params: {
@@ -17,7 +17,7 @@ export default function Home({ params: { userId } }: HomeProps) {
         <div className="col-span-3">
           <NotodoList fetchNotodos={() => fetchNotodos(userId)} userId={userId} />
         </div>
-        <NotodoListbox userId={userId} />
+        <NotodoListActions userId={userId} />
       </div>
     </div>
   )
