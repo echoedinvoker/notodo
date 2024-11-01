@@ -42,19 +42,26 @@ export async function fetchNotodos(userId: string): Promise<NotodoWithData[]> {
 
 function getChallengeData(challenges: Challenge[]) {
   let hasStartTime = false;
-  let hasEndTime = false;
+  let hasEndTime = true;  // 初始設為 true
   let earliestStartTime: Date | null = null;
   let latestEndTime: Date | null = null;
+  let hasProcessedAnyChallenge = false;
 
   for (const challenge of challenges) {
+    hasProcessedAnyChallenge = true;
+
     if (challenge.startTime) {
       hasStartTime = true;
       if (!earliestStartTime || challenge.startTime < earliestStartTime) {
         earliestStartTime = challenge.startTime;
       }
     }
-    if (challenge.endTime) {
-      hasEndTime = true;
+
+    if (challenge.endTime === null) {
+      hasEndTime = false;
+      latestEndTime = null;
+      break;  // 可以提前結束循環，因為已經確定 hasEndTime 為 false
+    } else if (challenge.endTime) {
       if (!latestEndTime || challenge.endTime > latestEndTime) {
         latestEndTime = challenge.endTime;
       }
