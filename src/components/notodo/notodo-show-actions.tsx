@@ -13,6 +13,7 @@ interface NotodoShowActionsProps {
 }
 
 export default function NotodoShowActions({ notodo }: NotodoShowActionsProps) {
+  console.log("notodo", notodo)
   return (
     <Listbox aria-label="Notodo Actions">
       <ListboxItem key="edit" className="p-0 m-0" textValue="Create Notodo">
@@ -22,7 +23,7 @@ export default function NotodoShowActions({ notodo }: NotodoShowActionsProps) {
         >
           <NotodoForm
             formStateAction={actions.editNotodo.bind(null, notodo.id)}
-            defaultValues={{ title: notodo.title, content: notodo.content }}
+            defaultValues={notodo}
           />
         </ThePopover>
       </ListboxItem>

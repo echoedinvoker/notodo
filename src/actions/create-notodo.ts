@@ -10,13 +10,15 @@ import { z } from "zod";
 
 const createNotodoSchema = z.object({
   title: z.string().min(2).max(100),
-  content: z.string()
+  content: z.string(),
+  weight: z.number().min(0).max(10).optional(),
 });
 
 interface CreateNotodoFormState {
   errors: {
     title?: string[];
     content?: string[];
+    weight?: string[];
     _form?: string[];
   }
 }
@@ -27,11 +29,13 @@ export async function createNotodo(userId: string, formState: CreateNotodoFormSt
     return { errors: { _form: ["You must be logged in to create a notodo"] } }
   }
 
-  let result: { title: string; content: string };
+  let result: { title: string; content: string, weight?: number };
   try {
+    const weightValue = formData.get("weight");
     result = createNotodoSchema.parse({
       title: formData.get("title"),
       content: formData.get("content"),
+      weight: weightValue ? parseFloat(weightValue as string) : undefined
     });
   } catch (error) {
     return { errors: (error as z.ZodError).flatten().fieldErrors } as CreateNotodoFormState;
@@ -43,6 +47,7 @@ export async function createNotodo(userId: string, formState: CreateNotodoFormSt
       data: {
         title: result.title,
         content: result.content,
+        weight: result.weight,
         userId: session.user.id,
       },
     });
