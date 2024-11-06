@@ -15,12 +15,12 @@ export default function NotodoListItemToggleDisplay({ notodo }: NotodoListItemTo
     <form action={action} className="ml-2">
       <button
         type="submit"
-        className={`w-10 h-5 rounded-full p-0 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${notodo.displayTimeAsScore ? 'bg-indigo-600' : 'bg-gray-200'}`}
+        className="w-6 h-3 rounded-full p-0 duration-200 ease-in-out focus:outline-none bg-stone-200"
         aria-pressed={notodo.displayTimeAsScore}
         aria-label={notodo.displayTimeAsScore ? "Disable weight" : "Enable weight"}
       >
         <span
-          className={`block w-4 h-4 rounded-full bg-white shadow transform transition-transform duration-200 ease-in-out ${notodo.displayTimeAsScore ? 'translate-x-5' : 'translate-x-0'}`}
+          className={`block w-3 h-3 rounded-full bg-white shadow transform transition-transform duration-200 ease-in-out ${notodo.displayTimeAsScore ? 'translate-x-3' : 'translate-x-0'}`}
         />
       </button>
     </form>
