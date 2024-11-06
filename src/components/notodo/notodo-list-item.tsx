@@ -2,6 +2,7 @@ import { NotodoWithData } from "@/db/queries/notodos";
 import { paths } from "@/paths";
 import Link from "next/link";
 import { TimeDifference } from "../common";
+import NotodoListItemToggleDisplay from "./notodo-list-item-toggle-display";
 
 interface NotodoListItemProps {
   notodo: NotodoWithData;
@@ -17,13 +18,16 @@ export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) 
         <Link href={paths.notodoShowPage(userId, notodo.id)}>
           <h3 className="text-lg font-semibold my-1">{notodo.title}</h3>
         </Link >
-        <div className="text-sm text-stone-500">
+        <div className="text-sm text-stone-500 flex items-center justify-end">
           {activeChallenge && (
             <Link href={paths.challengeShowPage(userId, notodo.id, activeChallenge.id)}>
-              <TimeDifference
+              {notodo.displayTimeAsScore ? 'TEST' : <TimeDifference
                 startTime={new Date(activeChallenge.startTime)}
-              />
+              />}
             </Link>
+          )}
+          {typeof notodo.weight === 'number' && (
+            <NotodoListItemToggleDisplay notodo={notodo} />
           )}
         </div>
       </div>
