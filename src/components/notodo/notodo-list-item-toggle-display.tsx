@@ -1,14 +1,18 @@
 'use client';
 
 import type { NotodoWithData } from "@/db/queries/notodos";
+import * as actions from "@/actions";
+import { useFormState } from "react-dom";
 
 interface NotodoListItemToggleDisplayProps {
   notodo: NotodoWithData;
 }
 
 export default function NotodoListItemToggleDisplay({ notodo }: NotodoListItemToggleDisplayProps) {
+  const [formState, action] = useFormState(actions.toggleNotodoDisplay.bind(null, { notodoId: notodo.id }), { errors: {} });
+
   return (
-    <form className="ml-2">
+    <form action={action} className="ml-2">
       <button
         type="submit"
         className={`w-10 h-5 rounded-full p-0 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${notodo.displayTimeAsScore ? 'bg-indigo-600' : 'bg-gray-200'}`}
