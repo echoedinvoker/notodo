@@ -37,6 +37,7 @@ export default async function ThresholdShowPage({ params: { notodoId, thresholdI
             title: threshold.title,
             content: threshold.content,
             duration: threshold.duration.toString(),
+            weight: threshold.weight.toString()
           }}
         />
         <ThresholdDeleteForm notodoId={notodoId} thresholdId={thresholdId} />

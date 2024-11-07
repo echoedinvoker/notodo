@@ -11,7 +11,7 @@ const createThresholdSchema = z.object({
   title: z.string().min(3).max(100),
   content: z.string(),
   duration: z.number().min(1),
-  multiplier: z.number().min(0),
+  weight: z.number().min(0).max(10)
 });
 
 export interface CreateThresholdFormState {
@@ -19,7 +19,7 @@ export interface CreateThresholdFormState {
     title?: string[];
     content?: string[];
     duration?: string[];
-    multiplier?: string[];
+    weight?: string[];
     _form?: string[];
   }
 }
@@ -34,13 +34,13 @@ export async function createThreshold({
     return { errors: { _form: ["You must be logged in to create a threshold"] } }
   }
 
-  let result: { title: string; content: string; duration: number, multiplier: number };
+  let result: { title: string; content: string; duration: number, weight: number };
   try {
     result = createThresholdSchema.parse({
       title: formData.get("title"),
       content: formData.get("content"),
       duration: Number(formData.get("duration")),
-      multiplier: Number(formData.get("multiplier")),
+      weight: Number(formData.get("weight"))
     });
   } catch (error) {
     console.log(error)
@@ -54,7 +54,7 @@ export async function createThreshold({
         title: result.title,
         content: result.content,
         duration: result.duration,
-        multiplier: result.multiplier,
+        weight: result.weight,
         notodoId: notodoId,
       },
     });

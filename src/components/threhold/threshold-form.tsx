@@ -14,6 +14,7 @@ interface ThresholdFormProps {
     title?: string;
     content?: string;
     duration?: string;
+    weight?: string;
   };
 }
 
@@ -54,6 +55,17 @@ export default function ThresholdForm({ actionType, userId, notodoId, thresholdI
           isInvalid={!!formState.errors?.duration}
           errorMessage={formState.errors?.duration?.join(", ")}
           defaultValue={initialData.duration}
+        />
+        <Input
+          name='weight'
+          type="number"
+          label="Weight"
+          labelPlacement="outside"
+          placeholder="Enter the notodo weight"
+          isInvalid={!!formState?.errors?.weight}
+          errorMessage={formState?.errors?.weight?.join(", ")}
+          defaultValue={initialData?.weight?.toString() || "1.0"}
+          step="0.1"
         />
         {formState.errors._form && (
           <div className="text-red-500">{formState.errors._form.join(", ")}</div>
