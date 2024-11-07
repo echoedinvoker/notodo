@@ -78,7 +78,7 @@ model Threshold {
   title      String
   content    String
   duration   Int
-  multiplier Float
+  weight     Float
   notodoId   String
 
   createdAt  DateTime @default(now())
