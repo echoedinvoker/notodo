@@ -34,9 +34,14 @@ export function formatDigitalClock(start: Date, end: Date): string {
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
+interface ScoreResult {
+  totalScore: number;
+  currentWeight: number;
+}
 
-export function calculateNotodoScore(notodo: NotodoWithData): number {
+export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
   let totalScore = 0;
+  let currentWeight = notodo.weight!;
 
   const orderedThresholds = notodo.thresholds.sort((a, b) => a.duration - b.duration);
   const orderedThresholdHours = orderedThresholds.map((threshold) => threshold.duration);
@@ -52,7 +57,6 @@ export function calculateNotodoScore(notodo: NotodoWithData): number {
     let remainingHours = durationHours;
     let challengeScore = 0;
 
-    // Calculate the score for this challenge
     for (let i = 0; i <= orderedThresholdHours.length; i++) {
       const currentThresholdHour = orderedThresholdHours[i] || Infinity;
       const previousThresholdHour = i > 0 ? orderedThresholdHours[i - 1] : 0;
@@ -66,6 +70,7 @@ export function calculateNotodoScore(notodo: NotodoWithData): number {
       if (hoursInThisRange > 0) {
         challengeScore += hoursInThisRange * weight;
         remainingHours -= hoursInThisRange;
+        currentWeight = weight;
       }
 
       if (remainingHours <= 0) break;
@@ -74,5 +79,5 @@ export function calculateNotodoScore(notodo: NotodoWithData): number {
     totalScore += challengeScore;
   }
 
-  return totalScore;
+  return { totalScore, currentWeight };
 }

@@ -3,6 +3,7 @@ import { paths } from "@/paths";
 import Link from "next/link";
 import { TheScore, TimeDifference } from "../common";
 import NotodoListItemToggleDisplay from "./notodo-list-item-toggle-display";
+import TheHour from "../common/the-hour";
 
 interface NotodoListItemProps {
   notodo: NotodoWithData;
@@ -24,7 +25,7 @@ export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) 
               {
                 notodo.displayTimeAsScore
                   ? <TheScore notodo={notodo} />
-                  : <TimeDifference startTime={new Date(activeChallenge.startTime)} />
+                  : <TheHour notodo={notodo} />
               }
             </Link>
           )}

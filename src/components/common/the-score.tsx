@@ -8,12 +8,12 @@ interface TheScoreProps {
 }
 
 export default function TheScore({ notodo }: TheScoreProps) {
-  const score = calculateNotodoScore(notodo);
+  const { totalScore, currentWeight } = calculateNotodoScore(notodo);
 
   return (
     <div className="flex items-baseline">
-      <span className="font-semibold text-xl">{score}</span>
-      <span className="text-sm italic ml-1">+15/hr</span>
+      <span className="font-semibold text-xl">{totalScore}</span>
+      <span className="text-sm italic">+{currentWeight}/hr</span>
       <span className="text-sm ml-1">pts</span>
     </div>
   );
