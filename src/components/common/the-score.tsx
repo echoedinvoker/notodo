@@ -9,6 +9,7 @@ interface TheScoreProps {
 
 export default function TheScore({ notodo }: TheScoreProps) {
   const { totalScore, currentWeight } = calculateNotodoScore(notodo);
+  console.log(totalScore, currentWeight);
 
   return (
     <div className="flex items-baseline">

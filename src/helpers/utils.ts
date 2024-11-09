@@ -79,5 +79,8 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
     totalScore += challengeScore;
   }
 
-  return { totalScore, currentWeight };
+  return {
+    totalScore: Math.floor(totalScore),
+    currentWeight
+  };
 }

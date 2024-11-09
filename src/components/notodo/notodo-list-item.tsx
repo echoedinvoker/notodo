@@ -1,9 +1,10 @@
 import { NotodoWithData } from "@/db/queries/notodos";
 import { paths } from "@/paths";
 import Link from "next/link";
-import { TheScore, TimeDifference } from "../common";
+import { TheScore } from "../common";
 import NotodoListItemToggleDisplay from "./notodo-list-item-toggle-display";
 import TheHour from "../common/the-hour";
+import ThresholdNext from "../threhold/threshold-next";
 
 interface NotodoListItemProps {
   notodo: NotodoWithData;
@@ -24,7 +25,10 @@ export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) 
             <Link href={paths.challengeShowPage(userId, notodo.id, activeChallenge.id)}>
               {
                 notodo.displayTimeAsScore
-                  ? <TheScore notodo={notodo} />
+                  ? <div className="flex items-center gap-2">
+                    <TheScore notodo={notodo} />
+                    <ThresholdNext />
+                  </div>
                   : <TheHour notodo={notodo} />
               }
             </Link>
