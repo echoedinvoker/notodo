@@ -37,22 +37,29 @@ export function formatDigitalClock(start: Date, end: Date): string {
 interface ScoreResult {
   totalScore: number;
   currentWeight: number;
+  nextThreshold?: {
+    hours: number;
+    weight: number;
+  };
 }
 
 export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
   let totalScore = 0;
   let currentWeight = notodo.weight!;
+  let currentThresholdIndex = -1;
 
   const orderedThresholds = notodo.thresholds.sort((a, b) => a.duration - b.duration);
   const orderedThresholdHours = orderedThresholds.map((threshold) => threshold.duration);
   const orderedWeights = [notodo.weight!, ...orderedThresholds.map((threshold) => threshold.weight)];
 
+  let totalDurationHours = 0;
 
   for (const challenge of notodo.challenges) {
     const startTime = new Date(challenge.startTime);
     const endTime = challenge.endTime ? new Date(challenge.endTime) : new Date();
 
     const durationHours = Math.floor((endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60));
+    totalDurationHours += durationHours;
 
     let remainingHours = durationHours;
     let challengeScore = 0;
@@ -73,14 +80,26 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
         currentWeight = weight;
       }
 
-      if (remainingHours <= 0) break;
+      if (remainingHours <= 0) {
+        currentThresholdIndex = i - 1;
+        break;
+      }
     }
 
     totalScore += challengeScore;
   }
 
-  return {
+  const result: ScoreResult = {
     totalScore: Math.floor(totalScore),
-    currentWeight
+    currentWeight,
   };
+
+  if (currentThresholdIndex < orderedThresholdHours.length - 1) {
+    result.nextThreshold = {
+      hours: orderedThresholdHours[currentThresholdIndex + 1],
+      weight: orderedWeights[currentThresholdIndex + 2],
+    };
+  }
+
+  return result;
 }

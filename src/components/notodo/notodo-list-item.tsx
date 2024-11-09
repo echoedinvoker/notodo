@@ -5,6 +5,7 @@ import { TheScore } from "../common";
 import NotodoListItemToggleDisplay from "./notodo-list-item-toggle-display";
 import TheHour from "../common/the-hour";
 import ThresholdNext from "../threhold/threshold-next";
+import { calculateNotodoScore } from "@/helpers/utils";
 
 interface NotodoListItemProps {
   notodo: NotodoWithData;
@@ -13,6 +14,8 @@ interface NotodoListItemProps {
 
 export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) {
   const activeChallenge = notodo.challenges.find(challenge => !challenge.endTime);
+  const { totalScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
+
 
   return (
     <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50">
@@ -26,8 +29,8 @@ export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) 
               {
                 notodo.displayTimeAsScore
                   ? <div className="flex items-center gap-2">
-                    <TheScore notodo={notodo} />
-                    <ThresholdNext />
+                    <TheScore totalScore={totalScore} currentWeight={currentWeight} />
+                    {nextThreshold && <ThresholdNext nextThreshold={nextThreshold} />}
                   </div>
                   : <TheHour notodo={notodo} />
               }

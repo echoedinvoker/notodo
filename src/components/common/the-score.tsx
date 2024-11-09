@@ -1,15 +1,11 @@
 'use client';
 
-import type { NotodoWithData } from "@/db/queries/notodos";
-import { calculateNotodoScore } from "@/helpers/utils";
-
 interface TheScoreProps {
-  notodo: NotodoWithData;
+  totalScore: number;
+  currentWeight: number;
 }
 
-export default function TheScore({ notodo }: TheScoreProps) {
-  const { totalScore, currentWeight } = calculateNotodoScore(notodo);
-  console.log(totalScore, currentWeight);
+export default function TheScore({ totalScore, currentWeight }: TheScoreProps) {
 
   return (
     <div className="flex items-baseline">
