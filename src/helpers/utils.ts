@@ -89,17 +89,35 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
     totalScore += challengeScore;
   }
 
-  const result: ScoreResult = {
+  return {
     totalScore: Math.floor(totalScore),
     currentWeight,
+    nextThreshold: getNextThreshold({
+      currentThresholdIndex,
+      orderedThresholdHours,
+      orderedWeights,
+      totalDurationHours,
+    }),
   };
+}
 
+interface GetNextThresholdArgs {
+  currentThresholdIndex: number;
+  orderedThresholdHours: number[];
+  orderedWeights: number[];
+  totalDurationHours: number;
+}
+
+function getNextThreshold({
+  currentThresholdIndex,
+  orderedThresholdHours,
+  orderedWeights,
+  totalDurationHours
+}: GetNextThresholdArgs): { hours: number; weight: number; } | undefined {
   if (currentThresholdIndex < orderedThresholdHours.length - 1) {
-    result.nextThreshold = {
-      hours: orderedThresholdHours[currentThresholdIndex + 1],
+    return {
+      hours: orderedThresholdHours[currentThresholdIndex + 1] - totalDurationHours,
       weight: orderedWeights[currentThresholdIndex + 2],
     };
   }
-
-  return result;
 }
