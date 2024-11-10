@@ -47,46 +47,24 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
   let totalScore = 0;
   let currentWeight = notodo.weight!;
   let currentThresholdIndex = -1;
+  let totalDurationHours = 0;
 
   const orderedThresholds = notodo.thresholds.sort((a, b) => a.duration - b.duration);
   const orderedThresholdHours = orderedThresholds.map((threshold) => threshold.duration);
   const orderedWeights = [notodo.weight!, ...orderedThresholds.map((threshold) => threshold.weight)];
 
-  let totalDurationHours = 0;
-
   for (const challenge of notodo.challenges) {
-    const startTime = new Date(challenge.startTime);
-    const endTime = challenge.endTime ? new Date(challenge.endTime) : new Date();
-
-    const durationHours = Math.floor((endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60));
-    totalDurationHours += durationHours;
-
-    let remainingHours = durationHours;
-    let challengeScore = 0;
-
-    for (let i = 0; i <= orderedThresholdHours.length; i++) {
-      const currentThresholdHour = orderedThresholdHours[i] || Infinity;
-      const previousThresholdHour = i > 0 ? orderedThresholdHours[i - 1] : 0;
-      const weight = orderedWeights[i];
-
-      const hoursInThisRange = Math.min(
-        remainingHours,
-        currentThresholdHour - previousThresholdHour
-      );
-
-      if (hoursInThisRange > 0) {
-        challengeScore += hoursInThisRange * weight;
-        remainingHours -= hoursInThisRange;
-        currentWeight = weight;
-      }
-
-      if (remainingHours <= 0) {
-        currentThresholdIndex = i - 1;
-        break;
-      }
-    }
+    const {
+      challengeScore,
+      currentWeight: newWeight,
+      currentThresholdIndex: newIndex,
+      durationHours
+    } = calculateChallengeScore(challenge, orderedThresholdHours, orderedWeights);
 
     totalScore += challengeScore;
+    currentWeight = newWeight;
+    currentThresholdIndex = newIndex;
+    totalDurationHours += durationHours;
   }
 
   return {
@@ -98,6 +76,58 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
       orderedWeights,
       totalDurationHours,
     }),
+  };
+}
+
+interface ChallengeScoreResult {
+  challengeScore: number;
+  currentWeight: number;
+  currentThresholdIndex: number;
+  durationHours: number;
+}
+
+function calculateChallengeScore(
+  challenge: NotodoWithData['challenges'][number],
+  orderedThresholdHours: number[],
+  orderedWeights: number[]
+): ChallengeScoreResult {
+  const startTime = new Date(challenge.startTime);
+  const endTime = challenge.endTime ? new Date(challenge.endTime) : new Date();
+
+  const durationHours = Math.floor((endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60));
+
+  let remainingHours = durationHours;
+  let challengeScore = 0;
+  let currentWeight = orderedWeights[0];
+  let currentThresholdIndex = -1;
+
+  for (let i = 0; i <= orderedThresholdHours.length; i++) {
+    const currentThresholdHour = orderedThresholdHours[i] || Infinity;
+    const previousThresholdHour = i > 0 ? orderedThresholdHours[i - 1] : 0;
+    const weight = orderedWeights[i];
+
+    const hoursInThisRange = Math.min(
+      remainingHours,
+      currentThresholdHour - previousThresholdHour
+    );
+
+    if (hoursInThisRange > 0) {
+      challengeScore += hoursInThisRange * weight;
+      remainingHours -= hoursInThisRange;
+      currentWeight = weight;
+    }
+
+    if (remainingHours <= 0) {
+      currentThresholdIndex = i - 1;
+      break;
+    }
+  }
+
+  return {
+    challengeScore,
+    currentWeight,
+    currentThresholdIndex,
+    durationHours
   };
 }
 
