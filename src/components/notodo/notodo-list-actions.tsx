@@ -5,6 +5,7 @@ import ThePopover from "../common/the-popover";
 import { FaPlus } from "react-icons/fa";
 import NotodoForm from "./notodo-form";
 import * as actions from "@/actions"
+import { ConsumePoints } from "../common";
 
 interface NotodoListboxProps {
   userId: string;
@@ -20,6 +21,10 @@ export default function NotodoListActions({ userId }: NotodoListboxProps) {
         >
           <NotodoForm formStateAction={actions.createNotodo.bind(null, userId)} />
         </ThePopover>
+      </ListboxItem>
+      <ListboxItem key="consume" className="p-0 m-0" textValue="Consume points"
+        color="primary">
+        <ConsumePoints />
       </ListboxItem>
     </Listbox >
   )

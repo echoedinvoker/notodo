@@ -3,7 +3,7 @@
 import { Input, Textarea } from "@nextui-org/react";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
-import FormButton from "../common/FormButton";
+import { FormButton } from "../common";
 
 interface ThresholdFormProps {
   actionType: 'create' | 'edit';

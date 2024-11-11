@@ -1,8 +1,8 @@
 import { useFormState } from "react-dom";
-import FormButton from "../common/FormButton";
 import { Checkbox, Input, Textarea } from "@nextui-org/react";
 import { useState } from "react";
 import type { Notodo } from "@prisma/client";
+import { FormButton } from "../common";
 
 interface NotodoFormState {
   errors: {

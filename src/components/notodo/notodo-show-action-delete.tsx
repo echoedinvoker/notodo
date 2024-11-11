@@ -1,7 +1,7 @@
 import { useFormState } from "react-dom"
 import * as actions from "@/actions"
-import FormButton from "../common/FormButton"
 import { FaTrash } from "react-icons/fa";
+import { FormButton } from "../common";
 
 interface NotodoShowActionDeleteProps {
   notodoId: string;
@@ -16,7 +16,9 @@ export default function NotodoShowActionDelete({ notodoId }: NotodoShowActionDel
         startContent={<div><FaTrash size="10" /></div>}
         className="no-hover-effect w-full flex items-center justify-start text-stone-700"
         size="sm"
-      >Delete Notodo</FormButton>
+      >
+        Delete Notodo
+      </FormButton>
     </form>
   )
 }

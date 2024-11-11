@@ -2,7 +2,7 @@
 
 import { useFormState } from "react-dom";
 import * as actions from "@/actions";
-import FormButton from "../common/FormButton";
+import { FormButton } from "../common";
 
 interface ThresholdDeleteFormProps {
   notodoId: string;

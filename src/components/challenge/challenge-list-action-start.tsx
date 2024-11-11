@@ -1,9 +1,9 @@
 'use client';
 
 import { FaFlag } from "react-icons/fa"
-import FormButton from "../common/FormButton"
 import * as actions from "@/actions"
 import { useFormState } from "react-dom";
+import { FormButton } from "../common";
 
 interface ChallengeListActionStartProps {
   notodoId: string;
