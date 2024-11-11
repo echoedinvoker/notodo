@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { fetchNotodos } from "@/db/queries/notodos";
 import NotodoList from "@/components/notodo/notodo-list";
 import NotodoListActions from "@/components/notodo/notodo-list-actions";
+import { getTotalScoreOfNotodos } from "@/helpers/utils";
 
 interface HomeProps {
   params: {
@@ -9,15 +10,18 @@ interface HomeProps {
   }
 }
 
-export default function Home({ params: { userId } }: HomeProps) {
+export default async function Home({ params: { userId } }: HomeProps) {
+  const notodos = await fetchNotodos(userId);
+  const totalScore = getTotalScoreOfNotodos(notodos);
+
   return (
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-xl font-bold text-stone-700">Notodo List</h1>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
-          <NotodoList fetchNotodos={() => fetchNotodos(userId)} userId={userId} />
+          <NotodoList userId={userId} notodos={notodos} />
         </div>
-        <NotodoListActions userId={userId} />
+        <NotodoListActions userId={userId} totalScore={totalScore} />
       </div>
     </div>
   )

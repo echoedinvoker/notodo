@@ -9,9 +9,10 @@ import { ConsumePoints } from "../common";
 
 interface NotodoListboxProps {
   userId: string;
+  totalScore: number;
 }
 
-export default function NotodoListActions({ userId }: NotodoListboxProps) {
+export default function NotodoListActions({ userId, totalScore }: NotodoListboxProps) {
   return (
     <Listbox aria-label="Notodo Actions">
       <ListboxItem key="create" className="p-0 m-0" textValue="Create Notodo">
@@ -24,7 +25,7 @@ export default function NotodoListActions({ userId }: NotodoListboxProps) {
       </ListboxItem>
       <ListboxItem key="consume" className="p-0 m-0" textValue="Consume points"
         color="primary">
-        <ConsumePoints />
+        <ConsumePoints totalScore={totalScore} />
       </ListboxItem>
     </Listbox >
   )

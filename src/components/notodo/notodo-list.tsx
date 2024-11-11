@@ -2,12 +2,11 @@ import { NotodoWithData } from "@/db/queries/notodos";
 import NotodoListItem from "./notodo-list-item";
 
 interface NotodoListProps {
-  fetchNotodos: () => Promise<NotodoWithData[]>;
+  notodos: NotodoWithData[];
   userId: string;
 }
 
-export default async function NotodoList({ fetchNotodos, userId }: NotodoListProps) {
-  const notodos = await fetchNotodos();
+export default async function NotodoList({ notodos, userId }: NotodoListProps) {
 
   return (
     <div className="flex flex-col gap-2">

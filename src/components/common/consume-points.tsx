@@ -4,7 +4,11 @@ import { FaCoins } from "react-icons/fa";
 import FormButton from "./form-button";
 import { useState } from "react";
 
-export default function ConsumePoints() {
+interface ConsumePointsProps {
+  totalScore: number;
+}
+
+export default function ConsumePoints({ totalScore }: ConsumePointsProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -21,7 +25,7 @@ export default function ConsumePoints() {
           <span className="font-bold text-sm text-stone-50">CONSUME POINTS</span>
         ) : (
           <span>
-            <span className="font-bold text-lg mr-1 text-blue-600">2148</span>
+            <span className="font-bold text-lg mr-1 text-blue-600">{totalScore}</span>
             <span className="text-sm">pts</span>
           </span>
         )}
