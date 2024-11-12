@@ -40,7 +40,7 @@ export function getTotalScoreOfNotodos(notodos: NotodoWithData[]): number {
 
 interface ScoreResult {
   totalScore: number;
-  currentWeight: number;
+  currentWeight: number | null;
   nextThreshold?: {
     hours: number;
     weight: number;
@@ -49,9 +49,10 @@ interface ScoreResult {
 
 export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
   let totalScore = 0;
-  let currentWeight = notodo.weight!;
+  let currentWeight: number | null = null;
   let currentThresholdIndex = -1;
   let totalDurationHours = 0;
+  let isOngoing = false;
 
   const orderedThresholds = notodo.thresholds.sort((a, b) => a.duration - b.duration);
   const orderedThresholdHours = orderedThresholds.map((threshold) => threshold.duration);
@@ -62,13 +63,15 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
       challengeScore,
       currentWeight: newWeight,
       currentThresholdIndex: newIndex,
-      durationHours
+      durationHours,
+      isOngoing: challengeIsOngoing,
     } = calculateChallengeScore(challenge, orderedThresholdHours, orderedWeights);
 
     totalScore += challengeScore;
-    currentWeight = newWeight;
+    currentWeight = newWeight ? newWeight : currentWeight;
     currentThresholdIndex = newIndex;
     totalDurationHours += durationHours;
+    isOngoing = isOngoing || challengeIsOngoing;
   }
 
   return {
@@ -85,9 +88,10 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
 
 interface ChallengeScoreResult {
   challengeScore: number;
-  currentWeight: number;
+  currentWeight: number | null;
   currentThresholdIndex: number;
   durationHours: number;
+  isOngoing: boolean;
 }
 
 function calculateChallengeScore(
@@ -102,7 +106,7 @@ function calculateChallengeScore(
 
   let remainingHours = durationHours;
   let challengeScore = 0;
-  let currentWeight = orderedWeights[0];
+  let currentWeight: number | null = orderedWeights[0];
   let currentThresholdIndex = -1;
 
   for (let i = 0; i <= orderedThresholdHours.length; i++) {
@@ -127,11 +131,14 @@ function calculateChallengeScore(
     }
   }
 
+  const isOngoing = !challenge.endTime;
+
   return {
     challengeScore,
-    currentWeight,
+    currentWeight: isOngoing ? currentWeight : null,
     currentThresholdIndex,
-    durationHours
+    durationHours,
+    isOngoing,
   };
 }
 
