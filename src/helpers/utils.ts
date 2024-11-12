@@ -99,10 +99,8 @@ function calculateChallengeScore(
   orderedThresholdHours: number[],
   orderedWeights: number[]
 ): ChallengeScoreResult {
-  const startTime = new Date(challenge.startTime);
-  const endTime = challenge.endTime ? new Date(challenge.endTime) : new Date();
 
-  const durationHours = Math.floor((endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60));
+  const durationHours = calculateDurationHours(challenge.startTime, challenge.endTime);
 
   let remainingHours = durationHours;
   let challengeScore = 0;
@@ -114,16 +112,16 @@ function calculateChallengeScore(
     const previousThresholdHour = i > 0 ? orderedThresholdHours[i - 1] : 0;
     const weight = orderedWeights[i];
 
-    const hoursInThisRange = Math.min(
+    const { score, hoursUsed } = calculateScoreForThreshold(
       remainingHours,
-      currentThresholdHour - previousThresholdHour
+      previousThresholdHour,
+      currentThresholdHour,
+      weight
     );
 
-    if (hoursInThisRange > 0) {
-      challengeScore += hoursInThisRange * weight;
-      remainingHours -= hoursInThisRange;
-      currentWeight = weight;
-    }
+    challengeScore += score;
+    remainingHours -= hoursUsed;
+    currentWeight = weight;
 
     if (remainingHours <= 0) {
       currentThresholdIndex = i - 1;
@@ -140,6 +138,25 @@ function calculateChallengeScore(
     durationHours,
     isOngoing,
   };
+}
+
+function calculateDurationHours(startTime: Date, endTime: Date | null): number {
+  const end = endTime || new Date();
+  return Math.floor((end.getTime() - startTime.getTime()) / (1000 * 60 * 60));
+}
+
+function calculateScoreForThreshold(
+  remainingHours: number,
+  thresholdStart: number,
+  thresholdEnd: number,
+  weight: number
+): { score: number; hoursUsed: number } {
+  const hoursInThisRange = Math.min(
+    remainingHours,
+    thresholdEnd - thresholdStart
+  );
+  const score = hoursInThisRange * weight;
+  return { score, hoursUsed: hoursInThisRange };
 }
 
 interface GetNextThresholdArgs {
