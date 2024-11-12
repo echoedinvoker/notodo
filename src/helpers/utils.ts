@@ -39,7 +39,9 @@ export function getTotalScoreOfNotodos(notodos: NotodoWithData[]): number {
 }
 
 interface ScoreResult {
+  isOngoing: boolean;
   totalScore: number;
+  currentScore: number | null;
   currentWeight: number | null;
   nextThreshold?: {
     hours: number;
@@ -49,6 +51,7 @@ interface ScoreResult {
 
 export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
   let totalScore = 0;
+  let currentScore: number | null = null;
   let currentWeight: number | null = null;
   let currentThresholdIndex = -1;
   let totalDurationHours = 0;
@@ -61,21 +64,27 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
   for (const challenge of notodo.challenges) {
     const {
       challengeScore,
-      currentWeight: newWeight,
+      currentWeight: challengeWeight,
       currentThresholdIndex: newIndex,
       durationHours,
       isOngoing: challengeIsOngoing,
     } = calculateChallengeScore(challenge, orderedThresholdHours, orderedWeights);
 
+    if (challengeIsOngoing) {
+      currentScore = challengeScore;
+      currentWeight = challengeWeight;
+    }
+
     totalScore += challengeScore;
-    currentWeight = newWeight ? newWeight : currentWeight;
     currentThresholdIndex = newIndex;
     totalDurationHours += durationHours;
     isOngoing = isOngoing || challengeIsOngoing;
   }
 
   return {
+    isOngoing,
     totalScore: Math.floor(totalScore),
+    currentScore: currentScore !== null ? Math.floor(currentScore) : null,
     currentWeight,
     nextThreshold: getNextThreshold({
       currentThresholdIndex,

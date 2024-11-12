@@ -14,7 +14,7 @@ interface NotodoListItemProps {
 
 export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) {
   const activeChallenge = notodo.challenges.find(challenge => !challenge.endTime);
-  const { totalScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
+  const { isOngoing, currentScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
 
 
   return (
@@ -24,12 +24,12 @@ export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) 
           <h3 className="text-lg font-semibold my-1">{notodo.title}</h3>
         </Link >
         <div className="text-sm text-stone-500 flex items-center justify-end">
-          {activeChallenge && (
+          {activeChallenge && isOngoing && (
             <Link href={paths.challengeShowPage(userId, notodo.id, activeChallenge.id)}>
               {
                 notodo.displayTimeAsScore
                   ? <div className="flex items-center gap-2">
-                    <TheScore totalScore={totalScore} currentWeight={currentWeight} />
+                    <TheScore totalScore={currentScore!} currentWeight={currentWeight!} />
                     {nextThreshold && <ThresholdNext nextThreshold={nextThreshold} />}
                   </div>
                   : <TheHour notodo={notodo} />
