@@ -34,8 +34,16 @@ export function formatDigitalClock(start: Date, end: Date): string {
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-export function getTotalScoreOfNotodos(notodos: NotodoWithData[]): number {
-  return notodos.reduce((acc, notodo) => acc + calculateNotodoScore(notodo).totalScore, 0);
+interface NotodosResult {
+  totalScore: number;
+  totalWeight: number;
+}
+
+export function getNotodosResult(notodos: NotodoWithData[]): NotodosResult {
+  const totalScore = notodos.reduce((acc, notodo) => acc + calculateNotodoScore(notodo).totalScore, 0);
+  const totalWeight = notodos.reduce((acc, notodo) => acc + (notodo.weight ?? 0), 0);
+
+  return { totalScore, totalWeight };
 }
 
 interface ScoreResult {
