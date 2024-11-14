@@ -5,7 +5,6 @@ import { db } from "@/db";
 import { paths } from "@/paths";
 import { Notodo } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const createNotodoSchema = z.object({
@@ -20,12 +19,13 @@ interface CreateNotodoFormState {
     content?: string[];
     weight?: string[];
     _form?: string[];
-  }
+  };
+  success?: boolean;
 }
 
 type ValidatedNotodoData = z.infer<typeof createNotodoSchema>;
 
-export async function createNotodo(userId: string, formState: CreateNotodoFormState, formData: FormData): Promise<CreateNotodoFormState | void> {
+export async function createNotodo(userId: string, formState: CreateNotodoFormState, formData: FormData): Promise<CreateNotodoFormState> {
   const session = await auth();
   if (!session || !session.user) {
     return { errors: { _form: ["You must be logged in to create a notodo"] } }
@@ -42,7 +42,7 @@ export async function createNotodo(userId: string, formState: CreateNotodoFormSt
   }
 
   revalidatePath(paths.homePage(userId))
-  redirect(paths.notodoShowPage(userId, creationResult.id))
+  return { errors: {}, success: true };
 }
 
 async function validateNotodoData(formData: FormData): Promise<ValidatedNotodoData | CreateNotodoFormState> {

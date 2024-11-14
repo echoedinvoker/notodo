@@ -1,6 +1,6 @@
 import { useFormState } from "react-dom";
 import { Checkbox, Input, Textarea } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Notodo } from "@prisma/client";
 import { FormButton } from "../common";
 
@@ -11,6 +11,7 @@ interface NotodoFormState {
     weight?: string[];
     _form?: string[];
   };
+  success?: boolean;
 }
 
 type FormStateAction = (
@@ -21,12 +22,19 @@ type FormStateAction = (
 interface NotodoFormProps {
   formStateAction: FormStateAction;
   defaultValues?: Notodo;
+  onSubmitSuccess?: () => void;
 }
 
 
-export default function NotodoForm({ formStateAction, defaultValues }: NotodoFormProps) {
+export default function NotodoForm({ formStateAction, defaultValues, onSubmitSuccess }: NotodoFormProps) {
   const [formState, action] = useFormState(formStateAction, { errors: {} });
   const [isWeightEnabled, setIsWeightEnabled] = useState(defaultValues?.weight ? true : false);
+
+  useEffect(() => {
+    if (formState.success && onSubmitSuccess) {
+      onSubmitSuccess();
+    }
+  }, [formState.success, onSubmitSuccess]);
 
   return (
     <form action={action}>
