@@ -23,16 +23,32 @@ interface CreateNotodoFormState {
   }
 }
 
-export async function createNotodo(userId: string, formState: CreateNotodoFormState, formData: FormData): Promise<CreateNotodoFormState> {
+type ValidatedNotodoData = z.infer<typeof createNotodoSchema>;
+
+export async function createNotodo(userId: string, formState: CreateNotodoFormState, formData: FormData): Promise<CreateNotodoFormState | void> {
   const session = await auth();
   if (!session || !session.user) {
     return { errors: { _form: ["You must be logged in to create a notodo"] } }
   }
 
-  let result: { title: string; content: string, weight?: number };
+  const validationResult = await validateNotodoData(formData);
+  if ('errors' in validationResult) {
+    return validationResult;
+  }
+
+  const creationResult = await createNotodoInDatabase(validationResult, session.user.id);
+  if ('errors' in creationResult) {
+    return creationResult;
+  }
+
+  revalidatePath(paths.homePage(userId))
+  redirect(paths.notodoShowPage(userId, creationResult.id))
+}
+
+async function validateNotodoData(formData: FormData): Promise<ValidatedNotodoData | CreateNotodoFormState> {
   try {
     const weightValue = formData.get("weight");
-    result = createNotodoSchema.parse({
+    return createNotodoSchema.parse({
       title: formData.get("title"),
       content: formData.get("content"),
       weight: weightValue ? parseFloat(weightValue as string) : undefined
@@ -40,15 +56,14 @@ export async function createNotodo(userId: string, formState: CreateNotodoFormSt
   } catch (error) {
     return { errors: (error as z.ZodError).flatten().fieldErrors } as CreateNotodoFormState;
   }
+}
 
-  let notodo: Notodo;
+async function createNotodoInDatabase(data: ValidatedNotodoData, userId: string): Promise<Notodo | CreateNotodoFormState> {
   try {
-    notodo = await db.notodo.create({
+    return await db.notodo.create({
       data: {
-        title: result.title,
-        content: result.content,
-        weight: result.weight,
-        userId: session.user.id,
+        ...data,
+        userId,
       },
     });
   } catch (error: unknown) {
@@ -57,7 +72,4 @@ export async function createNotodo(userId: string, formState: CreateNotodoFormSt
     }
     return { errors: { _form: ["An unknown error occurred"] } };
   }
-
-  revalidatePath(paths.homePage(userId))
-  redirect(paths.notodoShowPage(userId, notodo.id))
 }
