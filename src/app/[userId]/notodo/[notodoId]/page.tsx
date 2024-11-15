@@ -29,7 +29,7 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
             <div>
               <p className="text-stone-600 text-sm whitespace-pre-line">{notodo.content}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex flex-col md:flex-row md:gap-4">
               <Link className="flex-1" href={paths.thresholdListPage(userId, notodoId)}>
                 <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 mb-4">
                   <h3>Thresholds</h3>

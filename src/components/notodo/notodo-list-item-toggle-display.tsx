@@ -18,6 +18,7 @@ export default function NotodoListItemToggleDisplay({ notodo }: NotodoListItemTo
         className="w-6 h-3 rounded-full p-0 duration-200 ease-in-out focus:outline-none bg-stone-200"
         aria-pressed={notodo.displayTimeAsScore}
         aria-label={notodo.displayTimeAsScore ? "Disable weight" : "Enable weight"}
+        onClick={(e) => e.stopPropagation()}
       >
         <span
           className={`block w-3 h-3 rounded-full bg-white shadow transform transition-transform duration-200 ease-in-out ${notodo.displayTimeAsScore ? 'translate-x-3' : 'translate-x-0'}`}
