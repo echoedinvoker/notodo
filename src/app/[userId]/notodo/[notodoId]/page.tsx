@@ -3,8 +3,8 @@ import Link from "next/link";
 import NotodoShowActions from "@/components/notodo/notodo-show-actions";
 import { paths } from "@/paths";
 import ThresholdInfo from "@/components/threhold/threshold-info";
-import { Charm } from "next/font/google";
 import ChallengeInfo from "@/components/challenge/challenge-info";
+import NotodoInfo from "@/components/notodo/notodo-info";
 
 interface NotodoShowPageProps {
   params: {
@@ -29,9 +29,7 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
           <div className="flex flex-col gap-4 p-4">
-            <div>
-              <p className="text-stone-600 text-sm whitespace-pre-line">{notodo.content}</p>
-            </div>
+            <NotodoInfo notodo={notodo} />
             <div className="flex flex-col md:flex-row md:gap-4">
               <ThresholdInfo userId={userId} notodoId={notodoId} />
               <ChallengeInfo userId={userId} notodoId={notodoId} />
