@@ -2,6 +2,9 @@ import { db } from "@/db";
 import Link from "next/link";
 import NotodoShowActions from "@/components/notodo/notodo-show-actions";
 import { paths } from "@/paths";
+import ThresholdInfo from "@/components/threhold/threshold-info";
+import { Charm } from "next/font/google";
+import ChallengeInfo from "@/components/challenge/challenge-info";
 
 interface NotodoShowPageProps {
   params: {
@@ -30,45 +33,8 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
               <p className="text-stone-600 text-sm whitespace-pre-line">{notodo.content}</p>
             </div>
             <div className="flex flex-col md:flex-row md:gap-4">
-              <Link className="flex-1" href={paths.thresholdListPage(userId, notodoId)}>
-                <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 mb-4">
-                  <h3>Thresholds</h3>
-                  <dl>
-                    <dt>Nearest threshold:</dt>
-                    <dd>30 minutes meditation (2 hours remaining)</dd>
-
-                    <dt>Top 3 active thresholds:</dt>
-                    <dd>
-                      <ol>
-                        <li>1 hour exercise (weight: 5)</li>
-                        <li>30 minutes reading (weight: 3)</li>
-                        <li>15 minutes meditation (weight: 2)</li>
-                      </ol>
-                    </dd>
-
-                    <dt>Recently achieved threshold:</dt>
-                    <dd>20 minutes yoga</dd>
-                  </dl>
-                </div>
-              </Link>
-              <Link className="flex-1" href={paths.challengeListPage(userId, notodoId)}>
-                <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 mb-4">
-                  <h3>Challenges</h3>
-                  <dl>
-                    <dt>Total points per hour:</dt>
-                    <dd>7.5</dd>
-
-                    <dt>Longest ongoing challenge:</dt>
-                    <dd>Exercise (ongoing for 3 days)</dd>
-
-                    <dt>Most recent ongoing challenge:</dt>
-                    <dd>Reading (started 2 hours ago)</dd>
-
-                    <dt>Current ongoing challenges:</dt>
-                    <dd>3</dd>
-                  </dl>
-                </div>
-              </Link>
+              <ThresholdInfo userId={userId} notodoId={notodoId} />
+              <ChallengeInfo userId={userId} notodoId={notodoId} />
             </div>
           </div>
         </div>
