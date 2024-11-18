@@ -40,10 +40,23 @@ interface NotodosResult {
 }
 
 export function getNotodosResult(notodos: NotodoWithData[]): NotodosResult {
-  const totalScore = notodos.reduce((acc, notodo) => acc + calculateNotodoScore(notodo).totalScore, 0);
-  const totalWeight = notodos.reduce((acc, notodo) => acc + (notodo.weight ?? 0), 0);
+  console.log(notodos);
+  const result = notodos.reduce((acc, notodo) => {
+    const {
+      totalScore,
+      currentWeight
+    } = calculateNotodoScore(notodo);
 
-  return { totalScore, totalWeight };
+    return {
+      totalScore: acc.totalScore + totalScore,
+      totalWeight: acc.totalWeight + (currentWeight || 0)
+    };
+  }, {
+    totalScore: 0,
+    totalWeight: 0
+  });
+
+  return result
 }
 
 interface ScoreResult {
