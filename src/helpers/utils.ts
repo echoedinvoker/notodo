@@ -40,7 +40,6 @@ interface NotodosResult {
 }
 
 export function getNotodosResult(notodos: NotodoWithData[]): NotodosResult {
-  console.log(notodos);
   const result = notodos.reduce((acc, notodo) => {
     const {
       totalScore,
