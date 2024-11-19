@@ -1,15 +1,20 @@
 import { paths } from "@/paths";
 import { Divider } from "@nextui-org/react";
+import type { Challenge, Notodo, Threshold } from "@prisma/client";
 import Link from "next/link";
 
 interface ThresholdInfoProps {
   userId: string;
-  notodoId: string;
+  notodo: Notodo & {
+    thresholds: Threshold[],
+    challenges: Challenge[]
+  };
 }
 
-export default function ThresholdInfo({ userId, notodoId }: ThresholdInfoProps) {
+export default function ThresholdInfo({ userId, notodo }: ThresholdInfoProps) {
+
   return (
-    <Link className="flex-1" href={paths.thresholdListPage(userId, notodoId)}>
+    <Link className="flex-1" href={paths.thresholdListPage(userId, notodo.id)}>
       <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-600 bg-stone-50 mb-4">
         <h3 className="font-semibold text-sm mb-1">Thresholds</h3>
         <Divider className="my-1" />

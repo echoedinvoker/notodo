@@ -15,8 +15,13 @@ interface NotodoShowPageProps {
 
 export default async function NotodoShowPage({ params: { notodoId, userId } }: NotodoShowPageProps) {
   const notodo = await db.notodo.findFirst({
-    where: { id: notodoId }
+    where: { id: notodoId },
+    include: {
+      thresholds: true,
+      challenges: true
+    },
   });
+
   if (!notodo) {
     return <div>Notodo not found</div>
   }
@@ -31,8 +36,8 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
           <div className="flex flex-col gap-4 p-4">
             <NotodoInfo notodo={notodo} />
             <div className="flex flex-col md:flex-row md:gap-4">
-              <ThresholdInfo userId={userId} notodoId={notodoId} />
-              <ChallengeInfo userId={userId} notodoId={notodoId} />
+              <ThresholdInfo userId={userId} notodo={notodo} />
+              <ChallengeInfo userId={userId} notodo={notodo} />
             </div>
           </div>
         </div>
