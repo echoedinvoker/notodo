@@ -12,9 +12,25 @@ interface ChallengeInfoProps {
   };
 }
 
+function findCurrentWeight(sortedThresholds: Threshold[], elapsedHours: number, baseWeight: number): number {
+  let weight = baseWeight;
+  for (const threshold of sortedThresholds) {
+    if (elapsedHours < threshold.duration) {
+      break;
+    } else {
+      weight = threshold.weight;
+    }
+  }
+  return weight;
+}
+
 export default function ChallengeInfo({ userId, notodo }: ChallengeInfoProps) {
   const currentChallenge = notodo.challenges.find(challenge => !challenge.endTime)
   const status = currentChallenge ? "Challenging" : "Idle"
+
+  const elapsedHours = status === "Challenging" ? calculateHours(new Date(currentChallenge!.startTime), new Date()) : 0;
+  const sortedThresholds = notodo.weight !== null ? notodo.thresholds.sort((a, b) => a.duration - b.duration) : null;
+  const currentWeight = sortedThresholds ? findCurrentWeight(sortedThresholds, elapsedHours, notodo.weight!) : null;
 
   // Find the most recent completed challenge
   const completedChallenges = notodo.challenges.filter(challenge => challenge.endTime);
@@ -38,6 +54,8 @@ export default function ChallengeInfo({ userId, notodo }: ChallengeInfoProps) {
     ? calculateHours(new Date(bestChallenge.startTime), new Date(bestChallenge.endTime!))
     : 0;
 
+  const weightEnabled = notodo.weight !== null;
+
   return (
     <Link className="flex-1" href={paths.challengeListPage(userId, notodo.id)}>
       <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-600 bg-stone-50 mb-4">
@@ -48,11 +66,15 @@ export default function ChallengeInfo({ userId, notodo }: ChallengeInfoProps) {
           <dd className="inline">{status}</dd>
 
           {status === "Challenging" && (<>
-            <dt className="font-semibold mt-1 block">Points earned per hour:</dt>
-            <dd>1.5</dd>
+            {weightEnabled && (
+              <>
+                <dt className="font-semibold mt-1 block">Points earned per hour:</dt>
+                <dd>{currentWeight}</dd>
+              </>
+            )}
 
-            <dt className="font-semibold mt-1 inline">Hours elapsed: </dt>
-            <dd className="inline">62</dd>
+            <dt className={`font-semibold mt-1 ${weightEnabled ? 'inline' : 'block'}`}>Hours elapsed: </dt>
+            <dd className="inline">{elapsedHours}</dd>
           </>)}
 
           {status !== "Challenging" && (<>

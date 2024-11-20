@@ -12,6 +12,11 @@ interface ThresholdInfoProps {
 }
 
 export default function ThresholdInfo({ userId, notodo }: ThresholdInfoProps) {
+  const currentChallenge = notodo.challenges.find(challenge => !challenge.endTime)
+
+  if (!currentChallenge) {
+    return null
+  }
 
   return (
     <Link className="flex-1" href={paths.thresholdListPage(userId, notodo.id)}>

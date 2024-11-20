@@ -36,8 +36,8 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
           <div className="flex flex-col gap-4 p-4">
             <NotodoInfo notodo={notodo} />
             <div className="flex flex-col md:flex-row md:gap-4">
-              <ThresholdInfo userId={userId} notodo={notodo} />
               <ChallengeInfo userId={userId} notodo={notodo} />
+              <ThresholdInfo userId={userId} notodo={notodo} />
             </div>
           </div>
         </div>
