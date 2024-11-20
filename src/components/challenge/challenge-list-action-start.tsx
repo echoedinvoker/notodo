@@ -7,9 +7,10 @@ import { FormButton } from "../common";
 
 interface ChallengeListActionStartProps {
   notodoId: string;
+  className?: string;
 }
 
-export default function ChallengeListActionStart({ notodoId }: ChallengeListActionStartProps) {
+export default function ChallengeListActionStart({ notodoId, className }: ChallengeListActionStartProps) {
   const [formState, action] = useFormState(actions.startChallenge.bind(null, notodoId), { errors: {} });
 
   return (
@@ -17,7 +18,7 @@ export default function ChallengeListActionStart({ notodoId }: ChallengeListActi
       <FormButton
         variant="light"
         startContent={<div><FaFlag size="10" /></div>}
-        className="no-hover-effect w-full flex items-center justify-start text-stone-700"
+        className={`no-hover-effect w-full flex items-center justify-start text-stone-700 ${className ?? ""}`}
         size="sm"
       >Start Challenge!</FormButton>
     </form>
