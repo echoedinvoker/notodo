@@ -5,6 +5,8 @@ import { paths } from "@/paths";
 import ThresholdInfo from "@/components/threhold/threshold-info";
 import ChallengeInfo from "@/components/challenge/challenge-info";
 import NotodoInfo from "@/components/notodo/notodo-info";
+import { calculateDurationHours } from "@/helpers/utils";
+import { Threshold } from "@prisma/client";
 
 interface NotodoShowPageProps {
   params: {
@@ -26,6 +28,12 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
     return <div>Notodo not found</div>
   }
 
+  const currentChallenge = notodo.challenges.find(challenge => !challenge.endTime)
+  const status = currentChallenge ? "Challenging" : "Idle"
+  const elapsedHours = status === "Challenging" ? calculateDurationHours(new Date(currentChallenge!.startTime), new Date()) : 0;
+  const sortedThresholds = notodo.weight !== null ? notodo.thresholds.sort((a, b) => a.duration - b.duration) : null;
+  const currentThreshold = sortedThresholds ? findCurrentThreshold(sortedThresholds, elapsedHours) : null;
+
   return (
     <div>
       <Link href={paths.notodoListPage(userId)}>
@@ -36,7 +44,13 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
           <div className="flex flex-col gap-4 p-4">
             <NotodoInfo notodo={notodo} />
             <div className="flex flex-col md:flex-row md:gap-4">
-              <ChallengeInfo userId={userId} notodo={notodo} />
+              <ChallengeInfo
+                userId={userId}
+                notodo={notodo}
+                status={status}
+                elapsedHours={elapsedHours}
+                currentThreshold={currentThreshold}
+              />
               <ThresholdInfo userId={userId} notodo={notodo} />
             </div>
           </div>
@@ -54,3 +68,18 @@ export async function generateStaticParams() {
     userId: notodo.user.id.toString()
   }));
 }
+
+function findCurrentThreshold(
+  sortedThresholds: Threshold[],
+  elapsedHours: number): Threshold | null {
+  let currentThreshold: Threshold | null = null;
+  for (const threshold of sortedThresholds) {
+    if (elapsedHours < threshold.duration) {
+      break;
+    } else {
+      currentThreshold = threshold;
+    }
+  }
+  return currentThreshold
+}
+ 

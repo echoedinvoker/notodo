@@ -169,7 +169,7 @@ function calculateChallengeScore(
   };
 }
 
-function calculateDurationHours(startTime: Date, endTime: Date | null): number {
+export function calculateDurationHours(startTime: Date, endTime: Date | null): number {
   const end = endTime || new Date();
   return Math.floor((end.getTime() - startTime.getTime()) / (1000 * 60 * 60));
 }

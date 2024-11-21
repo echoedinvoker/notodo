@@ -35,7 +35,7 @@ export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) 
                 }
               </>
             )}
-            {typeof notodo.weight === 'number' && (
+            {typeof notodo.weight === 'number' && activeChallenge && (
               <NotodoListItemToggleDisplay notodo={notodo} />
             )}
           </div>

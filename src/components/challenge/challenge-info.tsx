@@ -10,27 +10,20 @@ interface ChallengeInfoProps {
     thresholds: Threshold[],
     challenges: Challenge[]
   };
+  status: string;
+  elapsedHours: number;
+  currentThreshold: Threshold | null;
 }
 
-function findCurrentWeight(sortedThresholds: Threshold[], elapsedHours: number, baseWeight: number): number {
-  let weight = baseWeight;
-  for (const threshold of sortedThresholds) {
-    if (elapsedHours < threshold.duration) {
-      break;
-    } else {
-      weight = threshold.weight;
-    }
-  }
-  return weight;
-}
+export default function ChallengeInfo({
+  userId,
+  notodo,
+  status,
+  elapsedHours,
+  currentThreshold
+}: ChallengeInfoProps) {
 
-export default function ChallengeInfo({ userId, notodo }: ChallengeInfoProps) {
-  const currentChallenge = notodo.challenges.find(challenge => !challenge.endTime)
-  const status = currentChallenge ? "Challenging" : "Idle"
-
-  const elapsedHours = status === "Challenging" ? calculateHours(new Date(currentChallenge!.startTime), new Date()) : 0;
-  const sortedThresholds = notodo.weight !== null ? notodo.thresholds.sort((a, b) => a.duration - b.duration) : null;
-  const currentWeight = sortedThresholds ? findCurrentWeight(sortedThresholds, elapsedHours, notodo.weight!) : null;
+  const currentWeight = currentThreshold ? currentThreshold.weight : notodo.weight;
 
   // Find the most recent completed challenge
   const completedChallenges = notodo.challenges.filter(challenge => challenge.endTime);
