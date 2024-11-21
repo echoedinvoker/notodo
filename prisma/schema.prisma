@@ -46,6 +46,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   notodos       Notodo[]
+  rewards       Reward[]
+  rewardClaims  RewardClaim[]
 }
 
 model VerificationToken {
@@ -109,4 +111,27 @@ model ChallengeNote {
   updatedAt   DateTime  @updatedAt
 
   challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+model Reward {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  pointCost   Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rewardClaims RewardClaim[]
+}
+
+model RewardClaim {
+  id        String   @id @default(cuid())
+  userId    String
+  rewardId  String
+  claimedAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reward    Reward   @relation(fields: [rewardId], references: [id], onDelete: Cascade)
 }
