@@ -66,7 +66,7 @@ export default function ChallengeInfo({
               </>
             )}
 
-            <dt className={`font-semibold mt-1 ${weightEnabled ? 'inline' : 'block'}`}>Hours elapsed: </dt>
+            <dt className="font-semibold mt-1 block">Hours elapsed in current challenge: </dt>
             <dd className="inline">{elapsedHours}</dd>
           </>)}
 

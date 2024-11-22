@@ -9,10 +9,28 @@ interface ThresholdInfoProps {
     thresholds: Threshold[],
     challenges: Challenge[]
   };
+  elapsedHours: number;
+  currentThreshold: Threshold | null;
 }
 
-export default function ThresholdInfo({ userId, notodo }: ThresholdInfoProps) {
+export default function ThresholdInfo({ userId, notodo, elapsedHours, currentThreshold }: ThresholdInfoProps) {
   const currentChallenge = notodo.challenges.find(challenge => !challenge.endTime)
+  const thresholdNumber = notodo.thresholds.length
+  const currentThresholdIndex = currentThreshold
+    ? notodo.thresholds.findIndex(threshold => threshold.id === currentThreshold.id)
+    : null
+  const orderNumOfCurrentThreshold = currentThreshold
+    ? currentThresholdIndex! + 1
+    : 0
+  const elasedHoursInCurrentThreshold = currentThreshold
+    ? elapsedHours - currentThreshold.duration
+    : elapsedHours
+  const nextThreshold = currentThreshold
+    ? notodo.thresholds[currentThresholdIndex! + 1]
+    : null
+  const hoursRemainingInCurrentThreshold = nextThreshold
+    ? nextThreshold.duration - elapsedHours
+    : null
 
   if (!currentChallenge) {
     return null
@@ -25,13 +43,17 @@ export default function ThresholdInfo({ userId, notodo }: ThresholdInfoProps) {
         <Divider className="my-1" />
         <dl className="text-sm italic">
           <dt className="font-semibold inline">Progress: </dt>
-          <dd className="inline">[2/5]</dd>
+          <dd className="inline">[{orderNumOfCurrentThreshold}/{thresholdNumber}]</dd>
 
-          <dt className="font-semibold mt-1 block">Next threshold:</dt>
-          <dd>30 minutes meditation (2 hours remaining)</dd>
+          {nextThreshold && (
+            <>
+              <dt className="font-semibold mt-1 block">Next threshold:</dt>
+              <dd>{nextThreshold.title} ({hoursRemainingInCurrentThreshold} hours remaining)</dd>
+            </>
+          )}
 
-          <dt className="font-semibold mt-1 inline">Hours elapsed: </dt>
-          <dd className="inline">26</dd>
+          <dt className="font-semibold mt-1 block">Hours elapsed in current threshold: </dt>
+          <dd className="inline">{elasedHoursInCurrentThreshold}</dd>
         </dl>
       </div>
     </Link>

@@ -51,7 +51,12 @@ export default async function NotodoShowPage({ params: { notodoId, userId } }: N
                 elapsedHours={elapsedHours}
                 currentThreshold={currentThreshold}
               />
-              <ThresholdInfo userId={userId} notodo={notodo} />
+              <ThresholdInfo
+                userId={userId}
+                notodo={notodo}
+                elapsedHours={elapsedHours}
+                currentThreshold={currentThreshold}
+              />
             </div>
           </div>
         </div>
