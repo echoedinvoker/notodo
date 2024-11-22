@@ -22,7 +22,8 @@ export interface EditThresholdFormState {
     duration?: string[];
     weight?: string[];
     _form?: string[];
-  }
+  };
+  success?: boolean;
 }
 
 export async function editThreshold({ userId, thresholdId }: {
@@ -72,5 +73,5 @@ export async function editThreshold({ userId, thresholdId }: {
   revalidatePath(paths.notodoShowPage(userId, threshold.notodoId))
   revalidatePath(paths.threadShowPage(userId, threshold.notodoId, threshold.id))
 
-  redirect(paths.notodoShowPage(userId, threshold.notodoId))
+  redirect(paths.thresholdListPage(userId, threshold.notodoId))
 }

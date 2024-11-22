@@ -4,11 +4,13 @@ import { Input, Textarea } from "@nextui-org/react";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
 import { FormButton } from "../common";
+import { useEffect } from "react";
 
 interface ThresholdFormProps {
   actionType: 'create' | 'edit';
   userId: string;
   notodoId: string;
+  onSubmitSuccess?: () => void;
   thresholdId?: string;
   initialData?: {
     title?: string;
@@ -18,12 +20,25 @@ interface ThresholdFormProps {
   };
 }
 
-export default function ThresholdForm({ actionType, userId, notodoId, thresholdId = '', initialData = {} }: ThresholdFormProps) {
+export default function ThresholdForm({
+  actionType,
+  userId,
+  notodoId,
+  onSubmitSuccess,
+  thresholdId = '',
+  initialData = {}
+}: ThresholdFormProps) {
   const action = actionType === 'create'
     ? actions.createThreshold.bind(null, { userId, notodoId })
     : actions.editThreshold.bind(null, { userId, thresholdId });
 
   const [formState, formAction] = useFormState(action, { errors: {} });
+
+  useEffect(() => {
+    if (formState.success && onSubmitSuccess) {
+      onSubmitSuccess();
+    }
+  }, [formState.success, onSubmitSuccess]);
 
   return (
     <form action={formAction}>

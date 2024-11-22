@@ -37,5 +37,5 @@ export async function deleteThreshold({
     return { errors: { _form: ["An unknown error occurred"] } };
   }
 
-  redirect(paths.notodoListPage(session.user.id));
+  redirect(paths.thresholdListPage(session.user.id, notodoId));
 }

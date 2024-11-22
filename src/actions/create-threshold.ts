@@ -21,7 +21,8 @@ export interface CreateThresholdFormState {
     duration?: string[];
     weight?: string[];
     _form?: string[];
-  }
+  };
+  success?: boolean;
 }
 
 export async function createThreshold({
@@ -68,5 +69,5 @@ export async function createThreshold({
   revalidatePath(paths.homePage(userId))
   revalidatePath(paths.notodoShowPage(userId, notodoId))
 
-  return { errors: {} }
+  return { errors: {}, success: true };
 }
