@@ -30,7 +30,9 @@ export default function NotodoListActions({ userId, totalScore, totalWeight }: N
       </ListboxItem>
       <ListboxItem key="consume" className="p-0 m-0" textValue="Consume points"
         color="primary">
-        <ConsumePoints totalScore={totalScore} totalWeight={totalWeight} />
+        <ConsumePoints
+          userId={userId}
+          totalScore={totalScore} totalWeight={totalWeight} />
       </ListboxItem>
     </Listbox >
   )
