@@ -3,6 +3,7 @@ import { fetchNotodos } from "@/db/queries/notodos";
 import { getNotodosResult } from "@/helpers/utils";
 import { paths } from "@/paths";
 import Link from "next/link";
+import { RewardList, RewardListActions } from "@/components/reward";
 
 interface RewardsPageProps {
   params: {
@@ -22,10 +23,9 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
       </Link>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
-          {totalScore}
-          {/* <NotodoList userId={userId} notodos={notodos} /> */}
+          <RewardList />
         </div>
-        {/* <NotodoListActions userId={userId} totalScore={totalScore} totalWeight={totalWeight} /> */}
+        <RewardListActions />
       </div>
     </div>
   )
