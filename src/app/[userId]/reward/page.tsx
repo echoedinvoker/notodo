@@ -1,6 +1,8 @@
 import { fetchRewards } from "@/db/queries/rewards"
 import { fetchNotodos } from "@/db/queries/notodos";
 import { getNotodosResult } from "@/helpers/utils";
+import { paths } from "@/paths";
+import Link from "next/link";
 
 interface RewardsPageProps {
   params: {
@@ -15,7 +17,9 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-xl font-bold text-stone-700">Reward List</h1>
+      <Link href={paths.notodoListPage(userId)}>
+        <h1 className="text-xl font-bold text-stone-700">Reward List</h1>
+      </Link>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
           {totalScore}

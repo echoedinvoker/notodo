@@ -10,11 +10,12 @@ import { Threshold } from "@prisma/client";
 
 interface NotodoShowPageProps {
   params: {
+    userId: string;
     notodoId: string;
   };
 }
 
-export default async function NotodoShowPage({ params: { notodoId } }: NotodoShowPageProps) {
+export default async function NotodoShowPage({ params: { userId, notodoId } }: NotodoShowPageProps) {
   const notodo = await db.notodo.findFirst({
     where: { id: notodoId },
     include: {
