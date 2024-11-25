@@ -9,3 +9,4 @@ export { giveupChallenge } from './giveup-challenge';
 export { editNotodo } from './edit-notodo';
 export { deleteThreshold } from './delete-threshold';
 export { toggleNotodoDisplay } from './toggle-notodo-display';
+export { createReward } from './create-reward';

@@ -3,8 +3,7 @@
 import { Listbox, ListboxItem } from "@nextui-org/react";
 import { ThePopoverExt } from "../common";
 import { FaPlus } from "react-icons/fa";
-import NotodoForm from "../notodo/notodo-form";
-import * as actions from "@/actions"
+import RewardForm from "./reward-form";
 
 interface RewardListboxProps {
   userId: string;
@@ -19,8 +18,7 @@ export default function RewardListActions({ userId }: RewardListboxProps) {
           text="Create Reward"
         >
           {(setIsOpen) => (
-            <NotodoForm
-              formStateAction={actions.createNotodo.bind(null, userId)}
+            <RewardForm
               onSubmitSuccess={() => setIsOpen(false)}
             />
           )}

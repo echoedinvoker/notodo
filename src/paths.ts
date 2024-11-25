@@ -19,5 +19,8 @@ export const paths = {
   },
   challengeShowPage(userId: string, notodoId: string, challengeId: string) {
     return `/${userId}/notodo/${notodoId}/challenge/${challengeId}`;
+  },
+  rewardListPage(userId: string) {
+    return `/${userId}/reward`;
   }
 }
