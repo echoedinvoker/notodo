@@ -25,7 +25,7 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
         <div className="col-span-3">
           <RewardList />
         </div>
-        <RewardListActions />
+        <RewardListActions userId={userId} />
       </div>
     </div>
   )
