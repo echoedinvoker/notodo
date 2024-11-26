@@ -75,6 +75,7 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
   let currentWeight: number | null = null;
   let currentThresholdIndex = -1;
   let totalDurationHours = 0;
+  let currentDurationHours: number | null = null;
   let isOngoing = false;
 
   const orderedThresholds = notodo.thresholds.sort((a, b) => a.duration - b.duration);
@@ -93,6 +94,7 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
     if (challengeIsOngoing) {
       currentScore = challengeScore;
       currentWeight = challengeWeight;
+      currentDurationHours = durationHours;
     }
 
     totalScore += challengeScore;
@@ -110,7 +112,7 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
       currentThresholdIndex,
       orderedThresholdHours,
       orderedWeights,
-      totalDurationHours,
+      currentDurationHours: currentDurationHours || totalDurationHours,
     }),
   };
 }
@@ -192,18 +194,18 @@ interface GetNextThresholdArgs {
   currentThresholdIndex: number;
   orderedThresholdHours: number[];
   orderedWeights: number[];
-  totalDurationHours: number;
+  currentDurationHours: number;
 }
 
 function getNextThreshold({
   currentThresholdIndex,
   orderedThresholdHours,
   orderedWeights,
-  totalDurationHours
+  currentDurationHours,
 }: GetNextThresholdArgs): { hours: number; weight: number; } | undefined {
   if (currentThresholdIndex < orderedThresholdHours.length - 1) {
     return {
-      hours: orderedThresholdHours[currentThresholdIndex + 1] - totalDurationHours,
+      hours: orderedThresholdHours[currentThresholdIndex + 1] - currentDurationHours,
       weight: orderedWeights[currentThresholdIndex + 2],
     };
   }
