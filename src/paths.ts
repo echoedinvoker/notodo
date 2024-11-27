@@ -22,5 +22,8 @@ export const paths = {
   },
   rewardListPage(userId: string) {
     return `/${userId}/reward`;
+  },
+  rewardShowPage(userId: string, rewardId: string) {
+    return `/${userId}/reward/${rewardId}`;
   }
 }
