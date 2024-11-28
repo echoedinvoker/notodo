@@ -1,12 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,8 +20,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -38,16 +34,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
   notodos       Notodo[]
   rewards       Reward[]
   rewardClaims  RewardClaim[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -59,46 +55,40 @@ model VerificationToken {
 }
 
 model Notodo {
-  id        String @id @default(cuid())
-  title     String
-  content   String
-  userId    String
-  activeAt  DateTime?
-  weight    Float?
-  displayTimeAsScore Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  thresholds Threshold[]
-  challenges Challenge[]
+  id                 String      @id @default(cuid())
+  title              String
+  content            String
+  userId             String
+  activeAt           DateTime?
+  weight             Float?
+  displayTimeAsScore Boolean     @default(false)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  challenges         Challenge[]
+  user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  thresholds         Threshold[]
 }
 
 model Threshold {
-  id         String   @id @default(cuid())
-  title      String
-  content    String
-  duration   Int
-  weight     Float
-  notodoId   String
-
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  notodo     Notodo   @relation(fields: [notodoId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  duration  Int
+  weight    Float
+  notodoId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  notodo    Notodo   @relation(fields: [notodoId], references: [id], onDelete: Cascade)
 }
 
 model Challenge {
-  id        String    @id @default(cuid())
-  notodoId  String
-  startTime DateTime  @default(now())
-  endTime   DateTime?
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  notodo    Notodo    @relation(fields: [notodoId], references: [id], onDelete: Cascade)
+  id             String          @id @default(cuid())
+  notodoId       String
+  startTime      DateTime        @default(now())
+  endTime        DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  notodo         Notodo          @relation(fields: [notodoId], references: [id], onDelete: Cascade)
   challengeNotes ChallengeNote[]
 }
 
@@ -106,23 +96,20 @@ model ChallengeNote {
   id          String    @id @default(cuid())
   challengeId String
   content     String
-
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-
   challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
 }
 
 model Reward {
-  id          String    @id @default(cuid())
-  name        String
-  description String?
-  pointCost   Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  userId      String
-  
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String        @id @default(cuid())
+  name         String
+  description  String?
+  pointCost    Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   rewardClaims RewardClaim[]
 }
 
@@ -131,7 +118,6 @@ model RewardClaim {
   userId    String
   rewardId  String
   claimedAt DateTime @default(now())
-  
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reward    Reward   @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
