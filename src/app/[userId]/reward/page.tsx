@@ -23,7 +23,7 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
       </Link>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
-          <RewardList rewards={rewards} totalScore={totalScore} />
+          <RewardList userId={userId} rewards={rewards} totalScore={totalScore} />
         </div>
         <RewardListActions userId={userId} totalScore={totalScore} />
       </div>
