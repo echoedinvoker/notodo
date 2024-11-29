@@ -23,7 +23,7 @@ export default function RewardForm({ onSubmitSuccess }: RewardFormProps) {
     <form
       action={action}
       className="flex flex-col gap-4 p4 w-80">
-      <h3 className="text-lg text-stone-700">{JSON.stringify(formState)}</h3>
+      <h3 className="text-lg text-stone-700">Create a Reward</h3>
       <Input
         name='name'
         label="Name"
