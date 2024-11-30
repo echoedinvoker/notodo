@@ -17,7 +17,7 @@ export default function NotodoListItem({ notodo }: NotodoListItemProps) {
 
 
   return (
-    <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50">
+    <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100">
       <Link href={paths.notodoShowPage(notodo.user.id, notodo.id)}>
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold my-1">{notodo.title}</h3>
