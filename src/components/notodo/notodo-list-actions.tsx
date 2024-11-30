@@ -1,39 +1,25 @@
-'use client';
+import { paths } from "@/paths";
+import Link from "next/link";
 
-import { Listbox, ListboxItem } from "@nextui-org/react";
-import { FaPlus } from "react-icons/fa";
-import NotodoForm from "./notodo-form";
-import * as actions from "@/actions"
-import { ConsumePoints, ThePopoverExt } from "../common";
-
-interface NotodoListboxProps {
+interface NotodoListActionsProps {
   userId: string;
-  totalScore: number;
-  totalWeight: number;
 }
 
-export default function NotodoListActions({ userId, totalScore, totalWeight }: NotodoListboxProps) {
+export default function NotodoListActions({ userId }: NotodoListActionsProps) {
   return (
-    <Listbox aria-label="Notodo Actions">
-      <ListboxItem key="create" className="p-0 m-0" textValue="Create Notodo">
-        <ThePopoverExt
-          startContent={<div><FaPlus size="10" /></div>}
-          text="Create Notodo"
-        >
-          {(setIsOpen) => (
-            <NotodoForm
-              formStateAction={actions.createNotodo.bind(null, userId)}
-              onSubmitSuccess={() => setIsOpen(false)}
-            />
-          )}
-        </ThePopoverExt>
-      </ListboxItem>
-      <ListboxItem key="consume" className="p-0 m-0" textValue="Consume points"
-        color="primary">
-        <ConsumePoints
-          userId={userId}
-          totalScore={totalScore} totalWeight={totalWeight} />
-      </ListboxItem>
-    </Listbox >
+    <div className="flex flex-col justified-start items-start p-4 space-y-4">
+      <Link
+        href={paths.createNotodoPage(userId)}
+        className="text-stone-500 rounded shadow py-2 w-full text-center uppercase font-bold hover:bg-stone-50"
+      >
+        create
+      </Link>
+      <Link
+        href={paths.rewardListPage(userId)}
+        className="text-stone-500 rounded shadow py-2 w-full text-center uppercase font-bold hover:bg-stone-50"
+      >
+        consume
+      </Link>
+    </div>
   )
 }

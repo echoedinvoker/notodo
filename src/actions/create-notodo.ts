@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { paths } from "@/paths";
 import { Notodo } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const createNotodoSchema = z.object({
@@ -42,7 +43,8 @@ export async function createNotodo(userId: string, formState: CreateNotodoFormSt
   }
 
   revalidatePath(paths.homePage(userId))
-  return { errors: {}, success: true };
+  redirect(paths.notodoListPage(userId));
+  // return { errors: {}, success: true };
 }
 
 async function validateNotodoData(formData: FormData): Promise<ValidatedNotodoData | CreateNotodoFormState> {

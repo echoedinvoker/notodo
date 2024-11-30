@@ -8,6 +8,9 @@ export const paths = {
   notodoShowPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}`;
   },
+  createNotodoPage(userId: string) {
+    return `/${userId}/notodo/create`;
+  },
   thresholdListPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/threshold`;
   },

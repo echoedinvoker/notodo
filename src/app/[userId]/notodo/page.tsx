@@ -21,7 +21,7 @@ export default async function Home({ params: { userId } }: HomeProps) {
         <div className="col-span-3">
           <NotodoList userId={userId} notodos={notodos} />
         </div>
-        <NotodoListActions userId={userId} totalScore={totalScore} totalWeight={totalWeight} />
+        <NotodoListActions userId={userId} />
       </div>
     </div>
   )
