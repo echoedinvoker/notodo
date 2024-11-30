@@ -1,8 +1,8 @@
-import type { Challenge, Notodo, Threshold } from "@prisma/client";
+import type { Challenge, Notodo, Threshold, User } from "@prisma/client";
 import { db } from "..";
 
 export type NotodoWithData = Notodo & {
-  user: { name: string | null };
+  user: User;
   thresholds: Threshold[];
   challenges: Challenge[];
 }
@@ -11,7 +11,7 @@ export async function fetchNotodos(userId: string): Promise<NotodoWithData[]> {
   const notodos = await db.notodo.findMany({
     where: { userId },
     include: {
-      user: { select: { name: true } },
+      user: true,
       thresholds: true,
       challenges: true
     },

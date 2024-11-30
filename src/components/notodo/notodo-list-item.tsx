@@ -9,17 +9,16 @@ import { calculateNotodoScore } from "@/helpers/utils";
 
 interface NotodoListItemProps {
   notodo: NotodoWithData;
-  userId: string;
 }
 
-export default function NotodoListItem({ notodo, userId }: NotodoListItemProps) {
+export default function NotodoListItem({ notodo }: NotodoListItemProps) {
   const activeChallenge = notodo.challenges.find(challenge => !challenge.endTime);
   const { isOngoing, currentScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
 
 
   return (
     <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50">
-      <Link href={paths.notodoShowPage(userId, notodo.id)}>
+      <Link href={paths.notodoShowPage(notodo.user.id, notodo.id)}>
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold my-1">{notodo.title}</h3>
           <div className="text-sm text-stone-500 flex items-center justify-end">
