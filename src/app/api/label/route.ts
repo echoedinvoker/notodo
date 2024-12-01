@@ -6,9 +6,8 @@ const STATIC_PATH_NAMES = ['notodo', 'create', 'threshold', 'challenge', 'reward
 export async function GET(request: NextRequest) {
   const requestHeaders = new Headers(request.headers)
   const referer = requestHeaders.get('referer')
-  const host = requestHeaders.get('host')
 
-  if (!referer || !host) {
+  if (!referer) {
     return Response.json({
       error: 'Referer not found'
     }, {
@@ -16,14 +15,17 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const segments = await getSegmentInfo(referer, host)
+  const segments = await getSegmentInfo(referer)
 
   return Response.json({ segments });
 }
 
 
-async function getSegmentInfo(referer: string, host: string) {
-  let tmpReferer = referer
+async function getSegmentInfo(referer: string) {
+  const host = referer.split('/').slice(0, 3).join('/')
+  let tmpReferer = referer.replace(host, '')
+  console.log(host)
+  console.log(tmpReferer)
   const segments: { label: string; href: string }[] = []
   while (tmpReferer) {
     const lastSegment = tmpReferer.split('/').at(-1)
