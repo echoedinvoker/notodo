@@ -5,6 +5,8 @@ interface RewardShowPageProps {
 }
 export default function RewardShowPage({ params: { rewardId } }: RewardShowPageProps) {
   return (
-    <div>{rewardId}</div>
+    <div>
+      {rewardId}
+    </div>
   )
 }

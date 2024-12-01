@@ -1,8 +1,6 @@
 import ChallengeShowActions from "@/components/challenge/challenge-show-actions";
 import { TimeDifference } from "@/components/common";
 import { db } from "@/db";
-import { paths } from "@/paths";
-import Link from "next/link";
 import { Roboto_Mono } from 'next/font/google';
 
 const robotoMono = Roboto_Mono({ subsets: ['latin'] });
@@ -28,11 +26,6 @@ export default async function ChallengeShowPage({ params: { userId, notodoId, ch
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <Link href={paths.notodoListPage(userId)}>
-        <h1 className="text-xl font-bold text-stone-700">
-          {challenge.notodo.title}
-        </h1>
-      </Link>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
           <TimeDifference

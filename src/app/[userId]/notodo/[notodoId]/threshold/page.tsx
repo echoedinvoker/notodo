@@ -1,8 +1,6 @@
 import { db } from "@/db";
 import { fetchThresholds } from "@/db/queries/thresholds";
 import ThresholdList from "@/components/threhold/threshold-list";
-import Link from "next/link";
-import { paths } from "@/paths";
 import ThresholdListActions from "@/components/threhold/threshold-list-actions";
 
 interface ThresholdListPageProps {
@@ -16,9 +14,6 @@ export default async function ThresholdListPage({ params: { notodoId, userId } }
   const thresholds = await fetchThresholds(notodoId);
 
   return <div>
-    <Link href={paths.notodoShowPage(userId, notodoId)}>
-      <h1 className="text-xl font-bold text-stone-700 mb-4">Threshold List</h1>
-    </Link>
     <div className="grid grid-cols-4 gap-4">
       <div className="col-span-3">
         <ThresholdList fetchThresholds={() => fetchThresholds(notodoId)} notodoId={notodoId} userId={userId} />

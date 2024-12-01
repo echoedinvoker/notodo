@@ -20,7 +20,6 @@ export default function CreateNotodoPage({ params: { userId } }: CreateNotodoPag
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl text-stone-700">Create a Notodo</h1>
       <form
         action={action}
         className="p-4">

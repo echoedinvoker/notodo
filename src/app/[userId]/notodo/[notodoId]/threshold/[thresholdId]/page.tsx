@@ -1,8 +1,6 @@
 import ThresholdForm from "@/components/threhold/threshold-form";
 import { db } from "@/db";
-import { Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
-import { paths } from "@/paths";
 import ThresholdDeleteForm from "@/components/threhold/threshold-delete-form";
 
 interface ThresholdShowPageProps {
@@ -24,9 +22,6 @@ export default async function ThresholdShowPage({ params: { notodoId, thresholdI
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <Link href={paths.thresholdListPage(userId, notodoId)}>
-        <h1 className="text-xl font-bold text-stone-700">{threshold.title}</h1>
-      </Link>
       <div className="mx-auto shadow bg-stone-50 p-2">
         <ThresholdForm
           actionType="edit"

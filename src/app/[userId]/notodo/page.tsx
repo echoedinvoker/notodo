@@ -14,7 +14,6 @@ export default async function Home({ params: { userId } }: HomeProps) {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-xl font-bold text-stone-700">Notodo List</h1>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
           <Suspense fallback={<NotodoListLoading />}>

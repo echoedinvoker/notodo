@@ -1,7 +1,5 @@
 import { db } from "@/db";
-import Link from "next/link";
 import NotodoShowActions from "@/components/notodo/notodo-show-actions";
-import { paths } from "@/paths";
 import ThresholdInfo from "@/components/threhold/threshold-info";
 import ChallengeInfo from "@/components/challenge/challenge-info";
 import NotodoInfo from "@/components/notodo/notodo-info";
@@ -36,9 +34,6 @@ export default async function NotodoShowPage({ params: { userId, notodoId } }: N
 
   return (
     <div>
-      <Link href={paths.notodoListPage(userId)}>
-        <h1 className="text-xl font-bold text-stone-700">{notodo.title}</h1>
-      </Link>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3">
           <div className="flex flex-col gap-4 p-4">
