@@ -13,13 +13,14 @@ export default function BreadcrumbsComponent() {
   const pathname = usePathname()
   const navItems = generateNavItems(pathname);
 
-
   return (
     <>
     {navItems.length > 0 && (
       <Breadcrumbs>
       {navItems.map((item) => (
-        <BreadcrumbItem href={item.href}>{item.label}</BreadcrumbItem>
+        <BreadcrumbItem
+          key={item.href}
+          href={item.href}>{item.label}</BreadcrumbItem>
       ))}
       </Breadcrumbs>
     )}
