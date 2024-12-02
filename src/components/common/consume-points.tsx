@@ -1,45 +1,27 @@
-'use client';
 
 import { FaCoins } from "react-icons/fa";
-import { useState } from "react";
-import { Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+import { Link } from "@nextui-org/react";
+import { NotodoWithData } from "@/db/queries/notodos";
+import { getNotodosResult } from "@/helpers/utils";
+import { paths } from "@/paths";
 
 interface ConsumePointsProps {
+  fetchNotodos: () => Promise<NotodoWithData[]>;
   userId: string;
-  totalScore: number;
-  totalWeight?: number;
 }
 
-export default function ConsumePoints({ userId, totalScore, totalWeight }: ConsumePointsProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const showPoints = !totalWeight || !isHovered;
-  const router = useRouter()
-
-  function handleClick() {
-    router.push(`/${userId}/reward`)
-  }
-
+export default async function ConsumePoints({ fetchNotodos, userId }: ConsumePointsProps) {
+  const notodos = await fetchNotodos();
+  const { totalScore, totalWeight } = getNotodosResult(notodos);
+  
   return (
-    <Button
-      onClick={handleClick}
-      variant={!showPoints ? "flat" : "light"}
-      startContent={<div><FaCoins size="10" /></div>}
-      className="w-full flex items-center justify-start text-stone-700 hover:text-white hover:font-bold"
-      size="sm"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      disabled={!totalWeight}
+    <Link
+      href={paths.rewardListPage(userId)}
+      className="w-full flex items-center justify-start text-stone-700"
     >
-      {!showPoints ? (
-        <span className="font-bold text-sm text-stone-50">CONSUME POINTS</span>
-      ) : (
-        <>
-          <span className="font-bold text-lg mr-1 text-blue-600">{totalScore}</span>
-          <span className="text-sm">pts</span>
-          {totalWeight && <span className="border border-stone-300 rounded-full py-0.5 px-1 text-xs italic pr-2">+{totalWeight}/hr</span>}
-        </>
-      )}
-    </Button>
+      <FaCoins size="20" />
+      <span className="font-bold ext-blue-600 mx-1">{totalScore}</span>
+      <span className="border-1 border-stone-300 rounded-full py-0.5 px-1 text-xs italic pr-2">+{totalWeight.toFixed(2)}/hr</span>
+    </Link>
   )
 }

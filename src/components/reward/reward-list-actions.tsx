@@ -29,14 +29,6 @@ export default function RewardListActions({ userId, totalScore }: RewardListboxP
         </ThePopoverExt>
 
       </ListboxItem>
-      <ListboxItem key="consume" className="p-0 m-0" textValue="Consume points"
-        color="primary"
-      >
-        <ConsumePoints
-          userId={userId}
-          totalScore={totalScore}
-        />
-      </ListboxItem>
     </Listbox>
   )
 }
