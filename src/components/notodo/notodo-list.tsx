@@ -10,7 +10,7 @@ export default async function NotodoList({ fetchNotodos, userId }: NotodoListPro
   const notodos = await fetchNotodos();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {notodos.map((notodo) => (
         <NotodoListItem key={notodo.id} notodo={notodo} />
       ))}
