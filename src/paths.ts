@@ -14,6 +14,9 @@ export const paths = {
   thresholdListPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/threshold`;
   },
+  createThresholdPage(userId: string, notodoId: string) {
+    return `/${userId}/notodo/${notodoId}/threshold/create`;
+  },
   challengeListPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/challenge`;
   },

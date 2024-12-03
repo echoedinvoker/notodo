@@ -27,7 +27,10 @@ export default function NotodoListItem({ notodo }: NotodoListItemProps) {
               <>
                 <TheHour notodo={notodo} />
                 <TheScore totalScore={currentScore!} currentWeight={currentWeight!} />
-                <ThresholdNext nextThreshold={nextThreshold} />
+                <ThresholdNext
+                  notodo={notodo}
+                  nextThreshold={nextThreshold}
+                />
               </>
             )}
           </div>

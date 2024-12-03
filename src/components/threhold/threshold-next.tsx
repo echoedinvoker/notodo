@@ -1,15 +1,26 @@
+import { NotodoWithData } from "@/db/queries/notodos";
+import { paths } from "@/paths";
+import { Link } from "@nextui-org/react";
 import { FaForward } from "react-icons/fa";
 
 interface ThresholdNextProps {
+  notodo: NotodoWithData;
   nextThreshold?: {
     hours: number;
     weight: number;
   };
 }
 
-export default function ThresholdNext({ nextThreshold }: ThresholdNextProps) {
+export default function ThresholdNext({ notodo, nextThreshold }: ThresholdNextProps) {
   if (!nextThreshold) {
-    return null;
+    return (
+      <Link
+        className="bg-stone-200 text-stone-500 text-sm px-2 py-1 my-1 rounded-lg hover:bg-stone-500 hover:text-stone-50 transition uppercase font-mono font-semibold tracking-wider"
+        href={paths.createThresholdPage(notodo.user.id, notodo.id)}
+      >
+        Create next threshold
+      </Link>
+    )
   }
 
   return (
