@@ -1,6 +1,6 @@
 import { NotodoWithData } from "@/db/queries/notodos";
 import { paths } from "@/paths";
-import { Link } from "@nextui-org/react";
+import Link from "next/link";
 import { FaForward } from "react-icons/fa";
 
 interface ThresholdNextProps {
