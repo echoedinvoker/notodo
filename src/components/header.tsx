@@ -5,8 +5,8 @@ import { NotodoWithData } from "@/db/queries/notodos";
 import { ConsumePoints } from "./common";
 
 interface HeaderProps {
-  fetchNotodos: () => Promise<NotodoWithData[]>;
-  userId: string;
+  fetchNotodos?: () => Promise<NotodoWithData[]>;
+  userId?: string;
 }
 
 export default async function Header({ fetchNotodos, userId }: HeaderProps) {
@@ -22,7 +22,7 @@ export default async function Header({ fetchNotodos, userId }: HeaderProps) {
       </NavbarContent>
       <NavbarContent justify="end" className="gap-2">
         <NavbarItem>
-          <ConsumePoints fetchNotodos={fetchNotodos} userId={userId} />
+          {fetchNotodos && userId && <ConsumePoints fetchNotodos={fetchNotodos} userId={userId} />}
         </NavbarItem>
         <NavbarItem>
           <HeaderAuth />
