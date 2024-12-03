@@ -27,8 +27,6 @@ export default function CreateNotodoPage({ params: { userId } }: CreateNotodoPag
         <Input
           name='title'
           label="Title"
-          labelPlacement="outside"
-          className="rounded-lg"
           placeholder="Enter the notodo name"
           isInvalid={!!formState?.errors?.title}
           errorMessage={formState?.errors?.title?.join(", ")}
@@ -36,7 +34,6 @@ export default function CreateNotodoPage({ params: { userId } }: CreateNotodoPag
         <Textarea
           name='content'
           label="Content"
-          labelPlacement="outside"
           placeholder="Enter the notodo description"
             isInvalid={!!formState?.errors?.content}
             errorMessage={formState?.errors?.content?.join(", ")}
@@ -53,10 +50,10 @@ export default function CreateNotodoPage({ params: { userId } }: CreateNotodoPag
             <Input
               name='weight'
               type="number"
-              labelPlacement="outside"
               placeholder="Enter the notodo weight"
               isInvalid={!!formState?.errors?.weight}
               errorMessage={formState?.errors?.weight?.join(", ")}
+              className="appearance-none"
               defaultValue="1.0"
               step="0.1"
             />
@@ -67,7 +64,7 @@ export default function CreateNotodoPage({ params: { userId } }: CreateNotodoPag
           <div className="text-red-500">{formState.errors._form.join(", ")}</div>
         )}
         <FormButton
-          className="mt-12"
+          className="mt-8"
         >Submit</FormButton>
       </form>
     </div>
