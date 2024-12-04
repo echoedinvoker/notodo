@@ -15,7 +15,7 @@ export default function TheScore({ totalScore, currentWeight }: TheScoreProps) {
         <span className="font-semibold text-xl">{totalScore}</span>
         &nbsp;points
       </div>
-      <span className="border-1 border-stone-300 rounded-full py-0.5 px-1 text-xs italic pr-2">+{currentWeight.toFixed(2)}/hr</span>
+      {currentWeight && <span className="border-1 border-stone-300 rounded-full py-0.5 px-1 text-xs italic pr-2">+{currentWeight.toFixed(2)}/hr</span>}
     </div>
   );
   }
