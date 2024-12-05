@@ -1,8 +1,9 @@
 import { Threshold } from "@prisma/client";
 import { db } from "..";
+import { cache } from "react";
 
-export function fetchThresholds(notodoId: string): Promise<Threshold[]> {
+export const fetchThresholds = cache((notodoId: string): Promise<Threshold[]> => {
   return db.threshold.findMany({
     where: { notodoId }
   })
-}
+})
