@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { paths } from "@/paths";
 import { Threshold } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const createThresholdSchema = z.object({
@@ -68,6 +69,5 @@ export async function createThreshold({
 
   revalidatePath(paths.homePage(userId))
   revalidatePath(paths.notodoShowPage(userId, notodoId))
-
-  return { errors: {}, success: true };
+  redirect(paths.thresholdListPage(userId, notodoId))
 }

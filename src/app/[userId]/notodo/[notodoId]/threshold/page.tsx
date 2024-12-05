@@ -18,7 +18,7 @@ export default async function ThresholdListPage({ params: { notodoId, userId } }
       <div className="col-span-3">
         <ThresholdList fetchThresholds={() => fetchThresholds(notodoId)} notodoId={notodoId} userId={userId} />
       </div>
-      <ThresholdListActions thresholds={thresholds} notodoId={notodoId} userId={userId} />
+      {/* TODO: Implement Threshold list actions */}
     </div>
   </div>
 }
