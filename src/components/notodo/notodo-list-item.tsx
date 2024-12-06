@@ -10,12 +10,11 @@ import * as actions from "@/actions"
 
 interface NotodoListItemProps {
   notodo: NotodoWithData;
+  [key: string]: any;
 }
 
-export default function NotodoListItem({ notodo }: NotodoListItemProps) {
+export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps) {
   const { isOngoing, currentScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
-
-  console.log({ isOngoing, currentScore, currentWeight, nextThreshold })
 
   const wrappedAction = async () => {
     "use server";
@@ -23,7 +22,7 @@ export default function NotodoListItem({ notodo }: NotodoListItemProps) {
   }
 
   return (
-    <div className="rounded-lg py-3 px-5 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100">
+    <div className="rounded-lg py-3 px-5 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100" {...props}>
       <div className="h-full flex flex-col justify-start items-start">
         <Link
           className="hover:drop-shadow-md transition active:text-stone-500"
@@ -46,7 +45,7 @@ export default function NotodoListItem({ notodo }: NotodoListItemProps) {
               )}
             </>
           ) : (
-            <form action={wrappedAction} className="w-full h-28 flex justify-center items-center">
+            <form action={wrappedAction} className="w-full h-20 flex justify-center items-center">
               <FormButton className="w-full h-full bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-400 uppercase rounded-md font-mono font-semibold">
                 Start New Challenge!
               </FormButton>
@@ -54,7 +53,7 @@ export default function NotodoListItem({ notodo }: NotodoListItemProps) {
           )}
         </div>
         {isOngoing && !currentWeight && (
-          <form className="w-full h-full flex items-center justify-center">
+          <form className="w-full h-20 flex items-center justify-center">
             <FormButton className="w-full h-full bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-300 hover:text-stone-400 uppercase rounded-md font-mono font-semibold">
               No score yet, enable it?
             </FormButton>

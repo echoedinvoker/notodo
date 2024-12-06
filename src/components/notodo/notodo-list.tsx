@@ -13,7 +13,7 @@ export default async function NotodoList({ fetchNotodos, userId }: NotodoListPro
 
   if (notodos.length === 0) {
     return (
-      <div className="flex items-center justify-center px-8 py-16 text-stone-400">
+      <div className="items-center justify-center px-8 py-16 text-stone-400">
         <Link
           className="hover:drop-shadow-md active:text-stone-300 transition text-lg"
           href={paths.createNotodoPage(userId)}>
@@ -24,9 +24,12 @@ export default async function NotodoList({ fetchNotodos, userId }: NotodoListPro
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-96">
       {notodos.map((notodo) => (
-        <NotodoListItem key={notodo.id} notodo={notodo} />
+        <NotodoListItem
+          key={notodo.id}
+          notodo={notodo}
+        />
       ))}
     </div>
   )
