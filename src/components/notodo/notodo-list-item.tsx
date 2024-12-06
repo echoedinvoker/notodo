@@ -15,6 +15,10 @@ interface NotodoListItemProps {
 export default function NotodoListItem({ notodo }: NotodoListItemProps) {
   const { isOngoing, currentScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
 
+  const wrappedAction = async () => {
+    await actions.startChallenge(notodo.id)
+  }
+
   return (
     <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100">
       <div className="flex flex-col justify-start items-start">
@@ -35,7 +39,7 @@ export default function NotodoListItem({ notodo }: NotodoListItemProps) {
               />
             </>
           ) : (
-            <form action={actions.startChallenge.bind(null, notodo.id)} className="w-full h-28 flex justify-center items-center">
+            <form action={wrappedAction} className="w-full h-28 flex justify-center items-center">
               <FormButton className="w-full h-full bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-400 uppercase rounded-md font-mono font-semibold">
                 Start New Challenge!
               </FormButton>
