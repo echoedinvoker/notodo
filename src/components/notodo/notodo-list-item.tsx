@@ -16,6 +16,7 @@ export default function NotodoListItem({ notodo }: NotodoListItemProps) {
   const { isOngoing, currentScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
 
   const wrappedAction = async () => {
+    "use server";
     await actions.startChallenge(notodo.id)
   }
 
