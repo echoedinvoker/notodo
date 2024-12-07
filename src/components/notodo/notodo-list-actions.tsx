@@ -11,12 +11,14 @@ export default function NotodoListActions({ userId }: NotodoListActionsProps) {
       <Link
         href={paths.createNotodoPage(userId)}
         className="text-stone-500 rounded shadow py-2 w-full text-center uppercase font-bold hover:bg-stone-50 active:bg-stone-100"
+        prefetch
       >
         create
       </Link>
       <Link
         href={paths.rewardListPage(userId)}
         className="text-stone-500 rounded shadow py-2 w-full text-center uppercase font-bold hover:bg-stone-50 active:bg-stone-100"
+        prefetch
       >
         consume
       </Link>
