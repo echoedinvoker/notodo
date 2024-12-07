@@ -5,3 +5,4 @@ export { default as ConsumePoints } from './consume-points';
 export { default as ThePopoverExt } from './the-popover-ext';
 export { default as BreadcrumbsComponent} from './breadcrumbs-component';
 export { default as ToggleMenu } from './toggle-menu';
+export { default as TheMenu } from './the-menu';

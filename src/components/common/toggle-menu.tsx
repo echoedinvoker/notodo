@@ -1,6 +1,10 @@
-export default function ToggleMenu() {
+interface ToggleMenuProps {
+  [x: string]: any
+}
+
+export default function ToggleMenu({ ...props }: ToggleMenuProps) {
   return (
-    <div className="sm:hidden">
+    <div className="" {...props}>
       <input type="checkbox" className="peer hidden" id="menu-toggle" />
       <label htmlFor="menu-toggle" className="before:content-['☰'] peer-checked:before:content-['✕']"></label>
     </div>

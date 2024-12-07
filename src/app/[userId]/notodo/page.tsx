@@ -3,6 +3,7 @@ import NotodoList from "@/components/notodo/notodo-list";
 import NotodoListActions from "@/components/notodo/notodo-list-actions";
 import { Suspense } from "react";
 import NotodoListLoading from "@/components/notodo/notodo-list-loading";
+import { TheMenu } from "@/components/common";
 
 interface HomeProps {
   params: {
@@ -13,15 +14,18 @@ interface HomeProps {
 export default async function Home({ params: { userId } }: HomeProps) {
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-4 sm:col-span-3">
-          <Suspense fallback={<NotodoListLoading />}>
-            <NotodoList fetchNotodos={() => fetchNotodos(userId)} userId={userId} />
-          </Suspense>
+    <>
+      <TheMenu userId={userId} />
+      <div className="flex flex-col gap-4 p-4">
+        <div className="grid grid-cols-4 gap-4">
+          <div className="col-span-4 sm:col-span-3">
+            <Suspense fallback={<NotodoListLoading />}>
+              <NotodoList fetchNotodos={() => fetchNotodos(userId)} userId={userId} />
+            </Suspense>
+          </div>
+          <NotodoListActions userId={userId} />
         </div>
-        <NotodoListActions userId={userId} />
       </div>
-    </div>
+    </>
   )
 }
