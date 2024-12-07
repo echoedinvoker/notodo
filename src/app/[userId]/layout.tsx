@@ -1,5 +1,5 @@
 import { fetchNotodos } from "@/db/queries/notodos";
-import { BreadcrumbsComponent } from '@/components/common'
+import { BreadcrumbsComponent, ToggleMenu } from '@/components/common'
 import Header from '@/components/header'
 
 interface LayoutProps {
@@ -14,7 +14,10 @@ export default function Layout({ children, params: { userId } }: LayoutProps) {
   return (
     <>
       <Header fetchNotodos={() => fetchNotodos(userId)} userId={userId} />
-      <BreadcrumbsComponent />
+      <div className="flex justify-between align-center">
+        <BreadcrumbsComponent />
+        <ToggleMenu />
+      </div>
       {children}
     </>
   )
