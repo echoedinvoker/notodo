@@ -45,7 +45,9 @@ export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps
               ) : (
                 <Link
                   href={paths.editNotodoPage(notodo.user.id, notodo.id)}
-                  className="flex-1 w-full flex justify-center items-center bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-300 hover:text-stone-400 uppercase rounded-md font-mono font-semibold">
+                  className="flex-1 w-full flex justify-center items-center bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-300 hover:text-stone-400 uppercase rounded-md font-mono font-semibold"
+                  prefetch
+                >
                   No score yet, enable it?
                 </Link>
               )}

@@ -24,8 +24,6 @@ export async function GET(request: NextRequest) {
 async function getSegmentInfo(referer: string) {
   const host = referer.split('/').slice(0, 3).join('/')
   let tmpReferer = referer.replace(host, '')
-  console.log(host)
-  console.log(tmpReferer)
   const segments: { label: string; href: string }[] = []
   while (tmpReferer) {
     const lastSegment = tmpReferer.split('/').at(-1)

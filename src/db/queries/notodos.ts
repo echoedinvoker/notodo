@@ -80,3 +80,15 @@ function getChallengeData(challenges: Challenge[]) {
 
   return { type, startTime: earliestStartTime, endTime: latestEndTime };
 }
+
+export const fetchNotodo = cache(async (notodoId: string): Promise<NotodoWithData | null> => {
+  const notodo = await db.notodo.findUnique({
+    where: { id: notodoId },
+    include: {
+      user: true,
+      thresholds: true,
+      challenges: true
+    },
+  });
+  return notodo;
+})
