@@ -13,7 +13,7 @@ export default async function Header({ fetchNotodos, userId }: HeaderProps) {
   return (
     <Navbar className="shadow mb-6 rounded-lg text-stone-800">
       <NavbarBrand>
-        <Link href="/" className="font-bold">NOTODO</Link>  {/* Left brand and it can be clicked to go to the home page */}
+        <Link href="/" className="font-bold" prefetch>NOTODO</Link>  {/* Left brand and it can be clicked to go to the home page */}
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem>

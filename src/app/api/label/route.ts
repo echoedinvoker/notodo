@@ -3,6 +3,7 @@ import { type NextRequest } from 'next/server'
 
 const STATIC_PATH_NAMES = ['notodo', 'create', 'threshold', 'challenge', 'reward']
  
+// TODO: Fix the error output when nav to notodo edit page
 export async function GET(request: NextRequest) {
   const requestHeaders = new Headers(request.headers)
   const referer = requestHeaders.get('referer')

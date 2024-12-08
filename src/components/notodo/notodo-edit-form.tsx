@@ -16,6 +16,7 @@ export default function EditNotodoForm({ notodo }: EditNotodoFormProps) {
   const [formState, action] = useFormState(actions.editNotodo.bind(null, notodo.id), { errors: {} });
   const [isWeightEnabled, setIsWeightEnabled] = useState(false);
 
+  // TODO: add default values to the form
   return (
     <form
       action={action}
