@@ -11,6 +11,9 @@ export const paths = {
   createNotodoPage(userId: string) {
     return `/${userId}/notodo/create`;
   },
+  editNotodoPage(userId: string, notodoId: string) {
+    return `/${userId}/notodo/${notodoId}/edit`;
+  },
   thresholdListPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/threshold`;
   },

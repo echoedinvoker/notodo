@@ -30,11 +30,11 @@ export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps
           <h3 className="text-md font-semibold my-1">{notodo.title}</h3>
         </Link >
         <Divider className="my-1" />
-        <div className="w-full text-sm text-stone-500 flex flex-col items-start justify-start gap-1">
+        <div className="w-full min-h-24 text-sm text-stone-500 flex flex-col items-start justify-start gap-1">
           {isOngoing ? (
             <>
               <TheHour notodo={notodo} />
-              {currentWeight && (
+              {currentWeight ? (
                 <>
                   <TheScore totalScore={currentScore!} currentWeight={currentWeight!} />
                   <ThresholdNext
@@ -42,7 +42,14 @@ export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps
                     nextThreshold={nextThreshold}
                   />
                 </>
+              ) : (
+                <Link
+                  href={paths.editNotodoPage(notodo.user.id, notodo.id)}
+                  className="flex-1 w-full flex justify-center items-center bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-300 hover:text-stone-400 uppercase rounded-md font-mono font-semibold">
+                  No score yet, enable it?
+                </Link>
               )}
+              
             </>
           ) : (
             <form action={wrappedAction} className="w-full h-20 flex justify-center items-center">
@@ -52,13 +59,6 @@ export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps
             </form>
           )}
         </div>
-        {isOngoing && !currentWeight && (
-          <form className="w-full h-20 flex items-center justify-center">
-            <FormButton className="w-full h-full bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-300 hover:text-stone-400 uppercase rounded-md font-mono font-semibold">
-              No score yet, enable it?
-            </FormButton>
-          </form>
-        )}
       </div>
     </div >
   );
