@@ -37,7 +37,7 @@ export default function BreadcrumbsComponent() {
       <div className="flex gap-2 flex-wrap">
       {navItems.map((item) => (
         <Link
-          className="whitespace-nowrap after:content-['>'] last-of-type:after:content-none text-stone-500 last-of-type:text-stone-700 last-of-type:cursor-default font-semibold tracking-wider hover:drop-shadow last-of-type:hover:drop-shadow-none"
+          className="text-sm whitespace-nowrap after:content-['>'] last-of-type:after:content-none text-stone-500 last-of-type:text-stone-700 last-of-type:cursor-default font-semibold tracking-wider hover:drop-shadow last-of-type:hover:drop-shadow-none"
           key={item.href}
           href={item.href}
           prefetch
