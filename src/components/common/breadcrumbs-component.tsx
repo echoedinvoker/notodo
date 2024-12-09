@@ -1,6 +1,7 @@
 'use client';
 
-import { BreadcrumbItem, Breadcrumbs, Skeleton } from "@nextui-org/react";
+import { Skeleton } from "@nextui-org/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -33,13 +34,16 @@ export default function BreadcrumbsComponent() {
   return (
     <>
     {navItems.length > 0 && (
-      <Breadcrumbs>
+      <div className="flex gap-2">
       {navItems.map((item) => (
-        <BreadcrumbItem
+        <Link
+          className="after:content-['>'] last-of-type:after:content-none text-stone-500 last-of-type:text-stone-700 last-of-type:cursor-default font-semibold tracking-wider hover:drop-shadow last-of-type:hover:drop-shadow-none"
           key={item.href}
-          href={item.href}>{item.label}</BreadcrumbItem>
+          href={item.href}
+          prefetch
+        >{item.label}</Link>
       ))}
-      </Breadcrumbs>
+      </div>
     )}
     </>
   )
