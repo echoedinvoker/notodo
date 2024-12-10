@@ -1,9 +1,9 @@
 
 import { FaCoins } from "react-icons/fa";
-import { Link } from "@nextui-org/react";
 import { NotodoWithData } from "@/db/queries/notodos";
 import { getNotodosResult } from "@/helpers/utils";
 import { paths } from "@/paths";
+import Link from "next/link";
 
 interface ConsumePointsProps {
   fetchNotodos: () => Promise<NotodoWithData[]>;
@@ -18,6 +18,7 @@ export default async function ConsumePoints({ fetchNotodos, userId }: ConsumePoi
     <Link
       href={paths.rewardListPage(userId)}
       className="w-full flex items-center justify-start text-stone-700"
+      prefetch
     >
       <FaCoins size="20" />
       <span className="font-bold ext-blue-600 mx-1">{totalScore}</span>
