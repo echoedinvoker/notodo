@@ -16,7 +16,6 @@ export default function EditNotodoForm({ notodo }: EditNotodoFormProps) {
   const [formState, action] = useFormState(actions.editNotodo.bind(null, notodo.id), { errors: {} });
   const [isWeightEnabled, setIsWeightEnabled] = useState(false);
 
-  // TODO: add default values to the form
   return (
     <form
       action={action}
@@ -28,19 +27,22 @@ export default function EditNotodoForm({ notodo }: EditNotodoFormProps) {
         placeholder="Enter the notodo name"
         isInvalid={!!formState?.errors?.title}
         errorMessage={formState?.errors?.title?.join(", ")}
+        defaultValue={notodo.title}
       />
       <Textarea
         name='content'
         label="Content"
         placeholder="Enter the notodo description"
-          isInvalid={!!formState?.errors?.content}
-          errorMessage={formState?.errors?.content?.join(", ")}
+        isInvalid={!!formState?.errors?.content}
+        errorMessage={formState?.errors?.content?.join(", ")}
+        defaultValue={notodo.content}
       />
       <div className="flex flex-col space-y-1">
         <Checkbox
           size="sm"
           isSelected={isWeightEnabled}
           onChange={() => setIsWeightEnabled(!isWeightEnabled)}
+          defaultChecked={notodo.weight !== null}
         >
           Enable Weight
         </Checkbox>
@@ -52,7 +54,7 @@ export default function EditNotodoForm({ notodo }: EditNotodoFormProps) {
             isInvalid={!!formState?.errors?.weight}
             errorMessage={formState?.errors?.weight?.join(", ")}
             className="appearance-none"
-            defaultValue="1.0"
+            defaultValue={notodo.weight?.toString()}
             step="0.1"
           />
         )}
