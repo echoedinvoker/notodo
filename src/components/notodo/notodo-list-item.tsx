@@ -7,8 +7,7 @@ import ThresholdNext from "../threhold/threshold-next";
 import { calculateNotodoScore } from "@/helpers/utils";
 import { Divider } from "@nextui-org/react";
 import * as actions from "@/actions"
-import { FaEdit, FaEgg, FaFlag, FaTachometerAlt } from "react-icons/fa";
-import { FaGauge, FaPencil } from "react-icons/fa6";
+import NotodoListItemAction from "./notodo-list-item-action";
 
 interface NotodoListItemProps {
   notodo: NotodoWithData;
@@ -65,27 +64,7 @@ export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps
         </div>
       </div>
       <div className="absolute inset-y-0 -right-2 w-8 hidden group-hover:flex flex-col justify-around items-center">
-        <Link
-          href={paths.editNotodoPage(notodo.user.id, notodo.id)}
-          className="rounded-full drop-shadow-lg bg-stone-50 hover:bg-stone-100 active:bg-stone-200 w-10 h-10 flex justify-center items-center"
-          prefetch
-        >
-          <FaPencil />
-        </Link>
-        <Link
-          href={paths.challengeListPage(notodo.user.id, notodo.id)}
-          className="rounded-full drop-shadow-lg bg-stone-50 hover:bg-stone-100 active:bg-stone-200 w-10 h-10 flex justify-center items-center"
-          prefetch
-        >
-          <FaFlag />
-        </Link>
-        <Link
-          href={paths.thresholdListPage(notodo.user.id, notodo.id)}
-          className="rounded-full drop-shadow-lg bg-stone-50 hover:bg-stone-100 active:bg-stone-200 w-10 h-10 flex justify-center items-center"
-          prefetch
-        >
-          <FaTachometerAlt />
-        </Link>
+        <NotodoListItemAction notodo={notodo} />
       </div>
     </div >
   );
