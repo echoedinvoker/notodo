@@ -13,7 +13,7 @@ export default function TheScore({ totalScore, currentWeight }: TheScoreProps) {
       <div className="flex items-baseline text-sm">
         Challenge earned&nbsp;
         <span className="font-semibold text-xl">{totalScore}</span>
-        &nbsp;points
+        &nbsp;{totalScore === 1 ? "pt" : "pts"}
       </div>
       {currentWeight && <span className="border-1 border-stone-300 rounded-full py-0.5 px-1 text-xs italic pr-2">+{currentWeight.toFixed(2)}/hr</span>}
     </div>

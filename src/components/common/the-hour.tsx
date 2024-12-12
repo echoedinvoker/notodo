@@ -20,7 +20,7 @@ export default function TheHour({ notodo }: TheHourProps) {
       <div className="flex items-baseline text-sm">
         Challenge lasted for&nbsp;
         <span className="font-semibold text-xl">{hours}</span>
-        &nbsp;{hours === 1 ? "hour" : "hours"}
+        &nbsp;{hours === 1 ? "hr" : "hrs"}
       </div>
     </div>
   );
