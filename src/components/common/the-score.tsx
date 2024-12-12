@@ -10,7 +10,7 @@ export default function TheScore({ totalScore, currentWeight }: TheScoreProps) {
   return (
     <div className="flex gap-1 items-center justify-start">
       <FaCoins className="w-4 h-4" />
-      <div className="flex items-baseline text-sm">
+      <div className="flex items-baseline text-sm select-none">
         Challenge earned&nbsp;
         <span className="font-semibold text-xl">{totalScore}</span>
         &nbsp;{totalScore === 1 ? "pt" : "pts"}

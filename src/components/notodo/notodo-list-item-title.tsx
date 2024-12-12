@@ -11,7 +11,7 @@ export default function NotodoListItemTitle({ notodo }: NotodoListItemTitleProps
     <Link
       className="hover:drop-shadow-md transition active:text-stone-500"
       href={paths.notodoShowPage(notodo.user.id, notodo.id)}>
-      <h3 className="text-md font-semibold my-1">{notodo.title}</h3>
+      <h3 className="text-md font-semibold my-1 select-none">{notodo.title}</h3>
     </Link >
   );
 }

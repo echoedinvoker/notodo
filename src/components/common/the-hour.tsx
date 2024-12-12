@@ -17,7 +17,7 @@ export default function TheHour({ notodo }: TheHourProps) {
   return (
     <div className="flex gap-1 items-center justify-start">
       <FaClock className="w-4 h-4" />
-      <div className="flex items-baseline text-sm">
+      <div className="flex items-baseline text-sm select-none">
         Challenge lasted for&nbsp;
         <span className="font-semibold text-xl">{hours}</span>
         &nbsp;{hours === 1 ? "hr" : "hrs"}

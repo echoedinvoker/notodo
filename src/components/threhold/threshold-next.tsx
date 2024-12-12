@@ -26,10 +26,10 @@ export default function ThresholdNext({ notodo, nextThreshold }: ThresholdNextPr
   return (
     <div className="flex gap-1 items-center justify-start">
       <FaForward className="w-4 h-4" />
-      <div className="flex items-baseline text-sm">
+      <div className="flex items-baseline text-sm select-none">
         Next threshold in&nbsp;
         <span className="font-semibold text-xl">{nextThreshold.hours}</span>
-        &nbsp;{nextThreshold.hours === 1 ? "hour" : "hours"}
+        &nbsp;{nextThreshold.hours === 1 ? "hr" : "hrs"}
       </div>
     </div>
   );
