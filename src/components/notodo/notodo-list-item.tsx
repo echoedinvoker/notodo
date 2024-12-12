@@ -63,9 +63,7 @@ export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps
           )}
         </div>
       </div>
-      <div className="absolute inset-y-0 -right-2 w-8 hidden group-hover:flex flex-col justify-around items-center">
-        <NotodoListItemAction notodo={notodo} />
-      </div>
+      <NotodoListItemAction notodo={notodo} />
     </div >
   );
 }
