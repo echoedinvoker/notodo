@@ -6,16 +6,10 @@ import { paths } from "@/paths";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-interface DeleteNotodoFormState {
-  errors: {
-    _form?: string[];
-  };
-}
-
-export async function deleteNotodo(notodoId: string, formState: DeleteNotodoFormState): Promise<DeleteNotodoFormState> {
+export async function deleteNotodo(notodoId: string) {
   const session = await auth();
   if (!session || !session.user) {
-    return { errors: { _form: ["You must be logged in to delete a notodo"] } }
+    redirect('/')
   }
 
   try {
@@ -25,10 +19,7 @@ export async function deleteNotodo(notodoId: string, formState: DeleteNotodoForm
       },
     });
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      return { errors: { _form: [error.message] } };
-    }
-    return { errors: { _form: ["An unknown error occurred"] } };
+    redirect('/')
   }
 
   revalidatePath(paths.notodoListPage(session.user.id));
