@@ -1,7 +1,6 @@
 'use client';
 
 import { Listbox, ListboxItem } from "@nextui-org/react";
-import NotodoShowActionDelete from "./notodo-show-action-delete";
 import { FaEdit } from "react-icons/fa";
 import NotodoForm from "./notodo-form";
 import * as actions from "@/actions"
