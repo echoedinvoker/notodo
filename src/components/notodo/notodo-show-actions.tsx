@@ -29,9 +29,6 @@ export default function NotodoShowActions({ notodo }: NotodoShowActionsProps) {
           )}
         </ThePopoverExt>
       </ListboxItem>
-      <ListboxItem key="delete" className="p-0 m-0" textValue="Delete Notodo">
-        <NotodoShowActionDelete notodoId={notodo.id} />
-      </ListboxItem>
     </Listbox>
   )
 }
