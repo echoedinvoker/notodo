@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { paths } from "@/paths";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const editNotodoSchema = z.object({
@@ -64,5 +65,5 @@ export async function editNotodo(
 
   revalidatePath(paths.notodoShowPage(session.user.id, notodoId))
   revalidatePath(paths.notodoListPage(session.user.id))
-  return { errors: {}, success: true };
+  redirect(paths.notodoListPage(session.user.id))
 }
