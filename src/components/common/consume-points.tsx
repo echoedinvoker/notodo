@@ -12,6 +12,7 @@ interface ConsumePointsProps {
 
 export default async function ConsumePoints({ fetchNotodos, userId }: ConsumePointsProps) {
   const notodos = await fetchNotodos();
+  // TODO: totalScore should be top of user.score, then present to the user
   const { totalScore, totalWeight } = getNotodosResult(notodos);
   
   return (
