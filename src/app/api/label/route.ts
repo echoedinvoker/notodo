@@ -15,7 +15,9 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const segments = await getSegmentInfo(referer)
+  const refererWithoutQueryParams = referer.split('?')[0]
+
+  const segments = await getSegmentInfo(refererWithoutQueryParams)
 
   return Response.json({ segments });
 }
