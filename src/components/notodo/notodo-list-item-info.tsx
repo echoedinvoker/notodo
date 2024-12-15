@@ -34,7 +34,7 @@ export default function NotodoListItemInfo({ notodo }: NotodoListItemInfoProps) 
             </>
           ) : (
             <Link
-              href={paths.editNotodoPage(notodo.user.id, notodo.id)}
+              href={`${paths.editNotodoPage(notodo.user.id, notodo.id)}?enableWeight=true`}
               className="flex-1 w-full flex justify-center items-center bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-300 hover:text-stone-400 uppercase rounded-md font-mono font-semibold"
               prefetch
             >

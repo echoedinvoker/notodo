@@ -4,6 +4,7 @@ import * as actions from "@/actions"
 import { FormButton } from "@/components/common";
 import { NotodoWithData } from "@/db/queries/notodos";
 import { Input, Textarea, Checkbox } from "@nextui-org/react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useFormState } from "react-dom";
 
@@ -14,7 +15,9 @@ interface EditNotodoFormProps {
 
 export default function EditNotodoForm({ notodo }: EditNotodoFormProps) {
   const [formState, action] = useFormState(actions.editNotodo.bind(null, notodo.id), { errors: {} });
-  const [isWeightEnabled, setIsWeightEnabled] = useState(false);
+  const searchParams = useSearchParams()
+  const enableWeight = searchParams.get('enableWeight')
+  const [isWeightEnabled, setIsWeightEnabled] = useState(enableWeight === 'true' || notodo.weight !== null)
 
   return (
     <form
@@ -42,7 +45,6 @@ export default function EditNotodoForm({ notodo }: EditNotodoFormProps) {
           size="sm"
           isSelected={isWeightEnabled}
           onChange={() => setIsWeightEnabled(!isWeightEnabled)}
-          defaultChecked={notodo.weight !== null}
         >
           Enable Weight
         </Checkbox>
@@ -54,7 +56,7 @@ export default function EditNotodoForm({ notodo }: EditNotodoFormProps) {
             isInvalid={!!formState?.errors?.weight}
             errorMessage={formState?.errors?.weight?.join(", ")}
             className="appearance-none"
-            defaultValue={notodo.weight?.toString()}
+            defaultValue={enableWeight === 'true' ? '1' : notodo.weight?.toString()}
             step="0.1"
           />
         )}
