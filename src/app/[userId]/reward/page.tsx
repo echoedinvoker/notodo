@@ -20,6 +20,7 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
         <div className="col-span-3">
           <RewardList userId={userId} rewards={rewards} totalScore={totalScore} />
         </div>
+        {/* TODO: hidden when small screen, show + button instead */}
         <RewardListActions userId={userId} totalScore={totalScore} />
       </div>
     </div>

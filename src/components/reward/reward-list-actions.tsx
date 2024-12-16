@@ -1,7 +1,7 @@
 'use client';
 
 import { Listbox, ListboxItem } from "@nextui-org/react";
-import { ConsumePoints, ThePopoverExt } from "../common";
+import { ThePopoverExt } from "../common";
 import { FaPlus } from "react-icons/fa";
 import RewardForm from "./reward-form";
 
@@ -10,6 +10,7 @@ interface RewardListboxProps {
   totalScore: number;
 }
 
+// TODO: Replace popovers with links
 export default function RewardListActions({ userId, totalScore }: RewardListboxProps) {
   return (
     <Listbox
