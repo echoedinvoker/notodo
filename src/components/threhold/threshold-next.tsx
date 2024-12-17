@@ -23,6 +23,7 @@ export default function ThresholdNext({ notodo, nextThreshold }: ThresholdNextPr
     )
   }
 
+  // TODO: hours to next threshold is wrong, fix it
   return (
     <div className="flex gap-1 items-center justify-start">
       <FaForward className="w-4 h-4" />

@@ -7,6 +7,7 @@ interface NotodoListItemTitleProps {
 }
 
 export default function NotodoListItemTitle({ notodo }: NotodoListItemTitleProps) {
+  // TODO: need to style as a clickable button for better UX
   return (
     <Link
       className="hover:drop-shadow-md transition active:text-stone-500"

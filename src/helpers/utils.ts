@@ -112,7 +112,7 @@ export function calculateNotodoScore(notodo: NotodoWithData): ScoreResult {
       currentThresholdIndex,
       orderedThresholdHours,
       orderedWeights,
-      currentDurationHours: currentDurationHours || totalDurationHours,
+      currentDurationHours: currentDurationHours ?? totalDurationHours,
     }),
   };
 }
