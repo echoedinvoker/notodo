@@ -23,6 +23,11 @@ export default async function Home({ params: { userId } }: HomeProps) {
               <NotodoList fetchNotodos={() => fetchNotodos(userId)} userId={userId} />
             </Suspense>
           </div>
+          {/*
+             TODO: Remove side menu from this page,
+                   replace it with a single button on the row of breadcrumbs,
+                   so above notodo list RWD layout also need to be adjusted
+          */}
           <NotodoListActions userId={userId} />
         </div>
       </div>

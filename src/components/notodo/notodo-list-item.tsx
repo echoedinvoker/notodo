@@ -14,7 +14,7 @@ export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps
     <div className="relative group rounded-lg py-3 px-5 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100" {...props}>
       <div className="h-full flex flex-col justify-start items-start">
         <NotodoListItemTitle notodo={notodo} />
-        <Divider className="my-1" />
+        <Divider className="mt-2 mb-1" />
         <NotodoListItemInfo notodo={notodo} />
       </div>
       <NotodoListItemAction notodo={notodo} />
