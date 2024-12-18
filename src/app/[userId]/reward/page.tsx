@@ -9,6 +9,7 @@ interface RewardsPageProps {
   }
 }
 
+// TODO: when there is no any result, redirect to create page
 export default async function RewardsPage({ params: { userId } }: RewardsPageProps) {
   const notodos = await fetchNotodos(userId);
   const rewards = await fetchRewards(userId);
@@ -17,10 +18,12 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="grid grid-cols-4 gap-4">
+        {/* TODO: change to full parent width */}
         <div className="col-span-3">
+          {/* TODO: RWD layout should be change to the same as NotodoList */}
           <RewardList userId={userId} rewards={rewards} totalScore={totalScore} />
         </div>
-        {/* TODO: hidden when small screen, show + button instead */}
+        {/* TODO: remove this, replace with create result button in line with the breadcrumb just like notodo-create-link */}
         <RewardListActions userId={userId} totalScore={totalScore} />
       </div>
     </div>
