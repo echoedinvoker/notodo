@@ -1,10 +1,9 @@
-import { FaCar, FaCheck } from "react-icons/fa";
+import RewardCreateForm from "@/components/reward/reward-create-form";
 
 export default function CreateRewardPage() {
-  // TODO: write a form to create a reward (consider reuse the form from create notodo)
   return (
-    <div className="flex justify-center items-center">
-      TEST
+    <div className="p-4">
+      <RewardCreateForm />
     </div>
   );
 }

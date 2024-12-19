@@ -24,10 +24,11 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
       <AbsoluteLink href={paths.rewardCreatePage(userId)} />
       <div className="flex flex-col gap-4 p-4">
         <div className="grid grid-cols-4 gap-4">
-          {/* TODO: change to full parent width */}
           <div className="col-span-4">
-            {/* TODO: RWD layout should be change to the same as NotodoList */}
+            {/* TODO: RWD layout should be change to the same as NotodoList, or maybe use different layout and long press to consume way to design... */}
+            {/* TODO: Write new skeleton component */}
             <Suspense fallback={<NotodoListLoading />}>
+              {/* TODO: disabled rewards are not easy to see, maybe change to outline style */}
               <RewardList userId={userId} rewards={rewards} totalScore={totalScore} />
             </Suspense>
           </div>

@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { paths } from "@/paths";
 import { Reward } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const createRewardSchema = z.object({
@@ -42,7 +43,7 @@ export async function createReward(formState: RewardFormState, formData: FormDat
   }
 
   revalidatePath(paths.rewardListPage(session.user.id));
-  return { errors: {}, success: true };
+  redirect(paths.rewardListPage(session.user.id));
 }
 
 async function validateRewardData(formData: FormData): Promise<ValidatedRewardData | RewardFormState> {
