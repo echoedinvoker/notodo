@@ -1,7 +1,11 @@
 import { fetchRewards } from "@/db/queries/rewards"
 import { fetchNotodos } from "@/db/queries/notodos";
-import { RewardList, RewardListActions } from "@/components/reward";
+import { RewardList } from "@/components/reward";
 import { getNotodosResult } from "@/helpers/utils";
+import NotodoListLoading from "@/components/notodo/notodo-list-loading";
+import { Suspense } from "react";
+import AbsoluteLink from "@/components/common/absolute-link";
+import { paths } from "@/paths";
 
 interface RewardsPageProps {
   params: {
@@ -16,16 +20,19 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
   const { totalScore } = getNotodosResult(notodos);
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="grid grid-cols-4 gap-4">
-        {/* TODO: change to full parent width */}
-        <div className="col-span-3">
-          {/* TODO: RWD layout should be change to the same as NotodoList */}
-          <RewardList userId={userId} rewards={rewards} totalScore={totalScore} />
+    <>
+      <AbsoluteLink href={paths.rewardCreatePage(userId)} />
+      <div className="flex flex-col gap-4 p-4">
+        <div className="grid grid-cols-4 gap-4">
+          {/* TODO: change to full parent width */}
+          <div className="col-span-4">
+            {/* TODO: RWD layout should be change to the same as NotodoList */}
+            <Suspense fallback={<NotodoListLoading />}>
+              <RewardList userId={userId} rewards={rewards} totalScore={totalScore} />
+            </Suspense>
+          </div>
         </div>
-        {/* TODO: remove this, replace with create result button in line with the breadcrumb just like notodo-create-link */}
-        <RewardListActions userId={userId} totalScore={totalScore} />
       </div>
-    </div>
+    </>
   )
 }

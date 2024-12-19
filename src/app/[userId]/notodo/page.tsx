@@ -2,7 +2,8 @@ import { fetchNotodos } from "@/db/queries/notodos";
 import NotodoList from "@/components/notodo/notodo-list";
 import { Suspense } from "react";
 import NotodoListLoading from "@/components/notodo/notodo-list-loading";
-import NotodoCreateLink from "@/components/notodo/notodo-create-link";
+import AbsoluteLink from "@/components/common/absolute-link";
+import { paths } from "@/paths";
 
 interface HomeProps {
   params: {
@@ -14,7 +15,7 @@ export default async function Home({ params: { userId } }: HomeProps) {
 
   return (
     <>
-      <NotodoCreateLink userId={userId} />
+      <AbsoluteLink href={paths.createNotodoPage(userId)} />
       <div className="flex flex-col gap-4 p-4">
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-4">

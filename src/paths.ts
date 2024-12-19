@@ -37,5 +37,8 @@ export const paths = {
   },
   rewardShowPage(userId: string, rewardId: string) {
     return `/${userId}/reward/${rewardId}`;
+  },
+  rewardCreatePage(userId: string) {
+    return `/${userId}/reward/create`;
   }
 }
