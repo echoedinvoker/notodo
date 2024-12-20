@@ -6,6 +6,8 @@ export default function RewardListItemPressingBar({ consumabled }: { consumabled
   const [isHolding, setIsHolding] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  // TODO: when progress to 100, trigger a dummy function
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isHolding && consumabled) {
