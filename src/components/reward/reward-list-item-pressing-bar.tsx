@@ -6,7 +6,13 @@ export default function RewardListItemPressingBar({ consumabled }: { consumabled
   const [isHolding, setIsHolding] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // TODO: when progress to 100, trigger a dummy function
+  useEffect(() => {
+    if (progress >= 100) {
+      console.log("消耗成功");
+      // TODO: Create a action to consume the reward (create a new reward claim with thiw reward id)
+      // TODO: Track if the reward is consumed successfully, if success, do something like show a success message
+    }
+  }, [progress])
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -41,13 +47,13 @@ export default function RewardListItemPressingBar({ consumabled }: { consumabled
   };
   return (
     <div
-      className="z-10 w-full absolute left-0 top-0 bottom-0 rounded-lg transition-all duration-50 ease-linear"
+      className="select-none z-10 w-full absolute left-0 top-0 bottom-0 rounded-lg transition-all duration-50 ease-linear"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className="h-full bg-blue-500 opacity-30 transition-all duration-50 ease-linear rounded-lg"
+        className="select-none h-full bg-blue-500 opacity-30 transition-all duration-50 ease-linear rounded-lg"
         style={{ width: `${progress}%` }}
       />
 
