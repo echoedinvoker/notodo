@@ -26,10 +26,10 @@ export default function RewardListItem({ userId, reward, totalScore }: RewardLis
 function RewardContent({ reward }: { reward: Reward }) {
   return (
     <div className="select-none flex justify-between items-center">
-      <h3 className="select-none text-lg font-semibold my-1">{reward.name}</h3>
-      <p className="select-none text-sm text-stone-400">{reward.description}</p>
+      <h3 className="text-lg font-semibold my-1">{reward.name}</h3>
+      <p className="text-sm text-stone-400">{reward.description}</p>
       <div>
-        <p className="select-none flex items-center gap-2 text-lg font-semibold italic">
+        <p className="flex items-center gap-2 text-lg font-semibold italic">
           <FaCoins />
           {reward.pointCost}
         </p>

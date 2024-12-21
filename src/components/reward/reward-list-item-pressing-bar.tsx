@@ -32,28 +32,28 @@ export default function RewardListItemPressingBar({ consumabled }: { consumabled
     return () => clearInterval(interval);
   }, [isHolding, consumabled]);
 
-  const handleMouseDown = () => {
+  const handleStart = () => {
     if (consumabled) {
       setIsHolding(true);
     }
   };
 
-  const handleMouseUp = () => {
+  const handleEnd = () => {
     setIsHolding(false);
   };
 
-  const handleMouseLeave = () => {
-    setIsHolding(false);
-  };
   return (
     <div
       className="select-none z-10 w-full absolute left-0 top-0 bottom-0 rounded-lg transition-all duration-50 ease-linear"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleStart}
+      onMouseUp={handleEnd}
+      onMouseLeave={handleEnd}
+      onTouchStart={handleStart}
+      onTouchEnd={handleEnd}
+      onTouchCancel={handleEnd}
     >
       <div
-        className="select-none h-full bg-blue-500 opacity-30 transition-all duration-50 ease-linear rounded-lg"
+        className="h-full bg-blue-500 opacity-30 transition-all duration-50 ease-linear rounded-lg"
         style={{ width: `${progress}%` }}
       />
 
