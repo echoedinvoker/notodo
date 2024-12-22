@@ -17,7 +17,7 @@ export default function RewardListItem({ userId, reward, totalScore }: RewardLis
       : 'shadow-inner text-stone-500 cursor-not-allowed'
       }`}
     >
-      <RewardListItemPressingBar consumabled={consumabled} />
+      <RewardListItemPressingBar consumabled={consumabled} rewardId={reward.id} />
       <RewardContent reward={reward} />
     </div>
   );

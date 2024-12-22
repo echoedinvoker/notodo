@@ -1,16 +1,23 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import * as actions from "@/actions"
 
-export default function RewardListItemPressingBar({ consumabled }: { consumabled: boolean }) {
+interface RewardListItemPressingBarProps {
+  rewardId: string;
+  consumabled: boolean;
+}
+
+export default function RewardListItemPressingBar({ rewardId, consumabled }: RewardListItemPressingBarProps) {
   const [isHolding, setIsHolding] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (progress >= 100) {
       console.log("消耗成功");
-      // TODO: Create a action to consume the reward (create a new reward claim with thiw reward id)
-      // TODO: Track if the reward is consumed successfully, if success, do something like show a success message
+      // TODO: Implement useFormState to track the action result and add try catch to action for error handling
+      // TODO: Indicator for success or error
+      actions.createRewardClaim(rewardId);
     }
   }, [progress])
 
