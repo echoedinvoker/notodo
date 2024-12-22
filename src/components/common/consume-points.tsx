@@ -16,8 +16,9 @@ export default async function ConsumePoints({ fetchNotodos, userId }: ConsumePoi
   const user = await db.user.findUnique({ where: { id: userId } });
 
   const { totalScore, totalWeight } = getNotodosResult(notodos);
+  // TODO: score should include the reward claims (maybe implement it to totalScore?)
   const score = (user?.score || 0) + totalScore;
-  
+
   return (
     <Link
       href={paths.rewardListPage(userId)}

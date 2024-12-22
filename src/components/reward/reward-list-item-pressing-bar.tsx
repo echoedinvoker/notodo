@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import * as actions from "@/actions"
+import { useFormState } from "react-dom";
 
 interface RewardListItemPressingBarProps {
   rewardId: string;
@@ -11,13 +12,17 @@ interface RewardListItemPressingBarProps {
 export default function RewardListItemPressingBar({ rewardId, consumabled }: RewardListItemPressingBarProps) {
   const [isHolding, setIsHolding] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [formState, action] = useFormState(
+    actions.createRewardClaim.bind(null, rewardId),
+    { errors: {} }
+  );
 
   useEffect(() => {
     if (progress >= 100) {
       console.log("消耗成功");
       // TODO: Implement useFormState to track the action result and add try catch to action for error handling
       // TODO: Indicator for success or error
-      actions.createRewardClaim(rewardId);
+      action();
     }
   }, [progress])
 
@@ -59,6 +64,10 @@ export default function RewardListItemPressingBar({ rewardId, consumabled }: Rew
       onTouchEnd={handleEnd}
       onTouchCancel={handleEnd}
     >
+      {formState?.errors?._form && <div>{
+        formState.errors._form.join(", ")
+      }</div>}
+      {formState?.success && <div>消耗成功</div>}
       <div
         className="h-full bg-blue-500 opacity-30 transition-all duration-50 ease-linear rounded-lg"
         style={{ width: `${progress}%` }}

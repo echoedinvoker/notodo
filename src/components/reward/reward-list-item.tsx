@@ -9,6 +9,7 @@ interface RewardListItemProps {
 }
 
 export default function RewardListItem({ userId, reward, totalScore }: RewardListItemProps) {
+  // TODO: should include the reward claims (maybe implement it to totalScore?)
   const consumabled = totalScore >= reward.pointCost;
 
   return (
