@@ -16,15 +16,29 @@ export default function RewardListItemPressingBar({ rewardId, consumabled }: Rew
     actions.createRewardClaim.bind(null, rewardId),
     { errors: {} }
   );
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(true);
 
   useEffect(() => {
-    if (progress >= 100) {
-      console.log("消耗成功");
-      // TODO: Implement useFormState to track the action result and add try catch to action for error handling
-      // TODO: Indicator for success or error
-      action();
-    }
+    if (progress >= 100) action();
   }, [progress])
+
+  useEffect(() => {
+    if (formState?.errors?._form && !isError) setIsError(true);
+  }, [formState?.errors?._form])
+
+  useEffect(() => {
+    if (formState?.success && !isSuccess) setIsSuccess(true);
+  }, [formState?.success])
+
+  useEffect(() => {
+    if (isError) setTimeout(() => setIsError(false), 5000);
+  }, [isError])
+
+  useEffect(() => {
+    if (isSuccess) setTimeout(() => setIsSuccess(false), 5000);
+  }, [isSuccess])
+
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -64,15 +78,12 @@ export default function RewardListItemPressingBar({ rewardId, consumabled }: Rew
       onTouchEnd={handleEnd}
       onTouchCancel={handleEnd}
     >
-      {formState?.errors?._form && <div>{
-        formState.errors._form.join(", ")
-      }</div>}
-      {formState?.success && <div>消耗成功</div>}
-      <div
-        className="h-full bg-blue-500 opacity-30 transition-all duration-50 ease-linear rounded-lg"
-        style={{ width: `${progress}%` }}
-      />
-
+      {isSuccess
+        ? <div className="h-full bg-green-500 rounded-lg flex items-center justify-center uppercase tracking-wide font-bold">Success</div>
+        : isError
+          ? <div className="h-full bg-red-500 rounded-lg flex items-center justify-center uppercase tracking-wide font-bold">Error</div>
+          : <div className="h-full bg-blue-500 opacity-30 transition-all duration-50 ease-linear rounded-lg" style={{ width: `${progress}%` }} />
+      }
     </div>
   );
 }
