@@ -12,8 +12,7 @@ export default function RewardListActions({ userId, rewards, totalScore }: Rewar
   return (
     <div className="flex flex-col gap-2">
       {rewards.map((reward) => (
-        <RewardListItem key={reward.id} userId={userId}
-          reward={reward} totalScore={totalScore} />
+        <RewardListItem key={reward.id} reward={reward} totalScore={totalScore} />
       ))}
     </div>
   )

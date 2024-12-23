@@ -5,19 +5,22 @@ import { getNotodosResult } from "@/helpers/utils";
 import { paths } from "@/paths";
 import Link from "next/link";
 import { db } from "@/db";
+import type { RewardClaimWithReward } from "@/db/queries/rewardClaims";
 
 interface ConsumePointsProps {
   fetchNotodos: () => Promise<NotodoWithData[]>;
+  fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
   userId: string;
 }
 
-export default async function ConsumePoints({ fetchNotodos, userId }: ConsumePointsProps) {
+export default async function ConsumePoints({ fetchNotodos, fetchRewardClaims, userId }: ConsumePointsProps) {
   const notodos = await fetchNotodos();
+  const rewardClaims = await fetchRewardClaims();
   const user = await db.user.findUnique({ where: { id: userId } });
 
   const { totalScore, totalWeight } = getNotodosResult(notodos);
-  // TODO: score should include the reward claims (maybe implement it to totalScore?)
-  const score = (user?.score || 0) + totalScore;
+  const totalConsumed = rewardClaims.reduce((acc, claim) => acc + claim.reward.pointCost, 0);
+  const score = (user?.score || 0) + totalScore - totalConsumed;
 
   return (
     <Link

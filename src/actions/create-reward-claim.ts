@@ -2,6 +2,8 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
+import { paths } from "@/paths";
+import { revalidatePath } from "next/cache";
 
 interface createRewardClaimFormState {
   errors: {
@@ -31,5 +33,6 @@ export async function createRewardClaim(rewardId: string, formState: createRewar
     return { errors: { _form: ["An unknown error occurred"] } };
   }
 
+  revalidatePath(paths.rewardListPage(session.user.id));
   return { errors: {}, success: true };
 }

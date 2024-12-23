@@ -17,7 +17,7 @@ export default function RewardListItemPressingBar({ rewardId, consumabled }: Rew
     { errors: {} }
   );
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     if (progress >= 100) action();

@@ -1,4 +1,5 @@
 import type { NotodoWithData } from "@/db/queries/notodos";
+import type { Reward, RewardClaim } from "@prisma/client";
 
 export function formatTimeDifference(start: Date, end: Date): string {
   const diff = Math.abs(end.getTime() - start.getTime());

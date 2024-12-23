@@ -13,7 +13,6 @@ interface NotodoListItemInfoProps {
 
 export default function NotodoListItemInfo({ notodo }: NotodoListItemInfoProps) {
   const { isOngoing, currentScore, currentWeight, nextThreshold } = calculateNotodoScore(notodo);
-  console.log('nextThreshold', nextThreshold);
 
   const wrappedAction = async () => {
     "use server";
