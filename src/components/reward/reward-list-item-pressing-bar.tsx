@@ -49,7 +49,7 @@ export default function RewardListItemPressingBar({ rewardId, consumabled }: Rew
             clearInterval(interval);
             return 100;
           }
-          return prev + 2; // 調整這個值來改變進度條填充的速度
+          return prev + 2;
         });
       }, 50);
     } else {

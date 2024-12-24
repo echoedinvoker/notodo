@@ -1,16 +1,20 @@
 import type { Reward } from "@prisma/client";
 import { FaCoins } from "react-icons/fa";
 import RewardListItemPressingBar from "./reward-list-item-pressing-bar";
+import { RewardClaimWithReward } from "@/db/queries/rewardClaims";
 
 interface RewardListItemProps {
   reward: Reward;
   totalScore: number;
+  fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
 }
 
-export default function RewardListItem({ reward, totalScore }: RewardListItemProps) {
-  // TODO: should include the reward claims (maybe implement it to totalScore?)
-  const consumabled = totalScore >= reward.pointCost;
+export default async function RewardListItem({ reward, totalScore, fetchRewardClaims }: RewardListItemProps) {
+  const rewardClaims = await fetchRewardClaims();
+  const totalConsumed = rewardClaims.reduce((acc, claim) => acc + claim.reward.pointCost, 0);
+  const consumabled = totalScore >= (totalConsumed + reward.pointCost);
 
+  // TODO: actions to edit, delete rewards
   return (
     <div className={`relative z-0 rounded-lg py-2 px-4 transition duration-300 bg-stone-50 ${consumabled
       ? 'hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 text-stone-700 cursor-pointer'
