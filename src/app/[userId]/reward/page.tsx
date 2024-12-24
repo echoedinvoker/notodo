@@ -1,7 +1,6 @@
 import { fetchRewards } from "@/db/queries/rewards"
 import { fetchNotodos } from "@/db/queries/notodos";
 import { RewardList } from "@/components/reward";
-import { getNotodosResult } from "@/helpers/utils";
 import NotodoListLoading from "@/components/notodo/notodo-list-loading";
 import { Suspense } from "react";
 import AbsoluteLink from "@/components/common/absolute-link";
@@ -17,9 +16,6 @@ interface RewardsPageProps {
 // TODO: when there is no any result, redirect to create page
 // TODO: Need somewhere to check the reward claim and give a chance to remove them
 export default async function RewardsPage({ params: { userId } }: RewardsPageProps) {
-  const notodos = await fetchNotodos(userId);
-  const rewards = await fetchRewards(userId);
-  const { totalScore } = getNotodosResult(notodos);
 
   return (
     <>
@@ -32,9 +28,8 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
             <Suspense fallback={<NotodoListLoading />}>
               {/* TODO: disabled rewards are not easy to see, maybe change to outline style */}
               <RewardList
-                userId={userId}
-                rewards={rewards}
-                totalScore={totalScore}
+                fetchNotodos={() => fetchNotodos(userId)}
+                fetchRewards={() => fetchRewards(userId)}
                 fetchRewardClaims={() => fetchRewardClaims(userId)}
               />
             </Suspense>

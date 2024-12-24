@@ -1,15 +1,19 @@
 import type { Reward } from "@prisma/client";
 import { FaCoins } from "react-icons/fa";
 import RewardListItemPressingBar from "./reward-list-item-pressing-bar";
-import { RewardClaimWithReward } from "@/db/queries/rewardClaims";
+import type { RewardClaimWithReward } from "@/db/queries/rewardClaims";
+import type { NotodoWithData } from "@/db/queries/notodos";
+import { getNotodosResult } from "@/helpers/utils";
 
 interface RewardListItemProps {
   reward: Reward;
-  totalScore: number;
+  fetchNotodos: () => Promise<NotodoWithData[]>;
   fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
 }
 
-export default async function RewardListItem({ reward, totalScore, fetchRewardClaims }: RewardListItemProps) {
+export default async function RewardListItem({ reward, fetchNotodos, fetchRewardClaims }: RewardListItemProps) {
+  const notodos = await fetchNotodos();
+  const { totalScore } = getNotodosResult(notodos);
   const rewardClaims = await fetchRewardClaims();
   const totalConsumed = rewardClaims.reduce((acc, claim) => acc + claim.reward.pointCost, 0);
   const consumabled = totalScore >= (totalConsumed + reward.pointCost);

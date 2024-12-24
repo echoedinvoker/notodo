@@ -1,15 +1,16 @@
 import type { Reward } from "@prisma/client";
 import RewardListItem from "./reward-list-item";
-import { RewardClaimWithReward } from "@/db/queries/rewardClaims";
+import type { RewardClaimWithReward } from "@/db/queries/rewardClaims";
+import type { NotodoWithData } from "@/db/queries/notodos";
 
 interface RewardListProps {
-  userId: string;
-  rewards: Reward[];
-  totalScore: number;
+  fetchNotodos: () => Promise<NotodoWithData[]>;
+  fetchRewards: () => Promise<Reward[]>;
   fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
 }
 
-export default function RewardListActions({ userId, rewards, totalScore, fetchRewardClaims }: RewardListProps) {
+export default async function RewardListActions({ fetchNotodos, fetchRewards, fetchRewardClaims }: RewardListProps) {
+  const rewards = await fetchRewards();
 
   return (
     <div className="flex flex-col gap-2">
@@ -17,7 +18,7 @@ export default function RewardListActions({ userId, rewards, totalScore, fetchRe
         <RewardListItem
           key={reward.id}
           reward={reward}
-          totalScore={totalScore}
+          fetchNotodos={fetchNotodos}
           fetchRewardClaims={fetchRewardClaims}
         />
       ))}
