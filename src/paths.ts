@@ -40,5 +40,12 @@ export const paths = {
   },
   rewardCreatePage(userId: string) {
     return `/${userId}/reward/create`;
+  },
+  rewardEditPage(userId: string, rewardId: string) {
+    return `/${userId}/reward/${rewardId}/edit`;
+  },
+  rewardDeletePage(userId: string, rewardId: string) {
+    return `/${userId}/reward/${rewardId}/delete`;
   }
+
 }
