@@ -4,6 +4,7 @@ import RewardListItemPressingBar from "./reward-list-item-pressing-bar";
 import type { RewardClaimWithReward } from "@/db/queries/rewardClaims";
 import type { NotodoWithData } from "@/db/queries/notodos";
 import { getNotodosResult } from "@/helpers/utils";
+import RewardListItemAction from "./reward-list-item-action";
 
 interface RewardListItemProps {
   reward: Reward;
@@ -20,13 +21,14 @@ export default async function RewardListItem({ reward, fetchNotodos, fetchReward
 
   // TODO: actions to edit, delete rewards
   return (
-    <div className={`relative z-0 rounded-lg py-2 px-4 transition duration-300 bg-stone-50 ${consumabled
+    <div className={`group peer relative z-0 rounded-lg py-2 px-4 transition duration-300 bg-stone-50 ${consumabled
       ? 'hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 text-stone-700 cursor-pointer'
       : 'shadow-inner text-stone-500 cursor-not-allowed'
       }`}
     >
       <RewardListItemPressingBar consumabled={consumabled} rewardId={reward.id} />
       <RewardContent reward={reward} />
+      <RewardListItemAction name={reward.name} />
     </div>
   );
 }
