@@ -28,7 +28,7 @@ export default async function RewardListItem({ reward, fetchNotodos, fetchReward
     >
       <RewardListItemPressingBar consumabled={consumabled} rewardId={reward.id} />
       <RewardContent reward={reward} />
-      <RewardListItemAction name={reward.name} />
+      <RewardListItemAction name={reward.name} userId={reward.userId} rewardId={reward.id} />
     </div>
   );
 }
