@@ -1,4 +1,3 @@
-import { db } from "@/db";
 import { fetchThresholds } from "@/db/queries/thresholds";
 import { Suspense } from "react";
 import ThresholdList from "@/components/threhold/threshold-list";
@@ -12,6 +11,7 @@ interface ThresholdListPageProps {
   };
 }
 
+// TODO: maybe merge this with edit/create page
 export default async function ThresholdListPage({ params: { notodoId, userId } }: ThresholdListPageProps) {
 
   return (
