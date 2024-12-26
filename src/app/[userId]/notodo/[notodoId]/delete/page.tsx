@@ -14,9 +14,7 @@ interface EditNotodoPageProps {
 }
 
 export default async function EditNotodoPage({ params: { userId, notodoId } }: EditNotodoPageProps) {
-  const user = await db.user.findFirst({
-    where: { id: userId },
-  });
+  // TODO: move to query?
   const notodo: NotodoWithData | null = await db.notodo.findFirst({
     where: { id: notodoId, },
     include: { user: true, thresholds: true, challenges: true },
@@ -32,6 +30,7 @@ export default async function EditNotodoPage({ params: { userId, notodoId } }: E
     <div className="py-12 flex flex-col gap-6 items-start justify-around">
       <AlreadyPoints points={totalScore} type="earned" />
 
+      {/* TODO: wrap as a component */}
       {/* TODO: create a client-side component for implement useFormState error handling */}
       <form action={actions.deleteNotodo.bind(null, notodoId)} className="w-full text-center">
         <FormButton className="uppercase font-semibold min-w-[300px] hover:bg-red-500 hover:text-white">
@@ -39,6 +38,8 @@ export default async function EditNotodoPage({ params: { userId, notodoId } }: E
         </FormButton>
       </form>
 
+      {/* TODO: add cancel button */}
+      {/* TODO: simplify options when Math.floor(consumedPoints) === 0  */}
       <NotodoDeleteFormKeep notodoId={notodoId} totalScore={totalScore} userId={userId} />
     </div>
   )
