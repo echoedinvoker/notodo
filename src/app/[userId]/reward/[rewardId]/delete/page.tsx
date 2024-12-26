@@ -1,4 +1,5 @@
 import * as actions from "@/actions"
+import AlreadyPoints from "@/components/already-points";
 import { FormButton } from "@/components/common";
 import { RewardDeleteFormKeep } from "@/components/reward/reward-delete-form-keep";
 import { fetchRewardWithClaims } from "@/db/queries/rewards";
@@ -17,14 +18,7 @@ export default async function DeleteRewardPage({ params: { userId, rewardId } }:
 
   return (
     <div className="py-12 flex flex-col gap-6 items-start justify-around">
-      <p className="text-sm text-stone-600 text-center w-full">
-        Already consumed&nbsp;
-        <span className="text-xl font-semibold text-stone-700">
-          {consumedPoints}
-        </span>
-        &nbsp;points from this reward.
-      </p>
-
+      <AlreadyPoints points={consumedPoints} type="consumed" />
       <form action={actions.deleteReward.bind(null, rewardId)} className="w-full text-center">
         <FormButton className="uppercase font-semibold min-w-[300px] hover:bg-red-500 hover:text-white">
           Delete and remove effect

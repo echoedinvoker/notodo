@@ -1,4 +1,5 @@
 import * as actions from "@/actions"
+import AlreadyPoints from "@/components/already-points";
 import { FormButton } from "@/components/common";
 import { NotodoDeleteFormKeep } from "@/components/notodo/notodo-delete-form-keep";
 import { db } from "@/db";
@@ -29,13 +30,7 @@ export default async function EditNotodoPage({ params: { userId, notodoId } }: E
 
   return (
     <div className="py-12 flex flex-col gap-6 items-start justify-around">
-      <p className="text-sm text-stone-600 text-center w-full">
-        Already earned&nbsp;
-        <span className="text-xl font-semibold text-stone-700">
-          {totalScore}
-        </span>
-        &nbsp;points from this notodo.
-      </p>
+      <AlreadyPoints points={totalScore} type="earned" />
 
       {/* TODO: create a client-side component for implement useFormState error handling */}
       <form action={actions.deleteNotodo.bind(null, notodoId)} className="w-full text-center">
