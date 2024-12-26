@@ -1,5 +1,6 @@
 import * as actions from "@/actions"
 import { FormButton } from "@/components/common";
+import { RewardDeleteFormKeep } from "@/components/reward/reward-delete-form-keep";
 import { fetchRewardWithClaims } from "@/db/queries/rewards";
 
 interface DeleteRewardPageProps {
@@ -30,7 +31,7 @@ export default async function DeleteRewardPage({ params: { userId, rewardId } }:
         </FormButton>
       </form>
 
-      {/* <NotodoDeleteFormKeep notodoId={notodoId} totalScore={totalScore} userId={userId} /> */}
+      <RewardDeleteFormKeep rewardId={rewardId} consumedPoints={consumedPoints} userId={userId} />
     </div>
   )
 }
