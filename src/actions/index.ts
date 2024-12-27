@@ -14,3 +14,4 @@ export { createReward } from './create-reward';
 export { createRewardClaim } from './create-reward-claim';
 export { deleteReward } from './delete-reward';
 export { deleteRewardKeepPoint } from './delete-reward-keep-point';
+export { editReward } from './edit-reward';
