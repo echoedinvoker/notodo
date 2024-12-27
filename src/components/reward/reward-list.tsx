@@ -2,15 +2,20 @@ import type { Reward } from "@prisma/client";
 import RewardListItem from "./reward-list-item";
 import type { RewardClaimWithReward } from "@/db/queries/rewardClaims";
 import type { NotodoWithData } from "@/db/queries/notodos";
+import { redirect } from "next/navigation";
+import { paths } from "@/paths";
 
 interface RewardListProps {
+  userId: string;
   fetchNotodos: () => Promise<NotodoWithData[]>;
   fetchRewards: () => Promise<Reward[]>;
   fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
 }
 
-export default async function RewardListActions({ fetchNotodos, fetchRewards, fetchRewardClaims }: RewardListProps) {
+export default async function RewardListActions({ userId, fetchNotodos, fetchRewards, fetchRewardClaims }: RewardListProps) {
   const rewards = await fetchRewards();
+
+  if (rewards.length === 0) redirect(paths.rewardCreatePage(userId));
 
   return (
     <div className="flex flex-col gap-2">

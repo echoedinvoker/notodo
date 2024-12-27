@@ -28,6 +28,7 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
             <Suspense fallback={<NotodoListLoading />}>
               {/* TODO: disabled rewards are not easy to see, maybe change to outline style */}
               <RewardList
+                userId={userId}
                 fetchNotodos={() => fetchNotodos(userId)}
                 fetchRewards={() => fetchRewards(userId)}
                 fetchRewardClaims={() => fetchRewardClaims(userId)}
