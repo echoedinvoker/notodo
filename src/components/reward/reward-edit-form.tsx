@@ -13,9 +13,6 @@ interface RewardEditFormProps {
 export default function RewardEditForm({ reward }: RewardEditFormProps) {
   const [formState, action] = useFormState(actions.editReward.bind(null, reward.id), { errors: {} });
 
-  console.log('reward', reward);
-
-  // TODO: remove outline from all input elements and replace with hover effect
   return (
     <form
       action={action}

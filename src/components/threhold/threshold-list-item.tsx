@@ -11,11 +11,11 @@ interface ThresholdListItemProps {
 export default async function ThresholdListItem({ threshold, notodoId, userId }: ThresholdListItemProps) {
 
   return (
-    <div className="rounded-lg py-2 px-4 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50">
-      <Link href={paths.threadShowPage(userId, notodoId, threshold.id)}>
-        <h3 className="text-lg font-semibold my-1">
-          {threshold.title}
-        </h3>
+    <div className="rounded-full w-8 h-8 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50">
+      <Link
+        className="flex items-center justify-center h-full w-full text-sm font-semibold"
+        href={paths.threadShowPage(userId, notodoId, threshold.id)}>
+        {threshold.weight}
       </Link>
     </div>
   );

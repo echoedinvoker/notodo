@@ -14,8 +14,14 @@ export const paths = {
   editNotodoPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/edit`;
   },
+  editThresholdPage(userId: string, notodoId: string, thresholdId: string) {
+    return `/${userId}/notodo/${notodoId}/threshold/${thresholdId}/edit`;
+  },
   deleteNotodoPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/delete`;
+  },
+  deleteThresholdPage(userId: string, notodoId: string, thresholdId: string) {
+    return `/${userId}/notodo/${notodoId}/threshold/${thresholdId}/delete`;
   },
   thresholdListPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/threshold`;

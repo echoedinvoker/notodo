@@ -4,6 +4,7 @@ import { cache } from "react";
 
 export const fetchThresholds = cache((notodoId: string): Promise<Threshold[]> => {
   return db.threshold.findMany({
-    where: { notodoId }
+    where: { notodoId },
+    orderBy: { weight: 'desc' }
   })
 })

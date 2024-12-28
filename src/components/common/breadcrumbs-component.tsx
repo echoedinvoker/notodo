@@ -26,7 +26,6 @@ export default function BreadcrumbsComponent() {
   }
 
   if (navItems.length === 0) {
-    // TODO: Need to adjust the width and should be set in the server component
     return (
       <Skeleton className="w-32 h-[20px]" />
     )
