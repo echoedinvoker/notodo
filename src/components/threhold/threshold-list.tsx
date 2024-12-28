@@ -73,6 +73,7 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
               <div className="border-t-2 border-stone-300 opacity-0 group-hover:opacity-100 duration-200"></div>
             </Link>
           )}
+          {/* TODO: add content in small text under title to make it more informative on the screen */}
         </div>
       ))}
     </div>
