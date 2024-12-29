@@ -19,26 +19,21 @@ interface ListItem {
   dotType?: string;
 }
 
-const Dot = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full"></div>
-);
-
-const DotLine = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14"></div>
+const EmptyDot = () => (
+  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full opacity-0"></div>
 );
 
 const DotLineUp = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-5 after:-translate-y-4"></div>
+  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:-translate-y-6"></div>
 );
 
 const DotLineDown = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-5 after:translate-y-4"></div>
+  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:translate-y-6"></div>
 );
 
 const EndDot = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-500 rounded-full animate-pulse"></div>
+  <div className="flex items-center justify-center h-3 w-3 bg-stone-500 rounded-full animate-pulse z-10"></div>
 );
-
 
 
 export default async function ThresholdList({ fetchThresholds, notodoId, userId }: ThresholdListProps) {
@@ -78,16 +73,54 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
     ...thresholds.map((threshold) => ({ isThreshold: true, id: threshold.id, title: threshold.title, content: threshold.content, weight: threshold.weight, duration: threshold.duration }))
   ];
 
-  const sortedList = notodo.weight ? mixedList.sort((a, b) => (b.weight || 0) - (a.weight || 0)) : mixedList;
+  const sortedList = notodo.weight ? mixedList.sort((a, b) => (b.duration || 0) - (a.duration || 0)) : mixedList;
 
-  // TODO: compute dot types to each item of the sorted list
+  // TODO: refactor to somewhere else
+  const listWithDotTypes: ListItem[] = sortedList.map((item, index) => {
+    const nextItem = sortedList[index + 1];
+    const prevItem = sortedList[index - 1];
 
+    if (currentDuration === 0) {
+      if (!item.isThreshold) return { ...item, dotType: 'end' };
+      return { ...item, dotType: 'empty' };
+    }
 
-  // TODO: indicate to the current threshold and done/not done
+    if (currentDuration > 0) {
+      if (item.duration > currentDuration) return { ...item, dotType: 'empty' };
+      if (prevItem.duration > currentDuration) return { ...item, dotType: 'end' };
+      if (item.duration >= 0) return { ...item, dotType: 'up' };
+      return { ...item, dotType: 'empty' };
+    }
+
+    if (currentDuration < 0) {
+      if (item.duration < currentDuration) return { ...item, dotType: 'empty' };
+      if (nextItem.duration < currentDuration) return { ...item, dotType: 'end' };
+      if (item.duration <= 0) return { ...item, dotType: 'down' };
+      return { ...item, dotType: 'empty' };
+    }
+
+    return item;
+  });
+
+  // TODO: align to center when small screen?
   return (
     <div className="flex flex-col gap-6">
-      {sortedList.map((item, index) => {
-        // TODO: align to center when small screen?
+      {listWithDotTypes.map((item) => {
+        // TODO: do some refactor here, codes are too complex already
+        const renderDot = (dotType: string = '') => {
+          switch (dotType) {
+            case 'empty':
+              return <EmptyDot />;
+            case 'up':
+              return <DotLineUp />;
+            case 'down':
+              return <DotLineDown />;
+            case 'end':
+              return <EndDot />;
+            default:
+              return <div>Err</div>
+          }
+        };
         return (
           <div className="flex items-center justify-start gap-3" key={item.id}>
             <Link href={item.isThreshold ? paths.editThresholdPage(userId, notodoId, item.id) : paths.editNotodoPage(userId, notodoId)} prefetch>
@@ -96,7 +129,7 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
               </div>
             </Link>
 
-            {/* TODO: render different dots */}
+            {renderDot(item.dotType)}
 
             {/* TODO: do some refactor here, codes are too complex already */}
             {item.isThreshold ? (
