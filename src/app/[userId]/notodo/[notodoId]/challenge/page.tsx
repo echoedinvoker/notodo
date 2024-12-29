@@ -9,6 +9,7 @@ interface ChallengeListPageProps {
   }
 }
 
+// TODO: need to rebuild challenge page, especially the way to give up a challenge
 export default async function ChallengeListPage({ params: { notodoId, userId } }: ChallengeListPageProps) {
   const challenges = await fetchChallenges(notodoId);
 
