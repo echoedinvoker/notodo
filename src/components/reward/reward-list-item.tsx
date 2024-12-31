@@ -35,8 +35,8 @@ export default async function RewardListItem({ reward, fetchNotodos, fetchReward
 
 function RewardContent({ reward }: { reward: Reward }) {
   return (
-    <div className="select-none flex justify-between items-center">
-      <h3 className="text-lg font-semibold my-1">{reward.name}</h3>
+    <div className="select-none flex justify-between items-center gap-2">
+      <h3 className="text-lg font-semibold my-1 whitespace-nowrap">{reward.name}</h3>
       <p className="text-sm text-stone-400">{reward.description}</p>
       <div>
         <p className="flex items-center gap-2 text-lg font-semibold italic">
