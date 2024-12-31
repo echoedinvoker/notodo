@@ -12,6 +12,7 @@ interface RewardListItemProps {
   fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
 }
 
+// TODO: show portion of the reward content in the middle
 export default async function RewardListItem({ reward, fetchNotodos, fetchRewardClaims }: RewardListItemProps) {
   const notodos = await fetchNotodos();
   const { totalScore } = getNotodosResult(notodos);
