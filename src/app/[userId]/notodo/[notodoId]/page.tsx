@@ -13,6 +13,7 @@ interface NotodoShowPageProps {
   };
 }
 
+// TODO: need to reconsider what to show on this page... current contents just don't make sense
 export default async function NotodoShowPage({ params: { userId, notodoId } }: NotodoShowPageProps) {
   const notodo = await db.notodo.findFirst({
     where: { id: notodoId },

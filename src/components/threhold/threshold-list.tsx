@@ -20,19 +20,19 @@ interface ListItem {
 }
 
 const EmptyDot = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full opacity-0"></div>
+  <div className="flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full opacity-0"></div>
 );
 
 const DotLineUp = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:-translate-y-6"></div>
+  <div className="flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:-translate-y-6"></div>
 );
 
 const DotLineDown = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:translate-y-6"></div>
+  <div className="flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:translate-y-6"></div>
 );
 
 const EndDot = () => (
-  <div className="flex items-center justify-center h-3 w-3 bg-stone-500 rounded-full animate-pulse z-10"></div>
+  <div className="flex flex-none items-center justify-center h-3 w-3 bg-stone-500 rounded-full animate-pulse z-10"></div>
 );
 
 
@@ -143,6 +143,7 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
                 <div className="border-t-2 border-stone-300 opacity-0 group-hover:opacity-100 duration-200"></div>
               </Link>
             )}
+            <p className="text-sm text-stone-400">{item.content}</p>
             {/* TODO: add content in small text under title to make it more informative on the screen */}
           </div>
         )
