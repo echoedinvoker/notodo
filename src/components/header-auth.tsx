@@ -4,6 +4,7 @@ import { Avatar, Button, Popover, PopoverContent, PopoverTrigger, Skeleton } fro
 import { useSession } from "next-auth/react";
 import * as actions from "@/actions";
 import { useRouter } from 'next/navigation';
+import { FaGithub, FaGoogle } from 'react-icons/fa'; // 引入 GitHub 和 Google 圖標
 
 export default function HeaderAuth() {
   const session = useSession()
@@ -21,6 +22,10 @@ export default function HeaderAuth() {
     await actions.signOut()
     await session.update()
     router.push('/')
+  }
+
+  const handleSignIn = (provider: 'github' | 'google') => {
+    return () => actions.signIn(provider);
   }
 
   return (
@@ -41,11 +46,18 @@ export default function HeaderAuth() {
           </Popover>
         </div>
       ) : (
-        <div>
-          <form action={actions.signIn}>
-            <Button type="submit" variant="flat">Sign In</Button>
+        <div className="flex gap-2">
+          <form action={handleSignIn('github')}>
+            <Button type="submit" variant="flat" startContent={<FaGithub />}>
+              GitHub
+            </Button>
           </form>
-        </div >
+          <form action={handleSignIn('google')}>
+            <Button type="submit" variant="flat" startContent={<FaGoogle />}>
+              Google
+            </Button>
+          </form>
+        </div>
       )}
     </>
   )

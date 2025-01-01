@@ -1,24 +1,31 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import { db } from "./db";
 
-// Extract the client id and secret from the environment variables
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-// types of extracted variables can be undefined, so we need to verify them
-if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET || !GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
   throw new Error('GITHUB_CLIENT_ID and GITUB_CLIENT_SECRET must be provided');
 }
 
-// Extract lots of utilities from NextAuth, we will use them in our entire application
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db), // We use PrismaAdapter to let next-auth use prisma as the database
+
+  // TODO: need to add email/password login option
+  // TODO: different providers with the same email will occur an error, need to do some handling about it
   providers: [
-    GitHub({   // We use Github provider for authentication, so here we need to provide the client id and secret
+    GitHub({
       clientId: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET
+    }),
+    Google({
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET
     })
   ],
   // Usually not needed, here we just fix a bug in next-auth
@@ -29,7 +36,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
       }
 
       return session;
-    }
+    },
   },
   trustHost: true,
 })
