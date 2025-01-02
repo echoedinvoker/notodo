@@ -37,11 +37,14 @@ export default function BreadcrumbsComponent() {
         <div className="flex gap-2 flex-wrap">
           {navItems.map((item) => (
             <Link
-              className="text-sm whitespace-nowrap after:content-['>'] last-of-type:after:content-none text-stone-500 last-of-type:text-stone-700 last-of-type:cursor-default font-semibold tracking-wider hover:drop-shadow last-of-type:hover:drop-shadow-none"
+              className="group relative text-sm whitespace-nowrap after:content-['>'] last-of-type:after:content-none text-stone-500 last-of-type:text-stone-700 last-of-type:cursor-default font-semibold tracking-wider hover:drop-shadow last-of-type:hover:drop-shadow-none"
               key={item.href}
               href={item.href}
               prefetch
-            >{item.label}</Link>
+            >
+              {item.label}
+              <div className="absolute inset-x-0 border-b-3 border-stone-400 opacity-0 group-hover:opacity-100 duration-250"></div>
+            </Link>
           ))}
         </div>
       )}

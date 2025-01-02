@@ -11,7 +11,7 @@ interface NotodoListItemProps {
 
 export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps) {
   return (
-    <div className="relative group rounded-lg py-3 px-5 shadow hover:shadow-md transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100" {...props}>
+    <div className="relative group rounded-lg py-3 px-5 shadow hover:shadow-md hover:-translate-y-0.5 transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100" {...props}>
       <div className="h-full flex flex-col justify-start items-start">
         <NotodoListItemTitle notodo={notodo} />
         <Divider className="mt-2 mb-1" />
