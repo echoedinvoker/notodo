@@ -12,25 +12,25 @@ interface NotodoListItemActionProps {
 export default function NotodoListItemAction({ notodo }: NotodoListItemActionProps) {
   const isCurrentChallenging = notodo.challenges.some((challenge) => !challenge.endTime)
 
-  // TODO: add tooltip to each buttons
   const links = [
-    { isLink: true, href: paths.editNotodoPage(notodo.user.id, notodo.id), icon: <FaPencil /> },
-    { isLink: true, href: paths.challengeListPage(notodo.user.id, notodo.id), icon: <FaFlag /> },
-    { isLink: true, href: paths.thresholdListPage(notodo.user.id, notodo.id), icon: <FaTachometerAlt /> },
+    { isLink: true, href: paths.editNotodoPage(notodo.user.id, notodo.id), icon: <FaPencil />, tip: 'Edit notodo' },
+    { isLink: true, href: paths.challengeListPage(notodo.user.id, notodo.id), icon: <FaFlag />, tip: 'Go to Challenge list page' },
+    { isLink: true, href: paths.thresholdListPage(notodo.user.id, notodo.id), icon: <FaTachometerAlt />, tip: 'Go to Threshold list page' },
     isCurrentChallenging
-      ? { isLink: false, notodoId: notodo.id, actionType: 'giveup', icon: <FaXmark /> }
-      : { isLink: true, href: paths.deleteNotodoPage(notodo.user.id, notodo.id), icon: <FaTrash /> },
+      ? { isLink: false, notodoId: notodo.id, actionType: 'giveup', icon: <FaXmark />, tip: 'Give up current challenge' }
+      : { isLink: true, href: paths.deleteNotodoPage(notodo.user.id, notodo.id), icon: <FaTrash />, tip: 'Delete notodo' },
   ]
 
   return (
     <div className="absolute inset-y-0 -right-2 w-8 flex flex-col justify-around items-center">
-      {links.map(({ isLink, href, notodoId, actionType, icon }, index) => (
+      {links.map(({ isLink, href, notodoId, actionType, icon, tip }, index) => (
         <CircleFloatLink
           isLink={isLink}
           key={index}
           notodoId={notodoId}
           actionType={actionType}
           href={href}
+          tip={tip}
         >{icon}</CircleFloatLink>
       ))}
     </div>
