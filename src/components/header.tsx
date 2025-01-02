@@ -23,11 +23,6 @@ export default async function Header({ fetchNotodos, fetchRewardClaims, userId }
           NOTODO
         </Link>
       </NavbarBrand>
-      <NavbarContent justify="center">
-        <NavbarItem>
-          <Input />
-        </NavbarItem>
-      </NavbarContent>
       <NavbarContent justify="end" className="gap-2">
         <NavbarItem>
           {fetchNotodos && fetchRewardClaims && userId &&

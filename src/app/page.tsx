@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { paths } from "@/paths"
 import { redirect } from "next/navigation"
+import { HeroSection, FeaturesSection, TestimonialsSection, CTASection, PricingSection, Footer } from "@/components/landing"
 
 export default async function Home() {
   const session = await auth()
@@ -9,6 +10,17 @@ export default async function Home() {
     redirect(paths.notodoListPage(session.user.id))
   }
 
-  return <div>Home</div>
+  return (
+    <>
+      <main>
+        <HeroSection />
+        <FeaturesSection />
+        <PricingSection />
+        <TestimonialsSection />
+        <CTASection />
+      </main>
+      <Footer />
+    </>
+  )
 }
 

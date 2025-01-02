@@ -1,7 +1,6 @@
 import { db } from '@/db';
 import { type NextRequest } from 'next/server'
 
-// TODO: fix to reward edit page
 const STATIC_PATH_NAMES = ['notodo', 'create', 'edit', 'delete', 'threshold', 'challenge', 'reward']
 
 export async function GET(request: NextRequest) {
