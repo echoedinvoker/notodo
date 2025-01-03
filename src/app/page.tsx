@@ -13,11 +13,11 @@ export default async function Home() {
   return (
     <>
       <main>
-        <HeroSection />
-        <FeaturesSection />
-        <PricingSection />
-        <TestimonialsSection />
-        <CTASection />
+        <HeroSection id="hero" />
+        <FeaturesSection id="feature" />
+        <PricingSection id="pricing" />
+        <TestimonialsSection id="testimonial" />
+        <CTASection id="cta" />
       </main>
       <Footer />
     </>

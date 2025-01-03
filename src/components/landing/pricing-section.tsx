@@ -21,7 +21,11 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isPopular }) => 
   </div>
 )
 
-export default function PricingSection() {
+interface PricingSectionProps {
+  [key: string]: any
+}
+
+export default function PricingSection({ ...props }: PricingSectionProps) {
   const plans = [
     {
       name: "Basic",
@@ -42,7 +46,7 @@ export default function PricingSection() {
   ]
 
   return (
-    <section className="pricing">
+    <section className="pricing" {...props}>
       <h2>Choose Your Plan</h2>
       <div className="plans-container">
         {plans.map((plan, index) => (
