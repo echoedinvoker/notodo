@@ -28,6 +28,15 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      keyframes: {
+        flip: {
+          '0%, 100%': { transform: 'rotateY(0deg)' },
+          '50%': { transform: 'rotateY(180deg)' },
+        }
+      },
+      animation: {
+        'flip': 'flip 0.6s ease-in-out',
+      }
     },
   },
   darkMode: 'class',  // add this line

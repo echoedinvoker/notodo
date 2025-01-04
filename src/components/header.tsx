@@ -4,6 +4,7 @@ import HeaderAuth from "./header-auth"
 import { NotodoWithData } from "@/db/queries/notodos";
 import { ConsumePoints } from "./common";
 import { RewardClaimWithReward } from "@/db/queries/rewardClaims";
+import NotodoLogo from "./notodo-logo";
 
 interface HeaderProps {
   fetchNotodos?: () => Promise<NotodoWithData[]>;
@@ -17,10 +18,10 @@ export default async function Header({ fetchNotodos, fetchRewardClaims, userId }
       <NavbarBrand>
         <Link
           href="/"
-          className="font-bold"
+          className="flex items-center"
           prefetch
         >
-          NOTODO
+          <NotodoLogo className="h-8 w-auto" animate={true} />
         </Link>
       </NavbarBrand>
       <NavbarContent justify="end" className="gap-2">
