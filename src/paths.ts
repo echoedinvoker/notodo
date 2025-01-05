@@ -32,6 +32,9 @@ export const paths = {
   challengeListPage(userId: string, notodoId: string) {
     return `/${userId}/notodo/${notodoId}/challenge`;
   },
+  giveupChallengePage(userId: string, notodoId: string, challengeId: string) {
+    return `/${userId}/notodo/${notodoId}/challenge/${challengeId}/giveup`;
+  },
   threadShowPage(userId: string, notodoId: string, thresholdId: string) {
     return `/${userId}/notodo/${notodoId}/threshold/${thresholdId}`;
   },

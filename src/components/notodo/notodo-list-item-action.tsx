@@ -17,7 +17,14 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
     { isLink: true, href: paths.challengeListPage(notodo.user.id, notodo.id), icon: <FaFlag />, tip: 'Go to Challenge list page' },
     { isLink: true, href: paths.thresholdListPage(notodo.user.id, notodo.id), icon: <FaTachometerAlt />, tip: 'Go to Threshold list page' },
     isCurrentChallenging
-      ? { isLink: false, notodoId: notodo.id, actionType: 'giveup', icon: <FaXmark />, tip: 'Give up current challenge' }
+      // TODO: shouln't be only single step to give up challenge, consider to refactor challenge system and link to current challenge page to give up
+      // ? { isLink: false, notodoId: notodo.id, actionType: 'giveup', icon: <FaXmark />, tip: 'Give up current challenge' }
+      ? {
+        isLink: true,
+        href: paths.giveupChallengePage(notodo.user.id, notodo.id, notodo.challenges[0].id),
+        icon: <FaXmark />,
+        tip: 'Give up current challenge'
+      }
       : { isLink: true, href: paths.deleteNotodoPage(notodo.user.id, notodo.id), icon: <FaTrash />, tip: 'Delete notodo' },
   ]
 
