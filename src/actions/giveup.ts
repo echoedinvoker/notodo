@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { paths } from "@/paths";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function giveup(notodoId: string) {
   const session = await auth();
@@ -52,5 +53,7 @@ export async function giveup(notodoId: string) {
   } catch (error) {
     return
   }
+
+  redirect(paths.notodoListPage(session.user.id));
 }
 
