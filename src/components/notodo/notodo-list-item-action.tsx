@@ -30,12 +30,10 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
 
   return (
     <div className="absolute inset-y-0 -right-2 w-8 flex flex-col justify-around items-center">
-      {links.map(({ isLink, href, notodoId, actionType, icon, tip }, index) => (
+      {links.map(({ isLink, href, icon, tip }, index) => (
         <CircleFloatLink
           isLink={isLink}
           key={index}
-          notodoId={notodoId}
-          actionType={actionType}
           href={href}
           tip={tip}
         >{icon}</CircleFloatLink>
