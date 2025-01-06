@@ -3,7 +3,6 @@ import { type NextRequest } from 'next/server'
 
 const STATIC_PATH_NAMES = ['notodo', 'create', 'edit', 'delete', 'threshold', 'challenge', 'reward', 'giveup']
 
-// TODO: replace challenge.id with something more meaningful text
 export async function GET(request: NextRequest) {
   const requestHeaders = new Headers(request.headers)
   const referer = requestHeaders.get('referer')
@@ -71,7 +70,7 @@ async function getLabelFromDB(pathname: string, id: string) {
     const challenge = await db.challenge.findFirst({
       where: { id }
     })
-    return challenge ? challenge.id : ''
+    return challenge ? challenge.startTime.toISOString().split('T')[0] : ''
   }
   if (pathname === 'reward') {
     const reward = await db.reward.findFirst({
