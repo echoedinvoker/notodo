@@ -80,6 +80,9 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
     const nextItem = sortedList[index + 1];
     const prevItem = sortedList[index - 1];
 
+    const isFirstItem = index === 0;
+    const isLastItem = index === sortedList.length - 1;
+
     if (currentDuration === 0) {
       if (!item.isThreshold) return { ...item, dotType: 'end' };
       return { ...item, dotType: 'empty' };
@@ -87,15 +90,21 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
 
     if (currentDuration > 0) {
       if (item.duration > currentDuration) return { ...item, dotType: 'empty' };
-      if (prevItem.duration > currentDuration) return { ...item, dotType: 'end' };
-      if (item.duration >= 0) return { ...item, dotType: 'up' };
+      if (prevItem && prevItem.duration > currentDuration) return { ...item, dotType: 'end' };
+      if (item.duration >= 0) {
+        if (isFirstItem) return { ...item, dotType: 'end' }; // TODO: maybe add a create plus button above in this senario
+        return { ...item, dotType: 'up' };
+      }
       return { ...item, dotType: 'empty' };
     }
 
     if (currentDuration < 0) {
       if (item.duration < currentDuration) return { ...item, dotType: 'empty' };
-      if (nextItem.duration < currentDuration) return { ...item, dotType: 'end' };
-      if (item.duration <= 0) return { ...item, dotType: 'down' };
+      if (nextItem && nextItem.duration < currentDuration) return { ...item, dotType: 'end' };
+      if (item.duration <= 0) {
+        if (isLastItem) return { ...item, dotType: 'end' }; // TODO: maybe add a create plus button below in this senario
+        return { ...item, dotType: 'down' };
+      }
       return { ...item, dotType: 'empty' };
     }
 
