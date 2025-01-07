@@ -50,7 +50,7 @@ export default function OperationFlowSection({ ...props }: OperationFlowSectionP
             {steps.map((step, index) => (
               <div
                 key={index}
-                className={`flex items-center md:justify-center p-4 mb-4 cursor-pointer transition-all duration-300 ${activeStep === index ? 'bg-blue-100 rounded-lg' : 'hover:bg-gray-100'}`}
+                className={`flex items-center justify-center md:justify-start p-4 mb-4 cursor-pointer transition-all duration-300 ${activeStep === index ? 'bg-blue-100 rounded-lg' : 'hover:bg-gray-100'}`}
                 onClick={() => setActiveStep(index)}
               >
                 <span className={`font-semibold text-center ${activeStep === index ? 'text-blue-600' : 'text-gray-700'}`}>{step.title}</span>
