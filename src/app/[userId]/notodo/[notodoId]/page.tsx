@@ -1,10 +1,6 @@
 import { db } from "@/db";
-import NotodoShowActions from "@/components/notodo/notodo-show-actions";
-import ThresholdInfo from "@/components/threhold/threshold-info";
-import ChallengeInfo from "@/components/challenge/challenge-info";
-import NotodoInfo from "@/components/notodo/notodo-info";
-import { calculateDurationHours } from "@/helpers/utils";
-import { Threshold } from "@prisma/client";
+import { paths } from "@/paths";
+import Link from "next/link";
 
 interface NotodoShowPageProps {
   params: {
@@ -13,12 +9,10 @@ interface NotodoShowPageProps {
   };
 }
 
-// TODO: need to reconsider what to show on this page... current contents just don't make sense
 export default async function NotodoShowPage({ params: { userId, notodoId } }: NotodoShowPageProps) {
   const notodo = await db.notodo.findFirst({
     where: { id: notodoId },
     include: {
-      thresholds: true,
       challenges: true
     },
   });
@@ -28,59 +22,28 @@ export default async function NotodoShowPage({ params: { userId, notodoId } }: N
   }
 
   const currentChallenge = notodo.challenges.find(challenge => !challenge.endTime)
-  const status = currentChallenge ? "Challenging" : "Idle"
-  const elapsedHours = status === "Challenging" ? calculateDurationHours(new Date(currentChallenge!.startTime), new Date()) : 0;
-  const sortedThresholds = notodo.weight !== null ? notodo.thresholds.sort((a, b) => a.duration - b.duration) : null;
-  const currentThreshold = sortedThresholds ? findCurrentThreshold(sortedThresholds, elapsedHours) : null;
 
   return (
     <div>
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-3">
-          <div className="flex flex-col gap-4 p-4">
-            <NotodoInfo notodo={notodo} />
-            <div className="flex flex-col md:flex-row md:gap-4">
-              <ChallengeInfo
-                userId={userId}
-                notodo={notodo}
-                status={status}
-                elapsedHours={elapsedHours}
-                currentThreshold={currentThreshold}
-              />
-              <ThresholdInfo
-                userId={userId}
-                notodo={notodo}
-                elapsedHours={elapsedHours}
-                currentThreshold={currentThreshold}
-              />
-            </div>
-          </div>
-        </div>
-        <NotodoShowActions notodo={notodo} />
+      {notodo.weight !== null
+        ? <div>Initial points per hours: {notodo.weight}</div>
+        : <div>Notodo is not weighted</div>}
+      <div className="flex items-center gap-3">
+        <span>
+          Current status:
+        </span>
+        {currentChallenge
+          ? <div className="w-5 h-5 rounded-full bg-green-500 animate-pulse"></div>
+          : <div className="w-5 h-5 rounded-full bg-gray-500"></div>}
+      </div>
+      <div>
+        <div>Notodo notes:</div>
+        <p>{notodo.content}</p>
+      </div>
+      <div>
+        <Link href={paths.editNotodoPage(userId, notodoId)}>Edit</Link>
+        <Link href={paths.deleteNotodoPage(userId, notodoId)}>Delete</Link>
       </div>
     </div>
   )
 }
-
-export async function generateStaticParams() {
-  const notodos = await db.notodo.findMany({ include: { user: { select: { id: true } } } });
-  return notodos.map(notodo => ({
-    notodoId: notodo.id.toString(),
-    userId: notodo.user.id.toString()
-  }));
-}
-
-function findCurrentThreshold(
-  sortedThresholds: Threshold[],
-  elapsedHours: number): Threshold | null {
-  let currentThreshold: Threshold | null = null;
-  for (const threshold of sortedThresholds) {
-    if (elapsedHours < threshold.duration) {
-      break;
-    } else {
-      currentThreshold = threshold;
-    }
-  }
-  return currentThreshold
-}
- 
