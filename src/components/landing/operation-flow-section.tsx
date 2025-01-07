@@ -48,21 +48,39 @@ export default function OperationFlowSection({ ...props }: OperationFlowSectionP
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/3">
             {steps.map((step, index) => (
-              <div
-                key={index}
-                className={`flex items-center justify-center md:justify-start p-4 mb-4 cursor-pointer transition-all duration-300 ${activeStep === index ? 'bg-blue-100 rounded-lg' : 'hover:bg-gray-100'}`}
-                onClick={() => setActiveStep(index)}
-              >
-                <span className={`font-semibold text-center ${activeStep === index ? 'text-blue-600' : 'text-gray-700'}`}>{step.title}</span>
-              </div>
+              <>
+                <div
+                  key={index}
+                  className={`flex items-center justify-center md:justify-start p-4 mb-4 cursor-pointer transition-all duration-300 ${activeStep === index ? 'bg-blue-100 rounded-lg' : 'hover:bg-gray-100'}`}
+                  onClick={() => setActiveStep(index)}
+                >
+                  <span className={`font-semibold text-center whitespace-nowrap ${activeStep === index ? 'text-blue-600' : 'text-gray-700'}`}>{step.title}</span>
+                </div>
+                <Operation activeStep={activeStep} index={index} className="block md:hidden" />
+              </>
             ))}
           </div>
-          <div className="md:w-2/3">
-            <h3 className="text-2xl font-bold mb-4">{steps[activeStep].title}</h3>
-            <p className="mb-6">{steps[activeStep].description}</p>
-          </div>
+          <Operation hasTitle activeStep={activeStep} className="opacity-0 md:opacity-100" />
         </div>
       </div>
     </section>
   )
 };
+
+interface OperationProps {
+  index?: number;
+  activeStep: number;
+  hasTitle?: boolean;
+  [x: string]: any;
+}
+
+function Operation({ index, activeStep, hasTitle, ...props }: OperationProps) {
+  if (index !== undefined && index !== activeStep) return null;
+
+  return (
+    <div className="md:w-2/3" {...props}>
+      {hasTitle && <h3 className="text-2xl font-bold mb-4">{steps[activeStep].title}</h3>}
+      <p className="mb-6">{steps[activeStep].description}</p>
+    </div>
+  )
+}
