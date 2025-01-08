@@ -16,9 +16,9 @@ export default async function Home() {
         <HeroSection id="hero" />
         <FeaturesSection id="feature" />
         <OperationFlowSection id="operation-flow" />
-        <PricingSection id="pricing" />
-        <TestimonialsSection id="testimonial" />
-        <CTASection id="cta" />
+        {/* <PricingSection id="pricing" /> */}
+        {/* <TestimonialsSection id="testimonial" /> */}
+        {/* <CTASection id="cta" /> */}
       </main>
       <Footer />
     </>
