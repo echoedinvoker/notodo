@@ -28,8 +28,16 @@ export default async function NotodoShowPage({ params: { userId, notodoId } }: N
       <h1 className="text-center sm:text-left text-2xl font-bold mb-6 text-gray-800">{notodo.title}</h1>
 
       {notodo.weight !== null
-        ? <div className="mb-4 text-lg text-gray-700">Initial points per hours: <span className="font-semibold">{notodo.weight}</span></div>
-        : <div className="mb-4 text-lg text-gray-500 italic">Notodo is not weighted</div>}
+        ? <div className="mb-4 text-lg text-stone-600">Initial points per hours: <span className="font-semibold">{notodo.weight}</span></div>
+        : <div className="flex gap-5 mb-4 ">
+          <div className="text-lg text-stone-400 italic">Notodo is not weighted</div>
+          <Link
+            href={`${paths.editNotodoPage(userId, notodoId)}?enableWeight=true`}
+            className="px-3 py-1 bg-stone-400 text-white text-sm font-medium rounded-lg hover:bg-stone-500 transition duration-300 shadow-sm"
+            prefetch
+          >Turn on weight</Link>
+        </div>
+      }
 
       <div className="flex items-center gap-3 mb-6">
         <span className="text-lg text-gray-700">
