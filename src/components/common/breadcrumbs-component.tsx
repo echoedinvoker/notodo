@@ -10,6 +10,7 @@ type NavItem = {
   label: string;
 };
 
+// TODO: need to change way to present the breadcrumbs when small screen
 export default function BreadcrumbsComponent() {
   const pathname = usePathname()
   const [navItems, setNavItems] = useState<NavItem[]>([]);

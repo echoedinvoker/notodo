@@ -4,6 +4,7 @@ interface HeroSectionProps {
   [key: string]: any
 }
 
+// TODO: need smaller top space when small screen
 export default function HeroSection({ ...props }: HeroSectionProps) {
   return (
     <section className="hero" {...props}>

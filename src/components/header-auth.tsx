@@ -46,6 +46,7 @@ export default function HeaderAuth() {
           </Popover>
         </div>
       ) : (
+        // TODO: when small screen, right button will be out of parent div, need to fix
         <div className="flex gap-2">
           <form action={handleSignIn('github')}>
             <Button type="submit" variant="flat" startContent={<FaGithub />}>
