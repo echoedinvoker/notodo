@@ -13,7 +13,7 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
   const isCurrentChallenging = notodo.challenges.some((challenge) => !challenge.endTime)
 
   const links = [
-    { isLink: true, href: paths.editNotodoPage(notodo.user.id, notodo.id), icon: <FaPencil />, tip: 'Edit notodo' },
+    { isLink: true, href: paths.notodoShowPage(notodo.user.id, notodo.id), icon: <FaPencil />, tip: 'Go to Notodo details' },
     { isLink: true, href: paths.challengeListPage(notodo.user.id, notodo.id), icon: <FaFlag />, tip: 'Go to Challenge list page' },
     { isLink: true, href: paths.thresholdListPage(notodo.user.id, notodo.id), icon: <FaTachometerAlt />, tip: 'Go to Threshold list page' },
     isCurrentChallenging
