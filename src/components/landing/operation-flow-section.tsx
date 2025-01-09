@@ -1,10 +1,6 @@
 'use client';
 
-import { useState } from "react";
-
-interface OperationFlowSectionProps {
-  id: string;
-}
+import { Fragment, useState } from "react";
 
 interface Step {
   title: string;
@@ -48,16 +44,15 @@ export default function OperationFlowSection({ ...props }: OperationFlowSectionP
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/3">
             {steps.map((step, index) => (
-              <>
+              <Fragment key={index}>
                 <div
-                  key={index}
                   className={`flex items-center justify-center md:justify-start p-4 mb-4 cursor-pointer transition-all duration-300 ${activeStep === index ? 'bg-blue-100 rounded-lg' : 'hover:bg-gray-100'}`}
                   onClick={() => setActiveStep(index)}
                 >
                   <span className={`font-semibold text-center whitespace-nowrap ${activeStep === index ? 'text-blue-600' : 'text-gray-700'}`}>{step.title}</span>
                 </div>
                 <Operation activeStep={activeStep} index={index} className="block md:hidden" />
-              </>
+              </Fragment>
             ))}
           </div>
           <Operation hasTitle activeStep={activeStep} className="opacity-0 md:opacity-100" />

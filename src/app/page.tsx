@@ -18,7 +18,7 @@ export default async function Home() {
         <OperationFlowSection id="operation-flow" />
         {/* <PricingSection id="pricing" /> */}
         {/* <TestimonialsSection id="testimonial" /> */}
-        {/* <CTASection id="cta" /> */}
+        <CTASection id="cta" />
       </main>
       <Footer />
     </>
