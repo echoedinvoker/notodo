@@ -18,6 +18,7 @@ export default function CTASection({ ...props }: CTASectionProps) {
   }
 
   return (
+    // TODO: spacing should based on screen size
     <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-16 px-4 rounded-lg shadow-lg mb-32" {...props}>
       <div className="container mx-auto text-center">
         <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
