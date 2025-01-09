@@ -46,6 +46,7 @@ model User {
   rewards       Reward[]
   rewardClaims  RewardClaim[]
   sessions      Session[]
+  achievements  Achievement[]
 }
 
 model VerificationToken {
@@ -81,6 +82,7 @@ model Threshold {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   notodo    Notodo   @relation(fields: [notodoId], references: [id], onDelete: Cascade)
+  achievements AchievementThreshold[]
 }
 
 model Challenge {
@@ -113,6 +115,7 @@ model Reward {
   userId       String
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   rewardClaims RewardClaim[]
+  achievements AchievementReward[]
 }
 
 model RewardClaim {
@@ -122,4 +125,36 @@ model RewardClaim {
   claimedAt DateTime @default(now())
   reward    Reward   @relation(fields: [rewardId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  thresholds  AchievementThreshold[]
+  rewards     AchievementReward[]
+}
+
+model AchievementThreshold {
+  id            String      @id @default(cuid())
+  achievementId String
+  thresholdId   String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  threshold     Threshold   @relation(fields: [thresholdId], references: [id], onDelete: Cascade)
+
+  @@unique([achievementId, thresholdId])
+}
+
+model AchievementReward {
+  id            String      @id @default(cuid())
+  achievementId String
+  rewardId      String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  reward        Reward      @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+
+  @@unique([achievementId, rewardId])
 }
