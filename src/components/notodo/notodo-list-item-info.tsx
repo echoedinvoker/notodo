@@ -41,7 +41,7 @@ export default function NotodoListItemInfo({ notodo }: NotodoListItemInfoProps) 
               No score yet, enable it?
             </Link>
           )}
-          
+
         </>
       ) : (
         <form action={wrappedAction} className="w-full h-20 flex justify-center items-center">

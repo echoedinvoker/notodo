@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { type NextRequest } from 'next/server'
 
-const STATIC_PATH_NAMES = ['notodo', 'create', 'edit', 'delete', 'threshold', 'challenge', 'reward', 'giveup']
+const STATIC_PATH_NAMES = ['notodo', 'create', 'edit', 'delete', 'threshold', 'challenge', 'reward', 'giveup', 'claims']
 
 export async function GET(request: NextRequest) {
   const requestHeaders = new Headers(request.headers)

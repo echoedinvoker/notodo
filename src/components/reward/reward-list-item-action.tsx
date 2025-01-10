@@ -15,7 +15,7 @@ export default function RewardListItemAction({ name, userId, rewardId, ...props 
   const links = [
     { href: paths.rewardEditPage(userId, rewardId), children: <FaPen /> },
     { href: paths.rewardDeletePage(userId, rewardId), children: <FaTrashCan /> },
-    { href: paths.rewardShowPage(userId, rewardId), children: <FaHistory /> },
+    { href: paths.rewardClaimListPage(userId, rewardId), children: <FaHistory /> },
   ]
 
   return (

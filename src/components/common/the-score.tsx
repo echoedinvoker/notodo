@@ -8,7 +8,7 @@ interface TheScoreProps {
 export default function TheScore({ totalScore, currentWeight }: TheScoreProps) {
 
   return (
-    <div className="flex gap-1 items-center justify-start">
+    <div className="flex gap-1 items-center justify-start select-none">
       <FaCoins className="w-4 h-4" />
       <div className="flex items-baseline text-sm select-none">
         Challenge earned&nbsp;

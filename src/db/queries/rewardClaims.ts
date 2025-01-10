@@ -12,3 +12,20 @@ export const fetchRewardClaims = cache(async (userId: string): Promise<RewardCla
     include: { reward: true },
   })
 })
+
+export const fetchRewardClaimsByRewardId = cache(async (rewardId: string): Promise<RewardClaim[]> => {
+  return await db.rewardClaim.findMany({
+    where: { rewardId },
+  })
+})
+
+export const fetchRewardClaimByRewardClaimId = cache(async (rewardClaimId: string): Promise<RewardClaimWithReward> => {
+  const rewardClaim = await db.rewardClaim.findUnique({
+    where: { id: rewardClaimId },
+    include: { reward: true },
+  })
+  if (!rewardClaim) {
+    throw new Error("RewardClaim not found");
+  }
+  return rewardClaim;
+})

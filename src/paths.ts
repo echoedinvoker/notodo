@@ -55,6 +55,11 @@ export const paths = {
   },
   rewardDeletePage(userId: string, rewardId: string) {
     return `/${userId}/reward/${rewardId}/delete`;
+  },
+  rewardClaimListPage(userId: string, rewardId: string) {
+    return `/${userId}/reward/${rewardId}/claims`;
+  },
+  rewardClaimShowPage(userId: string, rewardId: string, rewardClaimId: string) {
+    return `/${userId}/reward/${rewardId}/claims/${rewardClaimId}`;
   }
-
 }

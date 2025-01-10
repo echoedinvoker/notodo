@@ -27,3 +27,13 @@ export const fetchRewardWithClaims = cache(async (rewardId: string): Promise<Rew
 
   return reward;
 })
+
+export const fetchRewardWithRewardId = cache(async (rewardId: string): Promise<Reward> => {
+  const reward = await db.reward.findUnique({
+    where: { id: rewardId },
+  })
+  if (!reward) {
+    throw new Error("Reward not found");
+  }
+  return reward;
+})
