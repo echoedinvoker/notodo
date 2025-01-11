@@ -26,6 +26,7 @@ export default async function Layout({ children, params: { userId } }: LayoutPro
         userId={userId}
       />
       <div className="relative">
+        {/* TODO: consider to remove breadcrumbs at all, use Link to make things more clear and easy */}
         <BreadcrumbsComponent />
         {children}
       </div>
