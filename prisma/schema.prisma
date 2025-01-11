@@ -120,6 +120,7 @@ model Reward {
 
 model RewardClaim {
   id        String   @id @default(cuid())
+  content   String   @default("")
   userId    String
   rewardId  String
   claimedAt DateTime @default(now())
