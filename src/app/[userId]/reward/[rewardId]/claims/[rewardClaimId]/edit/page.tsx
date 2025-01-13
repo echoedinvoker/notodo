@@ -1,6 +1,5 @@
+import RewardClaimEditForm from "@/components/reward/reward-claim-edit-form";
 import { fetchRewardClaimByRewardClaimId } from "@/db/queries/rewardClaims";
-import { paths } from "@/paths";
-import Link from "next/link";
 
 interface EditRewardClaimPageProps {
   params: {
@@ -23,31 +22,7 @@ export default async function EditRewardClaimPage({ params: { userId, rewardId, 
         </p>
       </div>
 
-      <section className="mb-6">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Edit Notes</h2>
-        <form>
-          <textarea
-            defaultValue={rewardClaim.content}
-            className="w-full h-32 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your notes here..."
-          />
-        </form>
-      </section>
-
-      <div className="flex justify-between items-center">
-        <Link
-          href={paths.rewardClaimShowPage(userId, rewardId, rewardClaimId)}
-          className="text-blue-500 hover:text-blue-700 transition duration-300"
-        >
-          Cancel
-        </Link>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-        >
-          Save Changes
-        </button>
-      </div>
+      <RewardClaimEditForm rewardClaim={rewardClaim} userId={userId} />
     </div>
   );
 }

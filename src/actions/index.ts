@@ -16,3 +16,4 @@ export { deleteReward } from './delete-reward';
 export { deleteRewardKeepPoint } from './delete-reward-keep-point';
 export { editReward } from './edit-reward';
 export { giveup } from './giveup';
+export { editRewardClaim } from './edit-reward-claim';
