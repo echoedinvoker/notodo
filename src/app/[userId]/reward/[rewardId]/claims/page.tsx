@@ -44,7 +44,7 @@ export default async function RewardClaimListPage({ params: { userId, rewardId }
                     View Notes
                   </Link>
                   <Link
-                    href="#"
+                    href={paths.deleteRewardClaimPage(userId, rewardId, claim.id)}
                     className="text-red-500 hover:text-blue-700 transition duration-300"
                   >Delete</Link>
                 </div>
