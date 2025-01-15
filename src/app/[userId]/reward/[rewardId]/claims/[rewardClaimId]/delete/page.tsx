@@ -24,9 +24,8 @@ export default async function DeleteRewardClaimPage({ params: { userId, rewardId
       </div>
 
       <div className="space-y-4">
-        {/* TODO: create actions seperately and useFormState hook in RewardClaimDelete and RewardClaimDelete */}
         <RewardClaimDelete userId={userId} rewardId={rewardId} rewardClaimId={rewardClaimId} />
-        <RewardClaimDeleteKeepEffect />
+        <RewardClaimDeleteKeepEffect userId={userId} rewardId={rewardId} rewardClaimId={rewardClaimId} consumedPoints={rewardClaim.pointCost} />
       </div>
 
       <div className="mt-6">
