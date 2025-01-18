@@ -26,7 +26,7 @@ export default function RewardListItemPressingBar({ rewardId, consumabled }: Rew
       action();
       setPending(true);
     }
-  }, [progress])
+  }, [progress, action])
 
   useEffect(() => {
     if (formState?.errors?._form && !isError && pending) {

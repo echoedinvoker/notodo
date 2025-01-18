@@ -14,9 +14,9 @@ export default async function NotodoList({ fetchNotodos, userId }: NotodoListPro
   if (notodos.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-xl text-gray-600 mb-4">You don't have any notodos yet.</p>
+        <p className="text-xl text-gray-600 mb-4">{'You don\'t have any notodos yet.'}</p>
         <Link
-          className="text-blue-500 hover:text-blue-700 transition duration-300 text-lg font-semibold"
+          className="text-blue-500 hover:text-blue-700 transition duraeion-r300 text-lg font-semibold"
           href={paths.createNotodoPage(userId)}>
           Create your first notodo
         </Link>
