@@ -67,5 +67,8 @@ export const paths = {
   },
   deleteRewardClaimPage(userId: string, rewardId: string, rewardClaimId: string) {
     return `/${userId}/reward/${rewardId}/claims/${rewardClaimId}/delete`;
+  },
+  achievementListPage(userId: string) {
+    return `/${userId}/achievement`;
   }
 }
