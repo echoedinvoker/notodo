@@ -8,14 +8,18 @@ interface TheScoreProps {
 export default function TheScore({ totalScore, currentWeight }: TheScoreProps) {
 
   return (
-    <div className="flex gap-1 items-center justify-start select-none">
-      <FaCoins className="w-4 h-4" />
-      <div className="flex items-baseline text-sm select-none">
-        Challenge earned&nbsp;
+    <div className="flex gap-1 items-center justify-start select-none flex-wrap">
+      <FaCoins className="w-4 h-4 flex-shrink-0" />
+      <div className="flex items-baseline text-sm select-none flex-wrap">
+        <span>Challenge earned&nbsp;</span>
         <span className="font-semibold text-xl">{totalScore}</span>
-        &nbsp;{totalScore === 1 ? "pt" : "pts"}
+        <span>&nbsp;{totalScore === 1 ? "pt" : "pts"}</span>
       </div>
-      {currentWeight && <span className="border-1 border-stone-300 rounded-full py-0.5 px-1 text-xs italic pr-2">+{currentWeight.toFixed(2)}/hr</span>}
+      {currentWeight && (
+        <span className="border border-stone-300 rounded-full py-0.5 px-2 text-xs italic ml-2">
+          +{currentWeight.toFixed(2)}/hr
+        </span>
+      )}
     </div>
   );
-  }
+}

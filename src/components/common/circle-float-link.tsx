@@ -11,7 +11,7 @@ interface CircleFloatLinkProps {
 }
 
 export default function CircleFloatLink({ isLink, href, notodoId, actionType, children, tip }: CircleFloatLinkProps) {
-  const commonClassName = "scale-0 group-hover:scale-100 opacity-0 group-hover:opacity-100 duration-250 rounded-full drop-shadow-sm hover:drop-shadow-lg bg-stone-50 hover:bg-stone-100 active:bg-stone-200 w-8 h-8 flex justify-center items-center hover:-translate-y-0.5 active:-translate-y-0";
+  const commonClassName = "w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-gray-200 transition duration-300 shadow hover:shadow-md";
 
   if (isLink && href)
     return (

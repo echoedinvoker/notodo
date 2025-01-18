@@ -20,33 +20,29 @@ export default function NotodoListItemInfo({ notodo }: NotodoListItemInfoProps) 
   }
 
   return (
-    <div className="w-full min-h-24 text-sm text-stone-500 flex flex-col items-start justify-start gap-1">
+    <div className="space-y-3 text-sm text-gray-600">
       {isOngoing ? (
         <>
           <TheHour notodo={notodo} />
           {currentWeight ? (
             <>
               <TheScore totalScore={currentScore!} currentWeight={currentWeight!} />
-              <ThresholdNext
-                notodo={notodo}
-                nextThreshold={nextThreshold}
-              />
+              <ThresholdNext notodo={notodo} nextThreshold={nextThreshold} />
             </>
           ) : (
             <Link
               href={`${paths.editNotodoPage(notodo.user.id, notodo.id)}?enableWeight=true`}
-              className="flex-1 w-full flex justify-center items-center bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-300 hover:text-stone-400 uppercase rounded-md font-mono font-semibold"
+              className="block text-center py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
               prefetch
             >
-              No score yet, enable it?
+              Enable Scoring
             </Link>
           )}
-
         </>
       ) : (
-        <form action={wrappedAction} className="w-full h-20 flex justify-center items-center">
-          <FormButton className="w-full h-full bg-opacity-0 hover:drop-shadow-md active:drop-shadow-none transition duration-250 p-2 text-stone-400 uppercase rounded-md font-mono font-semibold">
-            Start New Challenge!
+        <form action={wrappedAction} className="mt-4">
+          <FormButton className="w-full py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
+            Start New Challenge
           </FormButton>
         </form>
       )}

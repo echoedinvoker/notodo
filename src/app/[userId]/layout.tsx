@@ -1,6 +1,5 @@
 import { fetchNotodos } from "@/db/queries/notodos";
 import { fetchRewardClaims } from "@/db/queries/rewardClaims";
-import { BreadcrumbsComponent } from '@/components/common'
 import Header from '@/components/header'
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
@@ -26,8 +25,6 @@ export default async function Layout({ children, params: { userId } }: LayoutPro
         userId={userId}
       />
       <div className="relative">
-        {/* TODO: consider to remove breadcrumbs at all, use Link to make things more clear and easy */}
-        <BreadcrumbsComponent />
         {children}
       </div>
     </>

@@ -1,5 +1,4 @@
 import { NotodoWithData } from "@/db/queries/notodos";
-import { Divider } from "@nextui-org/react";
 import NotodoListItemAction from "./notodo-list-item-action";
 import NotodoListItemInfo from "./notodo-list-item-info";
 import NotodoListItemTitle from "./notodo-list-item-title";
@@ -11,13 +10,14 @@ interface NotodoListItemProps {
 
 export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps) {
   return (
-    <div className="relative group rounded-lg py-3 px-5 shadow hover:shadow-md hover:-translate-y-0.5 transition duration-300 text-stone-700 bg-stone-50 active:bg-stone-100" {...props}>
-      <div className="h-full flex flex-col justify-start items-start">
+    <div className="relative group bg-white rounded-lg shadow hover:shadow-lg transition duration-300 overflow-hidden min-h-[200px]" {...props}>
+      <div className="p-5 pr-12 h-full flex flex-col">
         <NotodoListItemTitle notodo={notodo} />
-        <Divider className="mt-2 mb-1" />
-        <NotodoListItemInfo notodo={notodo} />
+        <div className="mt-4 flex-grow">
+          <NotodoListItemInfo notodo={notodo} />
+        </div>
       </div>
       <NotodoListItemAction notodo={notodo} />
-    </div >
+    </div>
   );
 }

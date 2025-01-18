@@ -13,18 +13,19 @@ export default async function NotodoList({ fetchNotodos, userId }: NotodoListPro
 
   if (notodos.length === 0) {
     return (
-      <div className="items-center justify-center px-8 py-16 text-stone-400">
+      <div className="text-center py-12">
+        <p className="text-xl text-gray-600 mb-4">You don't have any notodos yet.</p>
         <Link
-          className="hover:drop-shadow-md active:text-stone-300 transition text-lg"
+          className="text-blue-500 hover:text-blue-700 transition duration-300 text-lg font-semibold"
           href={paths.createNotodoPage(userId)}>
-          No notodos found. Create one?
+          Create your first notodo
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-96">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {notodos.map((notodo) => (
         <NotodoListItem
           key={notodo.id}
