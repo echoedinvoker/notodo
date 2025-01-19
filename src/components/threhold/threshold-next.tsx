@@ -18,7 +18,7 @@ export default function ThresholdNext({ notodo, nextThreshold }: ThresholdNextPr
         className="flex items-center justify-center bg-blue-500 text-white text-sm px-4 py-2 mt-4 rounded-lg hover:bg-blue-600 transition uppercase font-semibold tracking-wider"
         href={paths.createThresholdPage(notodo.user.id, notodo.id)}
       >
-        <FaPlus className="mr-2" /> Create Next Threshold
+        <FaPlus className="mr-2" />Next Threshold
       </Link>
     )
   }

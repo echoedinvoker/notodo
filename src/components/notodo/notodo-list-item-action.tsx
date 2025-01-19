@@ -22,11 +22,11 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
   ]
 
   return (
-    <div className="absolute top-0 right-0 h-full flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-      <div className="flex flex-col justify-center space-y-2 pr-2 h-full">
+    <div className="absolute inset-y-0 -right-5 h-full flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div className="flex flex-col justify-between gap-2 pr-2 h-full">
         {actions.map(({ href, icon: Icon, tip }, index) => (
           <CircleFloatLink key={index} isLink={true} href={href} tip={tip}>
-            <Icon className="text-gray-600" />
+            <Icon className="text-stone-600" />
           </CircleFloatLink>
         ))}
       </div>

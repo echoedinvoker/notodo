@@ -6,6 +6,7 @@ import AbsoluteLink from "@/components/common/absolute-link";
 import { paths } from "@/paths";
 import { fetchRewardClaims } from "@/db/queries/rewardClaims";
 import RewardListSkeleton from "@/components/reward/reward-list-skeleton";
+import { FaPlus } from "react-icons/fa";
 
 interface RewardsPageProps {
   params: {
@@ -16,8 +17,13 @@ interface RewardsPageProps {
 export default async function RewardsPage({ params: { userId } }: RewardsPageProps) {
 
   return (
-    <>
-      <AbsoluteLink href={paths.rewardCreatePage(userId)} />
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">Your Rewards</h1>
+        <AbsoluteLink href={paths.rewardCreatePage(userId)}>
+          <FaPlus /> Reward
+        </AbsoluteLink>
+      </div>
       <div className="flex flex-col gap-4 p-4">
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-4">
@@ -33,6 +39,6 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

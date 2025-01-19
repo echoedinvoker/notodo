@@ -10,8 +10,8 @@ interface NotodoListItemProps {
 
 export default function NotodoListItem({ notodo, ...props }: NotodoListItemProps) {
   return (
-    <div className="relative group bg-white rounded-lg shadow hover:shadow-lg transition duration-300 overflow-hidden min-h-[200px]" {...props}>
-      <div className="p-5 pr-12 h-full flex flex-col">
+    <div className="relative group bg-white rounded-lg shadow hover:shadow-lg transition duration-300 min-h-[200px]" {...props}>
+      <div className="p-5 h-full flex flex-col">
         <NotodoListItemTitle notodo={notodo} />
         <div className="mt-4 flex-grow">
           <NotodoListItemInfo notodo={notodo} />

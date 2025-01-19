@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import NotodoListLoading from "@/components/notodo/notodo-list-loading";
 import AbsoluteLink from "@/components/common/absolute-link";
 import { paths } from "@/paths";
+import { FaPlus } from "react-icons/fa";
 
 interface HomeProps {
   params: {
@@ -18,7 +19,7 @@ export default async function Home({ params: { userId } }: HomeProps) {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Your Notodos</h1>
         <AbsoluteLink href={paths.createNotodoPage(userId)}>
-          Create Notodo
+          <FaPlus />Notodo
         </AbsoluteLink>
       </div>
       <div className="max-w-4xl mx-auto">

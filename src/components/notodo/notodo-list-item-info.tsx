@@ -6,6 +6,7 @@ import { calculateNotodoScore } from "@/helpers/utils";
 import * as actions from "@/actions"
 import Link from "next/link";
 import { paths } from "@/paths";
+import { FaPlay } from "react-icons/fa";
 
 interface NotodoListItemInfoProps {
   notodo: NotodoWithData;
@@ -41,8 +42,11 @@ export default function NotodoListItemInfo({ notodo }: NotodoListItemInfoProps) 
         </>
       ) : (
         <form action={wrappedAction} className="mt-4">
-          <FormButton className="w-full py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
-            Start New Challenge
+          <FormButton
+            className="w-full py-2 px-4 bg-green-500 text-white uppercase font-semibold tracking-wider rounded-lg hover:bg-green-600 transition duration-300"
+          >
+            <FaPlay />
+            New Challenge
           </FormButton>
         </form>
       )}

@@ -8,10 +8,11 @@ interface CircleFloatLinkProps {
   actionType?: string;
   children: React.ReactNode;
   tip: string;
+  [key: string]: any;
 }
 
-export default function CircleFloatLink({ isLink, href, notodoId, actionType, children, tip }: CircleFloatLinkProps) {
-  const commonClassName = "w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-gray-200 transition duration-300 shadow hover:shadow-md";
+export default function CircleFloatLink({ isLink, href, notodoId, actionType, children, tip, ...props }: CircleFloatLinkProps) {
+  const commonClassName = "group w-10 h-10 flex items-center justify-center rounded-full bg-stone-200 hover:bg-stone-300 hover:text-stone-100 transition duration-300 shadow hover:shadow-md";
 
   if (isLink && href)
     return (
@@ -20,6 +21,7 @@ export default function CircleFloatLink({ isLink, href, notodoId, actionType, ch
         className={commonClassName}
         prefetch
         title={tip}
+        {...props}
       >
         {children}
       </Link>
