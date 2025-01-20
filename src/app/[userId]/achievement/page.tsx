@@ -1,5 +1,6 @@
+import AchievementList from "@/components/achievement/AchievementList";
 import AbsoluteLink from "@/components/common/absolute-link";
-import { db } from "@/db";
+import { fetchAchievements } from "@/db/queries/achievements";
 import { paths } from "@/paths";
 import { Suspense } from "react";
 import { FaPlus } from "react-icons/fa";
@@ -11,11 +12,7 @@ interface AchievementListPageProps {
 }
 
 export default async function AchievementListPage({ params: { userId } }: AchievementListPageProps) {
-  const achievementList = await db.achievement.findMany({
-    where: {
-      userId
-    }
-  })
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
@@ -28,7 +25,9 @@ export default async function AchievementListPage({ params: { userId } }: Achiev
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-4">
             <Suspense fallback={<div>Loading</div>}>
-              {JSON.stringify(achievementList)}
+              <AchievementList
+                userId={userId}
+                fetchAchievements={() => fetchAchievements(userId)} />
             </Suspense>
           </div>
         </div>
