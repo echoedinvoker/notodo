@@ -12,11 +12,8 @@ interface RewardListProps {
   fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
 }
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export default async function RewardListActions({ userId, fetchNotodos, fetchRewards, fetchRewardClaims }: RewardListProps) {
-  
-  await wait(5000);
+
   const rewards = await fetchRewards();
 
   if (rewards.length === 0) redirect(paths.rewardCreatePage(userId));

@@ -28,7 +28,6 @@ export default async function RewardsPage({ params: { userId } }: RewardsPagePro
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-4">
             <Suspense fallback={<RewardListSkeleton />}>
-              {/* TODO: need to create a new page to show claims */}
               <RewardList
                 userId={userId}
                 fetchNotodos={() => fetchNotodos(userId)}
