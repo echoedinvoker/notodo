@@ -1,4 +1,4 @@
-import AchievementList from "@/components/achievement/AchievementList";
+import AchievementList from "@/components/achievement/achievement-list";
 import AbsoluteLink from "@/components/common/absolute-link";
 import { fetchAchievements } from "@/db/queries/achievements";
 import { paths } from "@/paths";
