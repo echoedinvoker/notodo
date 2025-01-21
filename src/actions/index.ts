@@ -19,3 +19,4 @@ export { giveup } from './giveup';
 export { editRewardClaim } from './edit-reward-claim';
 export { deleteRewardClaim } from './delete-reward-claim';
 export { deleteRewardClaimKeep } from './delete-reward-claim-keep';
+export { createAchievement } from './create-achievement';

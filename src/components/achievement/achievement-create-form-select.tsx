@@ -3,7 +3,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
 
 const dummyThresholds = [
-  { id: "1", title: "30 Minutes No Social Media", notodoTitle: "Reduce Social Media Usage" },
+  { id: "a", title: "30 Minutes No Social Media", notodoTitle: "Reduce Social Media Usage" },
   { id: "2", title: "1 Hour No Snacking", notodoTitle: "Healthy Eating Habits" },
   { id: "3", title: "2 Hours No Video Games", notodoTitle: "Limit Gaming Time" },
   { id: "4", title: "4 Hours No Caffeine", notodoTitle: "Reduce Caffeine Intake" },
@@ -18,9 +18,11 @@ const dummyThresholds = [
 export default function AchievementCreateFormSelect() {
   return (
     <Select
+      name='thresholds'
       label="Select Threshold"
       placeholder="Select a threshold"
       className="w-full"
+      multiple
     >
       {dummyThresholds.map((threshold) => (
         <SelectItem key={threshold.id} value={threshold.id}>

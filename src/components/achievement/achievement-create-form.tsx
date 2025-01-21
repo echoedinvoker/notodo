@@ -1,12 +1,19 @@
+'use client';
+
 import { Input, Textarea } from "@nextui-org/react";
 import { FormButton } from "../common";
 import AchievementCreateFormSelect from "./achievement-create-form-select";
 import PointsPerHourInput from "./points-per-hour-input";
 import Link from "next/link";
+import * as actions from "@/actions";
+import { useFormState } from "react-dom";
 
 export default function AchievementCreateForm() {
+  const [formState, action] = useFormState(actions.createAchievement, { errors: {} });
   return (
-    <form className="space-y-6">
+    <form
+      action={action}
+      className="space-y-6">
       <Input
         name='name'
         label="Name"
