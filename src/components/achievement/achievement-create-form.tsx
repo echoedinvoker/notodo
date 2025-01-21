@@ -1,6 +1,7 @@
 import { Input, Textarea } from "@nextui-org/react";
 import { FormButton } from "../common";
 import AchievementCreateFormSelect from "./achievement-create-form-select";
+import PointsPerHourInput from "./points-per-hour-input";
 
 export default function AchievementCreateForm() {
   return (
@@ -11,6 +12,7 @@ export default function AchievementCreateForm() {
         placeholder="Enter the achievement name"
       />
       <AchievementCreateFormSelect />
+      <PointsPerHourInput />
       <Textarea
         name='description'
         label="Description"
