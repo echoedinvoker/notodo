@@ -20,6 +20,7 @@ export default function AchievementCreateFormSelect() {
     <Select
       label="Select Threshold"
       placeholder="Select a threshold"
+      className="w-full"
     >
       {dummyThresholds.map((threshold) => (
         <SelectItem key={threshold.id} value={threshold.id}>
