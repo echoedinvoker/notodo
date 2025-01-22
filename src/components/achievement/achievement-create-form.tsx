@@ -42,6 +42,7 @@ export default function AchievementCreateForm() {
           Create Achievement
         </FormButton>
       </div>
+      {formState.errors._form && <p className="text-red-500">{formState.errors._form[0]}</p>}
     </form>
   )
 }
