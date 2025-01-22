@@ -7,8 +7,13 @@ import PointsPerHourInput from "./points-per-hour-input";
 import Link from "next/link";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
+import type { ThresholdsForSelect } from "@/db/queries/thresholds";
 
-export default function AchievementCreateForm() {
+interface AchievementCreateFormProps {
+  thresholds: ThresholdsForSelect[]
+}
+
+export default function AchievementCreateForm({ thresholds }: AchievementCreateFormProps) {
   const [formState, action] = useFormState(actions.createAchievement, { errors: {} });
   return (
     <form
@@ -20,7 +25,7 @@ export default function AchievementCreateForm() {
         placeholder="Enter the achievement name"
         className="w-full"
       />
-      <AchievementCreateFormSelect />
+      <AchievementCreateFormSelect thresholds={thresholds} />
       <PointsPerHourInput />
       <Textarea
         name='description'
