@@ -8,12 +8,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-// const createNotodoSchema = z.object({
-//   name: z.string().min(2).max(100),
-//   description: z.string(),
-//   weight: z.number().min(0).max(10).optional(),
-// });
-//
+const createAchievementSchema = z.object({
+  name: z.string().min(2).max(100),
+  description: z.string(),
+  thresholdes: z.array(z.string()),
+  pointsPerHour: z.number().nullable()
+});
+
 interface CreateAchievementFormState {
   errors: {
     name?: string[];
@@ -24,8 +25,8 @@ interface CreateAchievementFormState {
   };
   success?: boolean;
 }
-//
-// type ValidatedNotodoData = z.infer<typeof createNotodoSchema>;
+
+type ValidateAchievementData = z.infer<typeof createAchievementSchema>;
 
 export async function createAchievement(formState: CreateAchievementFormState, formData: FormData): Promise<CreateAchievementFormState> {
   console.log(formData)
@@ -33,12 +34,9 @@ export async function createAchievement(formState: CreateAchievementFormState, f
   if (!session || !session.user) {
     return { errors: { _form: ["You must be logged in to create a notodo"] } }
   }
-  return await Promise.resolve({ errors: {}, success: true });
-  // TODO: implement validation to form data
-  // const validationResult = await validateNotodoData(formData);
-  // if ('errors' in validationResult) {
-  //   return validationResult;
-  // }
+  const validationResult = await validateAchievementData(formData);
+  if ('errors' in validationResult) return validationResult;
+  console.log(validationResult)
   //
   // const creationResult = await createNotodoInDatabase(validationResult, session.user.id);
   // if ('errors' in creationResult) {
@@ -48,21 +46,21 @@ export async function createAchievement(formState: CreateAchievementFormState, f
   // revalidatePath(paths.homePage(userId))
   // redirect(paths.notodoListPage(userId));
   // return { errors: {}, success: true };
+  return await Promise.resolve({ errors: {}, success: true });
 }
 
-// TODO: mutate validation codes to fix this case
-// async function validateNotodoData(formData: FormData): Promise<ValidatedNotodoData | CreateNotodoFormState> {
-//   try {
-//     const weightValue = formData.get("weight");
-//     return createNotodoSchema.parse({
-//       title: formData.get("title"),
-//       content: formData.get("content"),
-//       weight: weightValue ? parseFloat(weightValue as string) : undefined
-//     });
-//   } catch (error) {
-//     return { errors: (error as z.ZodError).flatten().fieldErrors } as CreateNotodoFormState;
-//   }
-// }
+async function validateAchievementData(formData: FormData): Promise<ValidateAchievementData | CreateAchievementFormState> {
+  try {
+    return createAchievementSchema.parse({
+      name: formData.get('name') as string,
+      description: formData.get('description') as string,
+      thresholdes: formData.getAll('thresholdes') as string[],
+      pointsPerHour: formData.get('pointsPerHour') as string
+    });
+  } catch (error) {
+    return { errors: (error as z.ZodError).flatten().fieldErrors } as CreateAchievementFormState;
+  }
+}
 //
 // async function createNotodoInDatabase(data: ValidatedNotodoData, userId: string): Promise<Notodo | CreateNotodoFormState> {
 //   try {
