@@ -50,7 +50,7 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
 
   if (!notodo) {
     return (
-      <div className="flex items-center justify-center px-8 py-16 text-stone-400">
+      <div className="flex items-center justify-center px-8 py-16 text-gray-400">
         Notodo not found.
       </div>
     )
@@ -58,9 +58,9 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
 
   if (thresholds.length === 0) {
     return (
-      <div className="flex items-center justify-center px-8 py-16 text-stone-400">
+      <div className="flex items-center justify-center px-8 py-16 text-gray-400">
         <Link
-          className="hover:drop-shadow-md active:text-stone-300 transition text-lg"
+          className="text-blue-500 hover:text-blue-700 transition duration-300 text-lg"
           href={paths.createThresholdPage(userId, notodoId)}>
           No threshold found. Create one?
         </Link>
@@ -113,7 +113,7 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
 
   // TODO: align to center when small screen?
   return (
-    <div className="flex flex-col gap-6">
+    <div className="space-y-6">
       {listWithDotTypes.map((item) => {
         // TODO: do some refactor here, codes are too complex already
         const renderDot = (dotType: string = '') => {
@@ -131,29 +131,29 @@ export default async function ThresholdList({ fetchThresholds, notodoId, userId 
           }
         };
         return (
-          <div className="flex items-center justify-start gap-3" key={item.id}>
+          <div className="flex items-center justify-start gap-3 p-2 hover:bg-gray-50 rounded-lg transition duration-200" key={item.id}>
             <Link href={item.isThreshold ? paths.editThresholdPage(userId, notodoId, item.id) : paths.editNotodoPage(userId, notodoId)} prefetch>
-              <div className={`flex items-center justify-center h-8 w-8 ${item.isThreshold ? 'bg-stone-50' : 'bg-stone-300'} text-md font-semibold rounded-full shadow-sm hover:shadow-lg active:shadow-md hover:-translate-y-0.5 active:-translate-y-0 duration-200`}>
+              <div className={`flex items-center justify-center h-8 w-8 ${item.isThreshold ? 'bg-gray-100' : 'bg-gray-300'} text-md font-semibold rounded-full shadow-sm hover:shadow-md active:shadow-sm hover:-translate-y-0.5 active:translate-y-0 transition duration-200`}>
                 {item.weight}
               </div>
             </Link>
 
             {renderDot(item.dotType)}
 
-            {/* TODO: do some refactor here, codes are too complex already */}
-            {item.isThreshold ? (
-              <Link href={paths.threadShowPage(userId, notodoId, item.id)} className="group" prefetch>
-                <h3 className="text-sm italic">{item.title}</h3>
-                <div className="border-t-2 border-stone-300 opacity-0 group-hover:opacity-100 duration-200"></div>
-              </Link>
-            ) : (
-              <Link href={paths.notodoShowPage(userId, notodoId)} className="group" prefetch>
-                <h3 className="text-sm italic">{item.title}</h3>
-                <div className="border-t-2 border-stone-300 opacity-0 group-hover:opacity-100 duration-200"></div>
-              </Link>
-            )}
-            <p className="text-sm text-stone-400">{item.content}</p>
-            {/* TODO: add content in small text under title to make it more informative on the screen */}
+            <div className="flex-grow">
+              {item.isThreshold ? (
+                <Link href={paths.threadShowPage(userId, notodoId, item.id)} className="group" prefetch>
+                  <h3 className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition duration-200">{item.title}</h3>
+                  <div className="border-t-2 border-blue-300 opacity-0 group-hover:opacity-100 transition duration-200"></div>
+                </Link>
+              ) : (
+                <Link href={paths.notodoShowPage(userId, notodoId)} className="group" prefetch>
+                  <h3 className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition duration-200">{item.title}</h3>
+                  <div className="border-t-2 border-blue-300 opacity-0 group-hover:opacity-100 transition duration-200"></div>
+                </Link>
+              )}
+              <p className="text-sm text-gray-500 mt-1">{item.content}</p>
+            </div>
           </div>
         )
       })}
