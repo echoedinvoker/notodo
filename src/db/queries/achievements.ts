@@ -1,47 +1,16 @@
-import type {
-  Achievement,
-  Challenge,
-  Notodo,
-  Reward,
-  Threshold,
-} from "@prisma/client";
 import { cache } from "react";
 import { db } from "..";
-
-type ActiveChallenge = Omit<Challenge, 'endTime'> & {
-  endTime: null;
-};
-
-type NotodoWithActiveChallenge = Omit<Notodo, 'challenges'> & {
-  challenges: ActiveChallenge[];
-};
-
-type ThresholdWithNotodo = Omit<Threshold, 'notodo'> & {
-  notodo: NotodoWithActiveChallenge;
-};
-
-type AchievementThreshold = {
-  threshold: ThresholdWithNotodo;
-};
-
-type AchievementReward = {
-  reward: Reward;
-};
-
-type AchievementWithRelations = Omit<Achievement, 'thresholds' | 'rewards'> & {
-  thresholds: AchievementThreshold[];
-  rewards: AchievementReward[];
-};
 
 type ProcessedThreshold = {
   id: string;
   title: string;
   duration: number;
-  challengeDuration: number;
+  challengeDuration: number | null;
   isAchieved: boolean;
+  notodoId: string;
 };
 
-type ProcessedAchievement = {
+export type ProcessedAchievement = {
   id: string;
   name: string;
   description: string | null;
@@ -78,7 +47,7 @@ export const fetchAchievements = cache(async (userId: string): Promise<Processed
   return achievements.map(achievement => {
     const processedThresholds = achievement.thresholds.map(({ threshold }) => {
       const activeChallenge = threshold.notodo.challenges[0];
-      let challengeDuration = 0;
+      let challengeDuration: number | null = null;
       if (activeChallenge) {
         const startTime = new Date(activeChallenge.startTime);
         challengeDuration = Math.floor((now.getTime() - startTime.getTime()) / (1000 * 60 * 60)); // 轉換為小時
@@ -89,7 +58,8 @@ export const fetchAchievements = cache(async (userId: string): Promise<Processed
         title: threshold.title,
         duration: threshold.duration,
         challengeDuration,
-        isAchieved: challengeDuration >= threshold.duration
+        isAchieved: challengeDuration !== null && challengeDuration >= threshold.duration,
+        notodoId: threshold.notodo.id
       };
     });
 

@@ -1,19 +1,46 @@
-import type { AchievementWithRelations } from "@/db/queries/achievements";
+import type { ProcessedAchievement } from "@/db/queries/achievements";
+import type { NotodoWithData } from "@/db/queries/notodos";
+import { getNotodosResult } from "@/helpers/utils";
 import { paths } from "@/paths";
 import { redirect } from "next/navigation";
 
 interface AchievementListProps {
   userId: string;
-  fetchAchievements: () => Promise<AchievementWithRelations[]>;
+  fetchNotodos: () => Promise<NotodoWithData[]>;
+  fetchAchievements: () => Promise<ProcessedAchievement[]>;
 }
-export default async function AchievementList({ userId, fetchAchievements }: AchievementListProps) {
+
+interface AchievementStatus extends ProcessedAchievement {
+  isAchieved: boolean;
+}
+
+function processAchievements(achievements: ProcessedAchievement[], totalWeight: number):
+  AchievementStatus[] {
+  return achievements.map(achievement => {
+    const allThresholdsAchieved = achievement.thresholds.every(threshold => threshold.isAchieved);
+    const isAchieved = allThresholdsAchieved && 
+      (achievement.pointsPerHour === null || totalWeight > achievement.pointsPerHour);
+
+    return {
+      ...achievement,
+      isAchieved
+    };
+  });
+}
+export default async function AchievementList({
+  userId,
+  fetchNotodos,
+  fetchAchievements,
+}: AchievementListProps) {
+  const notodos = await fetchNotodos();
+  const { totalWeight } = getNotodosResult(notodos);
   const achievements = await fetchAchievements();
 
   if (achievements.length === 0) redirect(paths.createAchievementPage(userId));
 
+  const processedAchievements = processAchievements(achievements, totalWeight);
+
   return (
-    <div>
-      {JSON.stringify(achievements)}
-    </div>
-  )
+    <pre>{JSON.stringify(processedAchievements, null, 2)}</pre>
+  );
 }
