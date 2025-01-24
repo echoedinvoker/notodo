@@ -25,14 +25,18 @@ export default function AchievementCreateForm({ thresholds }: AchievementCreateF
         placeholder="Enter the achievement name"
         className="w-full"
       />
+      {formState.errors.name && <p className="text-red-500">{formState.errors.name[0]}</p>}
       <AchievementCreateFormSelect thresholds={thresholds} />
+      {formState.errors.thresholds && <p className="text-red-500">{formState.errors.thresholds[0]}</p>}
       <PointsPerHourInput />
+      {formState.errors.pointsPerHour && <p className="text-red-500">{formState.errors.pointsPerHour[0]}</p>}
       <Textarea
         name='description'
         label="Description"
         placeholder="Enter the achievement description"
         className="w-full"
       />
+      {formState.errors.description && <p className="text-red-500">{formState.errors.description[0]}</p>}
 
       <div className="flex justify-between items-center mt-6">
         <Link

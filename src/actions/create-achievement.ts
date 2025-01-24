@@ -29,7 +29,6 @@ interface CreateAchievementFormState {
 type ValidateAchievementData = z.infer<typeof createAchievementSchema>;
 
 export async function createAchievement(formState: CreateAchievementFormState, formData: FormData): Promise<CreateAchievementFormState> {
-  console.log(formData)
   const session = await auth();
   if (!session || !session.user) {
     return { errors: { _form: ["You must be logged in to create a notodo"] } }
@@ -39,6 +38,8 @@ export async function createAchievement(formState: CreateAchievementFormState, f
   console.log(validationResult)
 
   const creationResult = await createAchievementInDatabase(validationResult, session.user.id);
+    console.log('error')
+
   if ('errors' in creationResult) {
     return creationResult;
   }
@@ -49,11 +50,12 @@ export async function createAchievement(formState: CreateAchievementFormState, f
 
 async function validateAchievementData(formData: FormData): Promise<ValidateAchievementData | CreateAchievementFormState> {
   try {
+    const pointsPerHour = parseFloat(formData.get('pointsPerHour') as string)
     return createAchievementSchema.parse({
       name: formData.get('name') as string,
       description: formData.get('description') as string,
       thresholds: formData.getAll('thresholds') as string[],
-      pointsPerHour: formData.get('pointsPerHour') as string
+      pointsPerHour: isNaN(pointsPerHour) ? null : pointsPerHour
     });
   } catch (error) {
     return { errors: (error as z.ZodError).flatten().fieldErrors } as CreateAchievementFormState;
