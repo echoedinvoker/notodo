@@ -61,12 +61,6 @@ export default async function AchievementList({
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-100 p-4 rounded-md mb-6">
-        <p className="text-lg">
-          Total Weight: <span className="font-semibold text-blue-600">{totalWeight}</span>
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {processedAchievements.map(achievement => (
           <div key={achievement.id} className="bg-white shadow-lg rounded-lg p-6">
