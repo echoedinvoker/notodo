@@ -1,10 +1,10 @@
+import type { AchievementWithRelations } from "@/db/queries/achievements";
 import { paths } from "@/paths";
-import type { Achievement } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 interface AchievementListProps {
   userId: string;
-  fetchAchievements: () => Promise<Achievement[]>;
+  fetchAchievements: () => Promise<AchievementWithRelations[]>;
 }
 export default async function AchievementList({ userId, fetchAchievements }: AchievementListProps) {
   const achievements = await fetchAchievements();
