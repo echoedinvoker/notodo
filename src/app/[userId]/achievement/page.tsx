@@ -19,23 +19,17 @@ export default async function AchievementListPage({
     <div className="max-w-6xl mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Your Achievements</h1>
-        <AbsoluteLink href={paths.createAchievementPage(userId)}>
-          <FaPlus /> Achievement
+        <AbsoluteLink href={paths.createAchievementPage(userId)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 flex items-center">
+          <FaPlus className="mr-2" /> New Achievement
         </AbsoluteLink>
       </div>
-      <div className="flex flex-col gap-4 p-4">
-        <div className="grid grid-cols-4 gap-4">
-          <div className="col-span-4">
-            <Suspense fallback={<div>Loading</div>}>
-              <AchievementList
-                userId={userId}
-                fetchNotodos={() => fetchNotodos(userId)}
-                fetchAchievements={() => fetchAchievements(userId)}
-              />
-            </Suspense>
-          </div>
-        </div>
-      </div>
+      <Suspense fallback={<div className="text-center py-4">Loading achievements...</div>}>
+        <AchievementList
+          userId={userId}
+          fetchNotodos={() => fetchNotodos(userId)}
+          fetchAchievements={() => fetchAchievements(userId)}
+        />
+      </Suspense>
     </div>
   );
 }
