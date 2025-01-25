@@ -4,16 +4,19 @@ import * as actions from "@/actions"
 import { useFormState } from "react-dom";
 import { FormButton } from "@/components/common";
 import { Input, Textarea } from "@nextui-org/react";
-import type { Reward } from "@prisma/client";
+import type { Achievement, Reward } from "@prisma/client";
 import Link from "next/link";
 import { paths } from "@/paths";
+import RewardEditFormSelect from "./reward-edit-form-select";
 
 interface RewardEditFormProps {
-  reward: Reward;
+  reward: Reward & { achievements: Achievement[] };
   userId: string;
+  allAchievements: Achievement[];
+  relatedAchievements: Achievement[];
 }
 
-export default function RewardEditForm({ reward, userId }: RewardEditFormProps) {
+export default function RewardEditForm({ reward, userId, allAchievements, relatedAchievements }: RewardEditFormProps) {
   const [formState, action] = useFormState(actions.editReward.bind(null, reward.id), { errors: {} });
 
   return (
@@ -47,6 +50,11 @@ export default function RewardEditForm({ reward, userId }: RewardEditFormProps) 
         errorMessage={formState?.errors?.pointCost?.join(", ")}
         defaultValue={reward.pointCost?.toString() || ""}
         className="w-full appearance-none"
+      />
+
+      <RewardEditFormSelect 
+        achievements={allAchievements} 
+        defaultSelectedAchievements={relatedAchievements.map(a => a.id)}
       />
 
       <div className="flex justify-between items-center mt-6">

@@ -18,6 +18,12 @@ export type ProcessedAchievement = {
   thresholds: ProcessedThreshold[];
 };
 
+export const fetchRawAchievements = cache(async (userId: string) => {
+  return db.achievement.findMany({
+    where: { userId },
+  });
+});
+
 export const fetchAchievements = cache(async (userId: string): Promise<ProcessedAchievement[]> => {
   const achievements = await db.achievement.findMany({
     where: { userId },

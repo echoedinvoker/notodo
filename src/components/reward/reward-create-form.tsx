@@ -6,12 +6,15 @@ import { FormButton } from "@/components/common";
 import { Input, Textarea } from "@nextui-org/react";
 import Link from "next/link";
 import { paths } from "@/paths";
+import type { Achievement } from "@prisma/client";
+import RewardCreateFormSelect from "./reward-create-form-select";
 
 interface RewardCreateFormProps {
   userId: string;
+  achievements: Achievement[];
 }
 
-export default function RewardCreateForm({ userId }: RewardCreateFormProps) {
+export default function RewardCreateForm({ userId, achievements }: RewardCreateFormProps) {
   const [formState, action] = useFormState(actions.createReward, { errors: {} });
 
   return (
@@ -26,14 +29,6 @@ export default function RewardCreateForm({ userId }: RewardCreateFormProps) {
         errorMessage={formState?.errors?.name?.join(", ")}
         className="w-full"
       />
-      <Textarea
-        name='description'
-        label="Description"
-        placeholder="Enter the reward description"
-        isInvalid={!!formState?.errors?.description}
-        errorMessage={formState?.errors?.description?.join(", ")}
-        className="w-full"
-      />
       <Input
         name='pointCost'
         type="number"
@@ -42,6 +37,17 @@ export default function RewardCreateForm({ userId }: RewardCreateFormProps) {
         isInvalid={!!formState?.errors?.pointCost}
         errorMessage={formState?.errors?.pointCost?.join(", ")}
         className="w-full appearance-none"
+      />
+
+      <RewardCreateFormSelect achievements={achievements} />
+
+      <Textarea
+        name='description'
+        label="Description"
+        placeholder="Enter the reward description"
+        isInvalid={!!formState?.errors?.description}
+        errorMessage={formState?.errors?.description?.join(", ")}
+        className="w-full"
       />
 
       <div className="flex justify-between items-center mt-6">

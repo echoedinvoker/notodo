@@ -12,6 +12,7 @@ const createRewardSchema = z.object({
   name: z.string().min(2).max(100),
   description: z.string(),
   pointCost: z.number().min(0),
+  achievementIds: z.array(z.string()),
 });
 
 interface RewardFormState {
@@ -52,6 +53,7 @@ async function validateRewardData(formData: FormData): Promise<ValidatedRewardDa
       name: formData.get("name"),
       description: formData.get("description"),
       pointCost: parseFloat(formData.get("pointCost") as string),
+      achievementIds: formData.getAll("achievementIds") as string[]
     });
   } catch (error) {
     return { errors: (error as z.ZodError).flatten().fieldErrors } as RewardFormState;
@@ -60,12 +62,25 @@ async function validateRewardData(formData: FormData): Promise<ValidatedRewardDa
 
 async function createRewardInDatabase(data: ValidatedRewardData, userId: string): Promise<Reward | RewardFormState> {
   try {
-    return await db.reward.create({
+    const reward = await db.reward.create({
       data: {
         ...data,
         userId,
       },
     });
+
+    await Promise.all(
+      data.achievementIds.map(achievementId =>
+        db.achievementReward.create({
+          data: {
+            achievementId,
+            rewardId: reward.id,
+          },
+        })
+      )
+    );
+
+    return reward;
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { errors: { _form: [error.message] } };
