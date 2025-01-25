@@ -4,45 +4,62 @@ import * as actions from "@/actions"
 import { useFormState } from "react-dom";
 import { FormButton } from "@/components/common";
 import { Input, Textarea } from "@nextui-org/react";
+import Link from "next/link";
+import { paths } from "@/paths";
 
-export default function RewardCreateForm() {
+interface RewardCreateFormProps {
+  userId: string;
+}
+
+export default function RewardCreateForm({ userId }: RewardCreateFormProps) {
   const [formState, action] = useFormState(actions.createReward, { errors: {} });
 
   return (
     <form
       action={action}
-      className="p-4">
-      <div className="flex flex-col space-y-4">
-        <Input
-          name='name'
-          label="Name"
-          placeholder="Enter the reward name"
-          isInvalid={!!formState?.errors?.name}
-          errorMessage={formState?.errors?.name?.join(", ")}
-        />
-        <Textarea
-          name='description'
-          label="Description"
-          placeholder="Enter the reward description"
-          isInvalid={!!formState?.errors?.description}
-          errorMessage={formState?.errors?.description?.join(", ")}
-        />
-        <Input
-          name='pointCost'
-          type="number"
-          label="Point Cost"
-          placeholder="Enter the point cost for this reward"
-          isInvalid={!!formState?.errors?.pointCost}
-          errorMessage={formState?.errors?.pointCost?.join(", ")}
-          className="appearance-none"
-        />
+      className="space-y-6">
+      <Input
+        name='name'
+        label="Name"
+        placeholder="Enter the reward name"
+        isInvalid={!!formState?.errors?.name}
+        errorMessage={formState?.errors?.name?.join(", ")}
+        className="w-full"
+      />
+      <Textarea
+        name='description'
+        label="Description"
+        placeholder="Enter the reward description"
+        isInvalid={!!formState?.errors?.description}
+        errorMessage={formState?.errors?.description?.join(", ")}
+        className="w-full"
+      />
+      <Input
+        name='pointCost'
+        type="number"
+        label="Point Cost"
+        placeholder="Enter the point cost for this reward"
+        isInvalid={!!formState?.errors?.pointCost}
+        errorMessage={formState?.errors?.pointCost?.join(", ")}
+        className="w-full appearance-none"
+      />
+
+      <div className="flex justify-between items-center mt-6">
+        <Link
+          href={paths.rewardListPage(userId)}
+          className="text-blue-500 hover:text-blue-700 transition duration-300"
+        >
+          Cancel
+        </Link>
+        <FormButton
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+        >
+          Create Reward
+        </FormButton>
       </div>
       {formState?.errors?._form && (
-        <div className="text-red-500">{formState.errors._form.join(", ")}</div>
+        <p className="text-red-500">{formState.errors._form.join(", ")}</p>
       )}
-      <FormButton
-        className="mt-8"
-      >Create Reward</FormButton>
     </form>
   )
 }
