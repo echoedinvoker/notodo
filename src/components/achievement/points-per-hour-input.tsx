@@ -17,12 +17,11 @@ export default function PointsPerHourInput({ defaultValue }: PointsPerHourInputP
     }
   }, [defaultValue]);
 
-  //TODO: switch still not get default value, need to fix
   return (
     <div className="space-y-4">
       <div className="flex items-center space-x-2">
         <Switch
-          checked={showPointsPerHour}
+          isSelected={showPointsPerHour}
           onChange={(e) => setShowPointsPerHour(e.target.checked)}
         />
         <span className="text-gray-700">Enable Points Per Hour</span>
