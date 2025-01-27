@@ -8,6 +8,6 @@ export function processAchievements(
   return achievements.map((achievement) => ({
     ...achievement,
     isAchieved: achievement.thresholds.every((threshold) => threshold.isAchieved) &&
-      (achievement.pointsPerHour === null || totalWeight > achievement.pointsPerHour)
+      (achievement.pointsPerHour === null || totalWeight >= achievement.pointsPerHour)
   }));
 }
