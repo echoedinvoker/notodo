@@ -12,7 +12,7 @@ export default async function EditAchievementPage({ params }: { params: { achiev
   });
   const relatedThresholds = await fetchRelatedThresholdsByAchievementId(params.achievementId);
 
-  if (!relatedThresholds) {
+  if (!relatedThresholds || !achievement) {
     return <div>Achievement not found</div>;
   }
 
