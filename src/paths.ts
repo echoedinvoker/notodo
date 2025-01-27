@@ -73,5 +73,8 @@ export const paths = {
   },
   createAchievementPage(userId: string) {
     return `/${userId}/achievement/create`;
-  }
+  },
+  editAchievementPage(userId: string, achievementId: string) {
+    return `/${userId}/achievement/${achievementId}/edit`;
+  },
 }

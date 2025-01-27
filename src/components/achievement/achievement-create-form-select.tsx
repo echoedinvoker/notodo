@@ -5,9 +5,10 @@ import { Select, SelectItem } from "@nextui-org/react";
 
 interface AchievementCreateFormSelectProps {
   thresholds: ThresholdsForSelect[];
+  defaultValue?: string[];
 }
 
-export default function AchievementCreateFormSelect({ thresholds }: AchievementCreateFormSelectProps) {
+export default function AchievementCreateFormSelect({ thresholds, defaultValue }: AchievementCreateFormSelectProps) {
   return (
     <Select
       name='thresholds'
@@ -15,6 +16,7 @@ export default function AchievementCreateFormSelect({ thresholds }: AchievementC
       placeholder="Select a threshold"
       className="w-full"
       selectionMode="multiple"
+      selectedKeys={defaultValue}
     >
       {thresholds.map((threshold) => (
         <SelectItem key={threshold.id} value={threshold.id}>

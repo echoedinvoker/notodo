@@ -33,7 +33,9 @@ export default async function AchievementList({
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {processedAchievements.map(achievement => (
-          <AchievementCard key={achievement.id} achievement={achievement} totalWeight={totalWeight} />
+          <AchievementCard key={achievement.id}
+          userId={userId}
+          achievement={achievement} totalWeight={totalWeight} />
         ))}
       </div>
     </div>

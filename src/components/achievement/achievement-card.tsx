@@ -3,11 +3,14 @@ import { AchievementStatus } from "./achievement-list";
 import { StatusBadge } from "../common/status-badge";
 import { PointsPerHourDisplay } from "../common/poits-per-hour-display";
 import { ThresholdsList } from "./threshold-list";
+import { paths } from "@/paths";
 
 export default function AchievementCard({
+  userId,
   achievement,
   totalWeight,
 }: {
+  userId: string;
   achievement: AchievementStatus;
   totalWeight: number;
 }) {
@@ -34,7 +37,10 @@ export default function AchievementCard({
       {/* 編輯按鈕 */}
       <div className="mt-4 flex justify-end">
         <Link
-          href=""
+          href={paths.editAchievementPage(
+            userId,
+            achievement.id
+          )}
           className="text-blue-500 hover:text-blue-700 transition duration-300"
         >
           Edit Achievement
