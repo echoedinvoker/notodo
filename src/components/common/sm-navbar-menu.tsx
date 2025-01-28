@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import type { MenuItem } from "../header";
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface SmallNavbarMenuProps {
   menuItems: MenuItem[];
@@ -25,14 +25,9 @@ export default function SmallNavbarMenu({
   children,
 }: SmallNavbarMenuProps) {
   const pathname = usePathname();
-  const router = useRouter();
 
   const isActive = (href: string) => pathname === href;
   const isRewardActive = pathname.endsWith('reward');
-
-  const handleItemClick = (href: string) => {
-    router.push(href);
-  };
 
   const renderMenuItems = () => {
     const items: React.ReactElement[] = [];
@@ -44,11 +39,13 @@ export default function SmallNavbarMenu({
           <DropdownItem 
             key={`${item.name}-${index}`}
             className={active ? 'bg-primary-100 text-primary-600' : ''}
-            onClick={() => handleItemClick(item.href)}
           >
-            <span className={`w-full block py-2 ${active ? 'font-bold' : ''}`}>
+            <Link 
+              href={item.href} 
+              className={`w-full ${active ? 'font-bold' : ''}`}
+            >
               {item.name}
-            </span>
+            </Link>
           </DropdownItem>,
         );
       });
@@ -60,7 +57,6 @@ export default function SmallNavbarMenu({
          <DropdownItem 
            key={`child-${index}`}
            className={isRewardActive ? 'bg-primary-100 text-primary-600' : ''}
-            onClick={() => handleItemClick(menuItems.at(-1)!.href)}
          >
            {React.cloneElement(child as React.ReactElement<{ className?: string }>, {
              className: `w-full ${isRewardActive ? 'font-bold' : ''} ${child.props.className || ''}`,
