@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { db } from "..";
 
-type ProcessedThreshold = {
+export type ProcessedThreshold = {
   id: string;
   title: string;
   duration: number;
