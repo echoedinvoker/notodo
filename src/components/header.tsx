@@ -1,15 +1,8 @@
 import {
   Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
 } from "@nextui-org/react";
-import Link from "next/link";
-import HeaderAuth from "./header-auth";
 import { NotodoWithData } from "@/db/queries/notodos";
-import { ConsumePoints } from "./common";
 import { RewardClaimWithReward } from "@/db/queries/rewardClaims";
-import NotodoLogo from "./notodo-logo";
 import { paths } from "@/paths";
 import SmallNavbarMenu from "./common/sm-navbar-menu";
 import NotodoLogoWrapper from "./common/notodo-logo-wrapper";
