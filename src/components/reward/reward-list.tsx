@@ -18,7 +18,7 @@ export default async function RewardList({ userId, fetchNotodos, fetchRewards, f
   if (rewards.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-xl text-gray-600 mb-4">You don't have any rewards yet.</p>
+        <p className="text-xl text-gray-600 mb-4">{`You don\'t have any rewards yet.`}</p>
         <Link
           className="text-blue-500 hover:text-blue-700 transition duration-300 text-lg font-semibold"
           href={paths.rewardCreatePage(userId)}
