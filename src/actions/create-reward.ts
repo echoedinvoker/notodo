@@ -62,23 +62,21 @@ async function validateRewardData(formData: FormData): Promise<ValidatedRewardDa
 
 async function createRewardInDatabase(data: ValidatedRewardData, userId: string): Promise<Reward | RewardFormState> {
   try {
+    const { achievementIds, ...rewardData } = data;
+
     const reward = await db.reward.create({
       data: {
-        ...data,
+        ...rewardData,
         userId,
+        achievements: {
+          create: achievementIds.map(achievementId => ({
+            achievement: {
+              connect: { id: achievementId }
+            }
+          }))
+        }
       },
     });
-
-    await Promise.all(
-      data.achievementIds.map(achievementId =>
-        db.achievementReward.create({
-          data: {
-            achievementId,
-            rewardId: reward.id,
-          },
-        })
-      )
-    );
 
     return reward;
   } catch (error: unknown) {

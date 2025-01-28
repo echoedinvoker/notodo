@@ -1,10 +1,10 @@
 import type { Reward } from "@prisma/client";
-import { FaCoins } from "react-icons/fa";
 import RewardListItemPressingBar from "./reward-list-item-pressing-bar";
 import type { RewardClaimWithReward } from "@/db/queries/rewardClaims";
 import type { NotodoWithData } from "@/db/queries/notodos";
 import { getNotodosResult } from "@/helpers/utils";
 import RewardListItemAction from "./reward-list-item-action";
+import RewardContent from "./reward-content";
 
 interface RewardListItemProps {
   reward: Reward;
@@ -32,18 +32,3 @@ export default async function RewardListItem({ reward, fetchNotodos, fetchReward
   );
 }
 
-function RewardContent({ reward }: { reward: Reward }) {
-  return (
-    <div className="select-none flex justify-between items-center gap-2">
-      <h3 className="text-lg font-semibold my-1 whitespace-nowrap">{reward.name}</h3>
-      <p className="text-sm text-stone-400">{reward.description}</p>
-      <div>
-        <p className="flex items-center gap-2 text-lg font-semibold italic">
-          <FaCoins />
-          {reward.pointCost}
-        </p>
-        <div className="w-20"></div>
-      </div>
-    </div>
-  );
-}
