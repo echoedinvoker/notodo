@@ -70,6 +70,7 @@ model Notodo {
   challenges         Challenge[]
   user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   thresholds         Threshold[]
+  rewards            NotodoReward[]
 }
 
 model Threshold {
@@ -116,6 +117,7 @@ model Reward {
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   rewardClaims RewardClaim[]
   achievements AchievementReward[]
+  notodos      NotodoReward[]
 }
 
 model RewardClaim {
@@ -159,4 +161,15 @@ model AchievementReward {
   reward        Reward      @relation(fields: [rewardId], references: [id], onDelete: Cascade)
 
   @@unique([achievementId, rewardId])
+}
+
+model NotodoReward {
+  id        String   @id @default(cuid())
+  notodoId  String
+  rewardId  String
+  createdAt DateTime @default(now())
+  notodo    Notodo   @relation(fields: [notodoId], references: [id], onDelete: Cascade)
+  reward    Reward   @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+
+  @@unique([notodoId, rewardId])
 }
