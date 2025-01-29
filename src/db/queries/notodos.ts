@@ -1,4 +1,4 @@
-import type { Challenge, Notodo, Threshold, User } from "@prisma/client";
+import type { Challenge, Notodo, Reward, Threshold, User } from "@prisma/client";
 import { db } from "..";
 import { cache } from "react";
 
@@ -6,6 +6,21 @@ export type NotodoWithData = Notodo & {
   user: User;
   thresholds: Threshold[];
   challenges: Challenge[];
+  rewards: {
+    id: string;
+    notodoId: string;
+    createdAt: Date;
+    rewardId: string;
+    reward: {
+      id: string;
+      name: string;
+      description: string | null;
+      pointCost: number;
+      createdAt: Date;
+      updatedAt: Date;
+      userId: string;
+    };
+  }[];
 }
 
 export const fetchNotodos = cache(async (userId: string): Promise<NotodoWithData[]> => {
@@ -14,7 +29,12 @@ export const fetchNotodos = cache(async (userId: string): Promise<NotodoWithData
     include: {
       user: true,
       thresholds: true,
-      challenges: true
+      challenges: true,
+      rewards: {
+        include: {
+          reward: true
+        }
+      }
     },
   })
 
@@ -87,7 +107,12 @@ export const fetchNotodo = cache(async (notodoId: string): Promise<NotodoWithDat
     include: {
       user: true,
       thresholds: true,
-      challenges: true
+      challenges: true,
+      rewards: {
+        include: {
+          reward: true
+        }
+      }
     },
   });
   return notodo;
