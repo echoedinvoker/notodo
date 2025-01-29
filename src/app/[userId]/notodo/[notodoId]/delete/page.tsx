@@ -3,7 +3,7 @@ import AlreadyPoints from "@/components/already-points";
 import { FormButton } from "@/components/common";
 import { NotodoDeleteFormKeep } from "@/components/notodo/notodo-delete-form-keep";
 import { db } from "@/db";
-import { NotodoWithData } from "@/db/queries/notodos";
+import { fetchNotodo, NotodoWithData } from "@/db/queries/notodos";
 import { calculateNotodoScore } from "@/helpers/utils";
 
 interface EditNotodoPageProps {
@@ -14,11 +14,7 @@ interface EditNotodoPageProps {
 }
 
 export default async function EditNotodoPage({ params: { userId, notodoId } }: EditNotodoPageProps) {
-  // TODO: move to query?
-  const notodo: NotodoWithData | null = await db.notodo.findFirst({
-    where: { id: notodoId, },
-    include: { user: true, thresholds: true, challenges: true },
-  });
+  const notodo: NotodoWithData | null = await fetchNotodo(notodoId);
 
   if (!notodo) {
     return <div>Not found</div>;
