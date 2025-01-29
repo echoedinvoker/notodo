@@ -8,13 +8,16 @@ import Link from "next/link";
 import { paths } from "@/paths";
 import type { Achievement } from "@prisma/client";
 import RewardCreateFormSelect from "./reward-create-form-select";
+import type { NotodoWithData } from "@/db/queries/notodos";
+import RewardCreateFormNotodoSelect from "./reward-create-form-notodo-select";
 
 interface RewardCreateFormProps {
   userId: string;
   achievements: Achievement[];
+  notodos: NotodoWithData[];
 }
 
-export default function RewardCreateForm({ userId, achievements }: RewardCreateFormProps) {
+export default function RewardCreateForm({ userId, achievements, notodos }: RewardCreateFormProps) {
   const [formState, action] = useFormState(actions.createReward, { errors: {} });
 
   return (
@@ -40,6 +43,8 @@ export default function RewardCreateForm({ userId, achievements }: RewardCreateF
       />
 
       <RewardCreateFormSelect achievements={achievements} />
+
+      <RewardCreateFormNotodoSelect notodos={notodos} />
 
       <Textarea
         name='description'
