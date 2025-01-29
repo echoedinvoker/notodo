@@ -13,6 +13,7 @@ const createRewardSchema = z.object({
   description: z.string(),
   pointCost: z.number().min(0),
   achievementIds: z.array(z.string()),
+  notodoIds: z.array(z.string()),
 });
 
 interface RewardFormState {
@@ -28,6 +29,7 @@ interface RewardFormState {
 type ValidatedRewardData = z.infer<typeof createRewardSchema>;
 
 export async function createReward(formState: RewardFormState, formData: FormData): Promise<RewardFormState> {
+  console.log(formData);
   const session = await auth();
   if (!session || !session.user) {
     return { errors: { _form: ["You must be logged in to create a reward"] } }
@@ -53,7 +55,8 @@ async function validateRewardData(formData: FormData): Promise<ValidatedRewardDa
       name: formData.get("name"),
       description: formData.get("description"),
       pointCost: parseFloat(formData.get("pointCost") as string),
-      achievementIds: formData.getAll("achievementIds") as string[]
+      achievementIds: formData.getAll("achievementIds") as string[],
+      notodoIds: formData.getAll("notodoIds") as string[],
     });
   } catch (error) {
     return { errors: (error as z.ZodError).flatten().fieldErrors } as RewardFormState;
@@ -62,7 +65,7 @@ async function validateRewardData(formData: FormData): Promise<ValidatedRewardDa
 
 async function createRewardInDatabase(data: ValidatedRewardData, userId: string): Promise<Reward | RewardFormState> {
   try {
-    const { achievementIds, ...rewardData } = data;
+    const { achievementIds, notodoIds, ...rewardData } = data;
 
     const reward = await db.reward.create({
       data: {
@@ -74,12 +77,32 @@ async function createRewardInDatabase(data: ValidatedRewardData, userId: string)
               connect: { id: achievementId }
             }
           }))
+        },
+        notodos: {
+          create: notodoIds.map(notodoId => ({
+            notodo: {
+              connect: { id: notodoId }
+            }
+          }))
         }
       },
+      include: {
+        achievements: {
+          include: {
+            achievement: true
+          }
+        },
+        notodos: {
+          include: {
+            notodo: true
+          }
+        }
+      }
     });
 
     return reward;
   } catch (error: unknown) {
+    console.error('Error creating reward:', error);
     if (error instanceof Error) {
       return { errors: { _form: [error.message] } };
     }
