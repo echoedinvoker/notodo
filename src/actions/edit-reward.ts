@@ -13,6 +13,7 @@ const editRewardSchema = z.object({
   description: z.string(),
   pointCost: z.number().min(0),
   achievementIds: z.array(z.string()),
+  notodoIds: z.array(z.string()),
 });
 
 export interface EditRewardFormState {
@@ -21,6 +22,7 @@ export interface EditRewardFormState {
     description?: string[];
     pointCost?: string[];
     achievementIds?: string[];
+    notodoIds?: string[];
     _form?: string[];
   };
   success?: boolean;
@@ -63,6 +65,7 @@ async function validateRewardData(
       description: formData.get("description"),
       pointCost: parseFloat(formData.get("pointCost") as string),
       achievementIds: formData.getAll("achievementIds") as string[],
+      notodoIds: formData.getAll("notodoIds") as string[],
     });
   } catch (error) {
     return {
@@ -91,7 +94,7 @@ async function updateRewardInDatabase(
     });
 
     // Create new achievement-reward relationships
-    const result = await Promise.all(
+    await Promise.all(
       data.achievementIds.map((achievementId) =>
         db.achievementReward.create({
           data: {
@@ -101,7 +104,22 @@ async function updateRewardInDatabase(
         }),
       ),
     );
-    console.log("result", result);
+    // Delete existing notodo-reward relationships
+    await db.notodoReward.deleteMany({
+      where: { rewardId: reward.id },
+    });
+
+    // Create new notodo-reward relationships
+    await Promise.all(
+      data.notodoIds.map((notodoId) =>
+        db.notodoReward.create({
+          data: {
+            notodoId,
+            rewardId: reward.id,
+          },
+        }),
+      ),
+    );
 
     return reward;
   } catch (error: unknown) {

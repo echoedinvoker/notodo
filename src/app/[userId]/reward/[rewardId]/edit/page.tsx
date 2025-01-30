@@ -3,6 +3,7 @@ import RewardEditForm from "@/components/reward/reward-edit-form";
 import { db } from "@/db";
 import { fetchRawAchievements } from "@/db/queries/achievements";
 import { fetchRelatedAchievementsByRewardId, fetchRelatedRewardsByAchievementId } from "@/db/queries/achievementsRewards";
+import { fetchNotodos, fetchRewardWithDetails } from "@/db/queries/notodos";
 import type { Achievement, Reward } from "@prisma/client";
 
 interface EditRewardPageProps {
@@ -14,14 +15,8 @@ interface EditRewardPageProps {
 
 export default async function EditRewardPage({ params: { rewardId, userId } }: EditRewardPageProps) {
   const achievements = await fetchRawAchievements(userId);
-  const reward = await db.reward.findFirst({
-    where: {
-      id: rewardId
-    },
-    include: {
-      achievements: true
-    }
-  }) as Reward & { achievements: Achievement[] } | null;
+  const reward = await fetchRewardWithDetails(rewardId);
+  const allNotodos = await fetchNotodos(userId);
   const relatedAchievements = await fetchRelatedAchievementsByRewardId(rewardId);
 
   if (!reward) {
@@ -36,7 +31,12 @@ export default async function EditRewardPage({ params: { rewardId, userId } }: E
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg m-4">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Edit Reward</h1>
-      <RewardEditForm reward={reward!} userId={userId} allAchievements={achievements} relatedAchievements={relatedAchievements}
+      <RewardEditForm 
+        reward={reward} 
+        userId={userId} 
+        allAchievements={achievements} 
+        relatedAchievements={reward.achievements}
+        allNotodos={allNotodos}
       />
     </div>
   );

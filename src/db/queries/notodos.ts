@@ -1,4 +1,4 @@
-import type { Challenge, Notodo, Reward, Threshold, User } from "@prisma/client";
+import type { Achievement, Challenge, Notodo, Reward, Threshold, User } from "@prisma/client";
 import { db } from "..";
 import { cache } from "react";
 
@@ -22,6 +22,43 @@ export type NotodoWithData = Notodo & {
     };
   }[];
 }
+
+export const fetchRewardWithDetails = cache(async (rewardId: string): Promise<(Reward & { achievements: Achievement[], notodos: NotodoWithData[] }) | null> => {
+  const reward = await db.reward.findUnique({
+    where: { id: rewardId },
+    include: {
+      achievements: {
+        include: {
+          achievement: true
+        }
+      },
+      notodos: {
+        include: {
+          notodo: {
+            include: {
+              user: true,
+              thresholds: true,
+              challenges: true,
+              rewards: {
+                include: {
+                  reward: true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  if (!reward) return null;
+
+  return {
+    ...reward,
+    achievements: reward.achievements.map(ar => ar.achievement),
+    notodos: reward.notodos.map(nr => nr.notodo)
+  };
+});
 
 export const fetchNotodos = cache(async (userId: string): Promise<NotodoWithData[]> => {
   const notodos = await db.notodo.findMany({

@@ -8,15 +8,18 @@ import type { Achievement, Reward } from "@prisma/client";
 import Link from "next/link";
 import { paths } from "@/paths";
 import RewardEditFormSelect from "./reward-edit-form-select";
+import { NotodoWithData } from "@/db/queries/notodos";
+import RewardEditFormNotodoSelect from "./reward-edit-form-notodo-select";
 
 interface RewardEditFormProps {
-  reward: Reward & { achievements: Achievement[] };
+  reward: Reward & { achievements: Achievement[], notodos: NotodoWithData[] };
   userId: string;
   allAchievements: Achievement[];
   relatedAchievements: Achievement[];
+  allNotodos: NotodoWithData[];
 }
 
-export default function RewardEditForm({ reward, userId, allAchievements, relatedAchievements }: RewardEditFormProps) {
+export default function RewardEditForm({ reward, userId, allAchievements, relatedAchievements, allNotodos }: RewardEditFormProps) {
   const [formState, action] = useFormState(actions.editReward.bind(null, reward.id), { errors: {} });
 
   return (
@@ -55,6 +58,11 @@ export default function RewardEditForm({ reward, userId, allAchievements, relate
       <RewardEditFormSelect 
         achievements={allAchievements} 
         defaultSelectedAchievements={relatedAchievements.map(a => a.id)}
+      />
+
+      <RewardEditFormNotodoSelect
+        notodos={allNotodos}
+        defaultSelectedNotodos={reward.notodos.map(n => n.id)}
       />
 
       <div className="flex justify-between items-center mt-6">
