@@ -1,6 +1,5 @@
 'use client';
 
-import { FaGift } from "react-icons/fa";
 import { NotodoWithData } from "@/db/queries/notodos";
 import { getActions } from "@/helpers/rewardListItem";
 import { useRewardDisplay } from "@/hooks/useRewardDisplay";
@@ -22,6 +21,7 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
         <ActionButtons actions={actions} giftButtonRef={giftButtonRef} />
         {hasAssociatedRewards && (
           <RewardsList 
+            userId={notodo.userId}
             rewards={notodo.rewards} 
             showRewards={showRewards} 
             giftButtonTop={giftButtonTop} 
