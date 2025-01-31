@@ -4,7 +4,7 @@ import RewardDetailsDescription from "./reward-details-description";
 import RewardDetailsAchievements from "./reward-details-achievements";
 
 interface RewardDetailsProps {
-  reward: Reward & { achievements: Achievement[] };
+  reward: Reward & { achievements: (Achievement & { isAchieved: boolean })[] };
   userPoints: number;
   userId: string;
 }
