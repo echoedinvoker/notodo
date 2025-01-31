@@ -7,14 +7,14 @@ import { fetchRewardClaims } from "./rewardClaims";
 import { fetchRelatedAchievementsByRewardId } from "./achievementsRewards";
 import { fetchRelatedThresholdsByAchievementId } from "./achievementsThresholds";
 import { ProcessedAchievement, ProcessedThreshold } from "./achievements";
-import { areAllAchievementsCompleted } from "@/helpers/processAchievements";
+import { areAllAchievementsCompleted, processAchievements } from "@/helpers/processAchievements";
 
 export type RewardWithClaims = Reward & {
   rewardClaims: RewardClaim[]
 }
 
 export type RewardWithAchievements = Reward & {
-  achievements: Achievement[]
+  achievements: (Omit<Achievement, 'createdAt' | 'updatedAt'> & { isAchieved: boolean })[]
 }
 
 export const fetchRewards = cache(async (userId: string): Promise<Reward[]> => {
@@ -49,7 +49,6 @@ export const fetchRewardWithRewardId = cache(async (rewardId: string): Promise<R
   return reward;
 })
 
-
 export const fetchRewardData = cache(async (rewardId: string, userId: string) => {
   const reward = await fetchRewardWithRewardId(rewardId)
   if (!reward) return null
@@ -74,8 +73,26 @@ export const fetchRewardData = cache(async (rewardId: string, userId: string) =>
     })
   )
 
+  const processedAchievements = processAchievements(achievementsWithThresholds, totalWeight)
   const allAchievementsCompleted = areAllAchievementsCompleted(achievementsWithThresholds, totalWeight)
   const consumable = totalScore >= (totalConsumed + reward.pointCost) && allAchievementsCompleted
 
-  return { reward: { ...reward, achievements: relatedAchievements } as RewardWithAchievements, totalScore, totalConsumed, consumable }
+  const rewardWithAchievements: RewardWithAchievements = {
+    ...reward,
+    achievements: processedAchievements.map(a => ({
+      id: a.id,
+      name: a.name,
+      description: a.description,
+      pointsPerHour: a.pointsPerHour,
+      userId: reward.userId, // 使用 reward 的 userId
+      isAchieved: a.isAchieved
+    }))
+  }
+
+  return { 
+    reward: rewardWithAchievements,
+    totalScore, 
+    totalConsumed, 
+    consumable 
+  }
 })
