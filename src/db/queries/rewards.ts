@@ -1,4 +1,4 @@
-import type { Reward, RewardClaim } from "@prisma/client";
+import type { Achievement, Reward, RewardClaim } from "@prisma/client";
 import { db } from "..";
 import { cache } from "react";
 import { fetchNotodos } from "./notodos";
@@ -11,6 +11,10 @@ import { areAllAchievementsCompleted } from "@/helpers/processAchievements";
 
 export type RewardWithClaims = Reward & {
   rewardClaims: RewardClaim[]
+}
+
+export type RewardWithAchievements = Reward & {
+  achievements: Achievement[]
 }
 
 export const fetchRewards = cache(async (userId: string): Promise<Reward[]> => {
@@ -73,5 +77,5 @@ export const fetchRewardData = cache(async (rewardId: string, userId: string) =>
   const allAchievementsCompleted = areAllAchievementsCompleted(achievementsWithThresholds, totalWeight)
   const consumable = totalScore >= (totalConsumed + reward.pointCost) && allAchievementsCompleted
 
-  return { reward, totalScore, totalConsumed, consumable }
+  return { reward: { ...reward, achievements: relatedAchievements } as RewardWithAchievements, totalScore, totalConsumed, consumable }
 })
