@@ -13,17 +13,28 @@ interface RewardListProps {
 }
 
 export default async function RewardList({ userId, fetchNotodos, fetchRewards, fetchRewardClaims }: RewardListProps) {
-  const rewards = await fetchRewards();
+  const [rewards, notodos] = await Promise.all([
+    fetchRewards(),
+    fetchNotodos()
+  ]);
 
-  if (rewards.length === 0) {
+  const usedRewardIds = new Set(notodos.flatMap(notodo => notodo.rewards.map(r => r.rewardId)));
+  
+  const availableRewards = rewards.filter(reward => !usedRewardIds.has(reward.id));
+
+  if (availableRewards.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-xl text-gray-600 mb-4">{`You don\'t have any rewards yet.`}</p>
+        <p className="text-xl text-gray-600 mb-4">
+          {rewards.length === 0 
+            ? "You don't have any rewards yet." 
+            : "All rewards are currently in use."}
+        </p>
         <Link
           className="text-blue-500 hover:text-blue-700 transition duration-300 text-lg font-semibold"
           href={paths.rewardCreatePage(userId)}
         >
-          Create your first reward
+          Create a new reward
         </Link>
       </div>
     );
@@ -31,7 +42,7 @@ export default async function RewardList({ userId, fetchNotodos, fetchRewards, f
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {rewards.map((reward) => (
+      {availableRewards.map((reward) => (
         <RewardListItem
           key={reward.id}
           reward={reward}
