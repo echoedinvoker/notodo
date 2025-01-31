@@ -31,7 +31,7 @@ export async function ThresholdItem({ threshold }: { threshold: AchievementStatu
           </form>
         )}
       </div>
-      {isChallengeStarted && threshold.challengeDuration && (
+      {isChallengeStarted && threshold.challengeDuration !== null && (
         <ProgressBar progress={threshold.challengeDuration / threshold.duration} />
       )}
     </li>
