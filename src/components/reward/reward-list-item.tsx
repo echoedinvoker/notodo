@@ -9,6 +9,7 @@ import { fetchRelatedAchievementsByRewardId } from "@/db/queries/achievementsRew
 import { areAllAchievementsCompleted } from "@/helpers/processAchievements";
 import { fetchRelatedThresholdsByAchievementId } from "@/db/queries/achievementsThresholds";
 import type { ProcessedAchievement, ProcessedThreshold } from "@/db/queries/achievements";
+import AchievementStatus from "./achievement-status";
 
 interface RewardListItemProps {
   reward: Reward;
@@ -49,6 +50,7 @@ export default async function RewardListItem({ reward, fetchNotodos, fetchReward
     >
       <RewardListItemPressingBar consumabled={consumabled} rewardId={reward.id} />
       <RewardContent reward={reward} />
+      <AchievementStatus achievements={achievementsWithThresholds} totalWeight={totalWeight} />
       <RewardListItemAction name={reward.name} userId={reward.userId} rewardId={reward.id} />
     </div>
   );
