@@ -15,9 +15,10 @@ interface RewardListItemProps {
   reward: Reward;
   fetchNotodos: () => Promise<NotodoWithData[]>;
   fetchRewardClaims: () => Promise<RewardClaimWithReward[]>;
+  currentPoints: number;
 }
 
-export default async function RewardListItem({ reward, fetchNotodos, fetchRewardClaims }: RewardListItemProps) {
+export default async function RewardListItem({ reward, fetchNotodos, fetchRewardClaims, currentPoints }: RewardListItemProps) {
   const notodos = await fetchNotodos();
   const { totalScore, totalWeight } = getNotodosResult(notodos);
   const rewardClaims = await fetchRewardClaims();
@@ -25,23 +26,28 @@ export default async function RewardListItem({ reward, fetchNotodos, fetchReward
 
   const relatedAchievements = await fetchRelatedAchievementsByRewardId(reward.id);
   
-  const achievementsWithThresholds = await Promise.all(
-    relatedAchievements.map(async (achievement) => {
-      const thresholds = await fetchRelatedThresholdsByAchievementId(achievement.id);
-      return {
-        ...achievement,
-        thresholds: thresholds.map(threshold => ({
-          ...threshold,
-          challengeDuration: 0,
-          isAchieved: false
-        })) as ProcessedThreshold[]
-      } as ProcessedAchievement;
-    })
-  );
+  let achievementsWithThresholds: ProcessedAchievement[] = [];
+  let allAchievementsCompleted = true;
 
-  const allAchievementsCompleted = areAllAchievementsCompleted(achievementsWithThresholds, totalWeight);
+  if (relatedAchievements.length > 0) {
+    achievementsWithThresholds = await Promise.all(
+      relatedAchievements.map(async (achievement) => {
+        const thresholds = await fetchRelatedThresholdsByAchievementId(achievement.id);
+        return {
+          ...achievement,
+          thresholds: thresholds.map(threshold => ({
+            ...threshold,
+            challengeDuration: 0,
+            isAchieved: false
+          })) as ProcessedThreshold[]
+        } as ProcessedAchievement;
+      })
+    );
 
-  const consumabled = totalScore >= (totalConsumed + reward.pointCost) && allAchievementsCompleted; 
+    allAchievementsCompleted = areAllAchievementsCompleted(achievementsWithThresholds, totalWeight);
+  }
+
+  const consumabled = currentPoints >= reward.pointCost && allAchievementsCompleted; 
   return (
     <div className={`group peer relative z-0 rounded-lg py-2 px-4 transition duration-300 bg-stone-50 ${consumabled
       ? 'hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 text-stone-700 cursor-pointer'
@@ -49,8 +55,10 @@ export default async function RewardListItem({ reward, fetchNotodos, fetchReward
       }`}
     >
       <RewardListItemPressingBar consumabled={consumabled} rewardId={reward.id} />
-      <RewardContent reward={reward} />
-      <AchievementStatus achievements={achievementsWithThresholds} totalWeight={totalWeight} />
+      <RewardContent reward={reward} currentPoints={currentPoints} />
+      {achievementsWithThresholds.length > 0 && (
+        <AchievementStatus achievements={achievementsWithThresholds} totalWeight={totalWeight} />
+      )}
       <RewardListItemAction name={reward.name} userId={reward.userId} rewardId={reward.id} />
     </div>
   );

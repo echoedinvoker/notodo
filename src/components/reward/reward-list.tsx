@@ -4,6 +4,8 @@ import type { RewardClaimWithReward } from "@/db/queries/rewardClaims";
 import type { NotodoWithData } from "@/db/queries/notodos";
 import Link from "next/link";
 import { paths } from "@/paths";
+import { db } from "@/db";
+import { getNotodosResult } from "@/helpers/utils";
 
 interface RewardListProps {
   userId: string;
@@ -13,14 +15,20 @@ interface RewardListProps {
 }
 
 export default async function RewardList({ userId, fetchNotodos, fetchRewards, fetchRewardClaims }: RewardListProps) {
-  const [rewards, notodos] = await Promise.all([
+  const [rewards, notodos, rewardClaims, user] = await Promise.all([
     fetchRewards(),
-    fetchNotodos()
+    fetchNotodos(),
+    fetchRewardClaims(),
+    db.user.findUnique({ where: { id: userId } })
   ]);
 
   const usedRewardIds = new Set(notodos.flatMap(notodo => notodo.rewards.map(r => r.rewardId)));
   
   const availableRewards = rewards.filter(reward => !usedRewardIds.has(reward.id));
+
+  const { totalScore, totalWeight } = getNotodosResult(notodos);
+  const totalConsumed = rewardClaims.reduce((acc, claim) => acc + claim.reward.pointCost, 0);
+  const currentPoints = (user?.score || 0) + totalScore - totalConsumed;
 
   if (availableRewards.length === 0) {
     return (
@@ -48,6 +56,7 @@ export default async function RewardList({ userId, fetchNotodos, fetchRewards, f
           reward={reward}
           fetchNotodos={fetchNotodos}
           fetchRewardClaims={fetchRewardClaims}
+          currentPoints={currentPoints}
         />
       ))}
     </div>
