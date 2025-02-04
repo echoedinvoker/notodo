@@ -17,7 +17,7 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
 
   return (
     <div className="absolute inset-y-0 -right-5 h-full flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-      <div className="flex flex-col justify-between gap-2 pr-2 h-full relative">
+      <div className="flex flex-col justify-start gap-2 pr-2 h-full relative">
         <ActionButtons actions={actions} giftButtonRef={giftButtonRef} />
         {hasAssociatedRewards && (
           <RewardsList 
