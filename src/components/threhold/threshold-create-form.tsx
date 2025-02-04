@@ -5,6 +5,7 @@ import { Input, Textarea } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 import * as actions from "@/actions";
 import Link from "next/link";
+import { paths } from "@/paths";
 
 interface ThresholdCreateFormProps {
   userId: string;
@@ -56,7 +57,7 @@ export default function ThresholdCreateForm({ userId, notodoId }: ThresholdCreat
       
       <div className="flex justify-between items-center mt-6">
         <Link
-          href="#"
+          href={paths.notodoListPage(userId)}
           className="text-blue-500 hover:text-blue-700 transition duration-300"
         >
           Cancel
