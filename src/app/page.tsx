@@ -7,7 +7,7 @@ export default async function Home() {
   const session = await auth()
 
   if (session?.user) {
-    redirect(paths.notodoListPage(session.user.id))
+    redirect(paths.homePage(session.user.id))
   }
 
   return (
