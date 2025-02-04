@@ -14,9 +14,7 @@ export async function ThresholdItem({ threshold }: { threshold: AchievementStatu
   return (
     <li className="bg-gray-50 p-3 rounded-md">
       <div className="flex justify-between items-center mb-2">
-        <span>{threshold.title}{notodo && <span
-          className="text-gray-500 text-sm"
-          >{` (${notodo.title})`}</span>}</span>
+        <span className="text-sm">{threshold.title}{notodo && <span className="text-gray-500 text-xs ml-1">{`(${notodo.title})`}</span>}</span>
         
         {isChallengeStarted ? (
           <StatusBadge isAchieved={threshold.isAchieved} />
@@ -24,9 +22,9 @@ export async function ThresholdItem({ threshold }: { threshold: AchievementStatu
           <form>
             <button
               type="submit"
-              className="px-3 py-1 bg-blue-500 text-white rounded-full text-xs font-semibold hover:bg-blue-600 transition duration-300"
+              className="px-2 py-1 bg-blue-500 text-white rounded-full text-xs font-semibold hover:bg-blue-600 transition duration-300"
             >
-              Start Challenge
+              Start
             </button>
           </form>
         )}
