@@ -1,5 +1,6 @@
 "use client";
 
+import { PointHistoryItem } from "@/app/[userId]/page";
 import {
   LineChart,
   Line,

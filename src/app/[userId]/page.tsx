@@ -8,6 +8,12 @@ type Event = {
   weightChange: number;
 };
 
+export type PointHistoryItem = {
+  date: string;
+  pointsPerHour: number;
+  events: Array<{ type: string; id: string }>;
+};
+
 interface PrivateHomeProps {
   params: {
     userId: string;
