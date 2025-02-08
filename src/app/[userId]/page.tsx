@@ -1,3 +1,4 @@
+import PointsPerHourChart from "@/components/points-per-hour-chart";
 import { db } from "@/db";
 
 type Event = {
@@ -5,11 +6,6 @@ type Event = {
   type: "challenge-start" | "challenge-end" | "threshold-reached";
   id: string;
   weightChange: number;
-};
-type PointHistoryItem = {
-  date: string;
-  pointsPerHour: number;
-  events: Array<{ type: string; id: string }>;
 };
 
 interface PrivateHomeProps {
@@ -25,7 +21,10 @@ export default async function PrivateHome({
 
   return (
     <div>
-      <pre>{JSON.stringify(history, null, 2)}</pre>
+      <h1>Points History</h1>
+      <div style={{ width: '100%', height: 400 }}>
+        <PointsPerHourChart history={history || []} />
+      </div>
     </div>
   );
 }
