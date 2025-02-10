@@ -1,6 +1,5 @@
 "use client";
 
-import { PointHistoryItem } from "@/app/[userId]/page";
 import {
   LineChart,
   Line,
@@ -12,6 +11,7 @@ import {
   Brush,
 } from "recharts";
 import { useState, useMemo, useEffect } from "react";
+import { PointHistoryItem } from "@/helpers/utils";
 
 interface PointPerHourChartProps {
   history: PointHistoryItem[];
