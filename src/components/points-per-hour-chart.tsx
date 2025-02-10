@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Brush,
+  TooltipProps,
 } from "recharts";
 import { useState, useMemo, useEffect } from "react";
 import { PointHistoryItem } from "@/helpers/utils";
@@ -16,6 +17,26 @@ import { PointHistoryItem } from "@/helpers/utils";
 interface PointPerHourChartProps {
   history: PointHistoryItem[];
 }
+
+// 自定义 Tooltip 组件
+const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload as PointHistoryItem;
+    return (
+      <div className="custom-tooltip" style={{ backgroundColor: 'white', padding: '10px', border: '1px solid #ccc' }}>
+        <p>{`Date: ${new Date(data.date).toLocaleDateString()}`}</p>
+        <p>{`Points Per Hour: ${data.pointsPerHour}`}</p>
+        <p>Events:</p>
+        <ul>
+          {data.events.map((event, index) => (
+            <li key={index}>{`${event.type} (${event.name})`}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function PointsPerHourChart({
   history,
@@ -68,7 +89,7 @@ export default function PointsPerHourChart({
         <YAxis
           domain={["auto", "auto"]}
         />
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
         <Line
           type="monotone"
           dataKey="pointsPerHour"

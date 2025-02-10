@@ -6,12 +6,17 @@ type Event = {
   type: "challenge-start" | "challenge-end" | "threshold-reached";
   id: string;
   weightChange: number;
+  name?: string;
 };
 
 export type PointHistoryItem = {
   date: string;
   pointsPerHour: number;
-  events: Array<{ type: string; id: string }>;
+  events: Array<{
+    type: string;
+    id: string
+    name: string;
+  }>;
 };
 
 export function formatTimeDifference(start: Date, end: Date): string {
@@ -253,6 +258,7 @@ function getEvents(notodos: any[]): Event[] {
         type: "challenge-start",
         id: challenge.id,
         weightChange: notodo.weight!,
+        name: notodo.title
       });
 
       let reachedWeights = [notodo.weight!];
@@ -270,6 +276,7 @@ function getEvents(notodos: any[]): Event[] {
           type: "threshold-reached",
           id: threshold.id,
           weightChange: threshold.weight - reachedWeights.at(-1)!,
+          name: `${notodo.title} - ${threshold.title}`
         });
 
         reachedWeights.push(threshold.weight);
@@ -281,6 +288,7 @@ function getEvents(notodos: any[]): Event[] {
           type: "challenge-end",
           id: challenge.id,
           weightChange: -reachedWeights.at(-1)!,
+          name: notodo.title
         });
       }
     }
@@ -293,7 +301,7 @@ function generatePointHistory(events: Event[]): PointHistoryItem[] {
   let pointHistory: PointHistoryItem[] = [];
   let currentPointsPerHour = 0;
   let currentDate: string | null = null;
-  let currentEvents: Array<{ type: string; id: string }> = [];
+  let currentEvents: Array<{ type: string; id: string; name: string }> = [];
   let currentWeightChange = 0;
 
   for (const event of events) {
@@ -312,7 +320,7 @@ function generatePointHistory(events: Event[]): PointHistoryItem[] {
       currentEvents = [];
       currentWeightChange = 0;
     }
-    currentEvents.push({ type: event.type, id: event.id });
+    currentEvents.push({ type: event.type, id: event.id, name: event.name || '' });
     currentWeightChange += event.weightChange;
   }
 
