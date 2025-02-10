@@ -18,14 +18,13 @@ interface PointPerHourChartProps {
   history: PointHistoryItem[];
 }
 
-// 自定义 Tooltip 组件
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload as PointHistoryItem;
     return (
       <div className="custom-tooltip" style={{ backgroundColor: 'white', padding: '10px', border: '1px solid #ccc' }}>
         <p>{`Date: ${new Date(data.date).toLocaleDateString()}`}</p>
-        <p>{`Points Per Hour: ${data.pointsPerHour}`}</p>
+        <p>{`Points Per Hour: ${data.pointsPerHour.toFixed(1)}`}</p>
         <p>Events:</p>
         <ul>
           {data.events.map((event, index) => (
