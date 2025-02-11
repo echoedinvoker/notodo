@@ -85,7 +85,8 @@ export const fetchRewardData = cache(async (rewardId: string, userId: string) =>
       description: a.description,
       pointsPerHour: a.pointsPerHour,
       userId: reward.userId, // 使用 reward 的 userId
-      isAchieved: a.isAchieved
+      isAchieved: a.isAchieved,
+      notified: false
     }))
   }
 
