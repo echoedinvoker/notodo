@@ -1,3 +1,4 @@
+import AchievementNotifications from "@/components/achievement-notifications";
 import PointsPerHourChart from "@/components/points-per-hour-chart";
 import { getPointHistory } from "@/helpers/utils";
 
@@ -18,6 +19,7 @@ export default async function PrivateHome({
       <div style={{ width: '100%', height: 400 }}>
         <PointsPerHourChart history={history || []} />
       </div>
+      <AchievementNotifications userId={userId} />
     </div>
   );
 }

@@ -8,6 +8,7 @@ export type ProcessedThreshold = {
   challengeDuration: number | null;
   isAchieved: boolean;
   notodoId: string;
+  notified: boolean;
 };
 
 export type ProcessedAchievement = {
@@ -16,6 +17,7 @@ export type ProcessedAchievement = {
   description: string | null;
   pointsPerHour: number | null;
   thresholds: ProcessedThreshold[];
+  notified: boolean;
 };
 
 export const fetchRawAchievements = cache(async (userId: string) => {
@@ -65,7 +67,8 @@ export const fetchAchievements = cache(async (userId: string): Promise<Processed
         duration: threshold.duration,
         challengeDuration,
         isAchieved: challengeDuration !== null && challengeDuration >= threshold.duration,
-        notodoId: threshold.notodo.id
+        notodoId: threshold.notodo.id,
+        notified: threshold.notified,
       };
     });
 
@@ -75,6 +78,7 @@ export const fetchAchievements = cache(async (userId: string): Promise<Processed
       description: achievement.description,
       pointsPerHour: achievement.pointsPerHour,
       thresholds: processedThresholds,
+      notified: achievement.notified,
     };
   });
 });
