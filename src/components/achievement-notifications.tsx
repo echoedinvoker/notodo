@@ -3,16 +3,29 @@ import { fetchAchievements, ProcessedAchievement, ProcessedThreshold } from '@/d
 import { fetchRewards } from '@/db/queries/rewards';
 import { fetchNotodos } from '@/db/queries/notodos';
 import { getNotodosResult } from '@/helpers/utils';
+import { db } from "@/db";
 
 interface AchievementNotificationsProps {
   userId: string;
 }
 
 export default async function AchievementNotifications({ userId }: AchievementNotificationsProps) {
-  const achievements = await fetchAchievements(userId);
-  const rewards = await fetchRewards(userId);
-  const notodos = await fetchNotodos(userId);
+  const [achievements, rewards, notodos, user] = await Promise.all([
+    fetchAchievements(userId),
+    fetchRewards(userId),
+    fetchNotodos(userId),
+    db.user.findUnique({ where: { id: userId } })
+  ]);
+
   const { totalScore, totalWeight } = getNotodosResult(notodos);
+  const rewardClaims = await db.rewardClaim.findMany({
+    where: { userId },
+    include: { reward: true }
+  });
+
+  const totalConsumed = rewardClaims.reduce((acc, claim) => acc + claim.reward.pointCost, 0);
+  const currentPoints = (user?.score || 0) + totalScore - totalConsumed;
+  const currentPointsPerHour = totalWeight > 0 ? totalScore / totalWeight : 0;
 
   const isThresholdAchieved = (threshold: ProcessedThreshold) => {
     return threshold.challengeDuration !== null && threshold.challengeDuration >= threshold.duration;
@@ -23,7 +36,6 @@ export default async function AchievementNotifications({ userId }: AchievementNo
     if (!allThresholdsAchieved) return false;
     
     if (achievement.pointsPerHour !== null) {
-      const currentPointsPerHour = totalScore / totalWeight;
       return currentPointsPerHour >= achievement.pointsPerHour;
     }
     
@@ -32,14 +44,14 @@ export default async function AchievementNotifications({ userId }: AchievementNo
 
   const isRewardConsumable = (reward: any) => {
     const allAchievementsAchieved = achievements.every(isAchievementAchieved);
-    return totalScore >= reward.pointCost && allAchievementsAchieved;
+    return currentPoints >= reward.pointCost && allAchievementsAchieved;
   };
 
-  const unnotifiedAchievements = achievements.filter(a => !a.notified && isAchievementAchieved(a));
+  const unnotifiedAchievements = achievements.filter(a => isAchievementAchieved(a));
   const unnotifiedThresholds = achievements.flatMap(a => 
-    a.thresholds.filter(t => !t.notified && isThresholdAchieved(t))
+    a.thresholds.filter(t => isThresholdAchieved(t))
   );
-  const unnotifiedRewards = rewards.filter(r => !r.notified && isRewardConsumable(r));
+  const unnotifiedRewards = rewards.filter(r => isRewardConsumable(r));
 
   return (
     <div>
@@ -76,4 +88,4 @@ export default async function AchievementNotifications({ userId }: AchievementNo
       )}
     </div>
   );
-};
+}
