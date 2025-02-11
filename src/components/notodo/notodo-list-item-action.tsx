@@ -14,6 +14,13 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
   const hasAssociatedRewards = notodo.rewards && notodo.rewards.length > 0;
   const { showRewards, setShowRewards, giftButtonRef, giftButtonTop } = useRewardDisplay();
   const actions = getActions(notodo, setShowRewards);
+   const transformedRewards = notodo.rewards.map(reward => ({
+     ...reward,
+     reward: {
+       ...reward.reward,
+       notified: false // 或者使用適當的默認值
+     }
+   }));
 
   return (
     <div className="absolute inset-y-0 -right-5 h-full flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -22,7 +29,7 @@ export default function NotodoListItemAction({ notodo }: NotodoListItemActionPro
         {hasAssociatedRewards && (
           <RewardsList 
             userId={notodo.userId}
-            rewards={notodo.rewards} 
+            rewards={transformedRewards}
             showRewards={showRewards} 
             giftButtonTop={giftButtonTop} 
             setShowRewards={setShowRewards}
