@@ -79,6 +79,7 @@ model Threshold {
   content   String
   duration  Int
   weight    Float
+  notified  Boolean  @default(false)
   notodoId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -118,6 +119,7 @@ model Reward {
   rewardClaims RewardClaim[]
   achievements AchievementReward[]
   notodos      NotodoReward[]
+  notified     Boolean  @default(false)
 }
 
 model RewardClaim {
@@ -141,6 +143,7 @@ model Achievement {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   thresholds  AchievementThreshold[]
   rewards     AchievementReward[]
+  notified    Boolean  @default(false)
 }
 
 model AchievementThreshold {
