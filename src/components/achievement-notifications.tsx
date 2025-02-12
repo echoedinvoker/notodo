@@ -26,7 +26,7 @@ export default async function AchievementNotifications({ userId }: AchievementNo
 
   return (
     <div>
-      {notNotifiedAchievements.map((achievement) => <div className="flex">
+      {notNotifiedAchievements.map((achievement) => <div className="flex" key={achievement.id}>
         <h2>{achievement.name}</h2>
         <button>remove notification</button>
       </div>)}
