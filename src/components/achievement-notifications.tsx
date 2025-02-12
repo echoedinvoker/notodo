@@ -1,20 +1,20 @@
 import React from 'react';
-import { fetchAchievements, ProcessedAchievement, ProcessedThreshold } from '@/db/queries/achievements';
+import { fetchAchievements } from '@/db/queries/achievements';
 import { fetchRewardData, fetchRewards } from '@/db/queries/rewards';
 import { fetchNotodos } from '@/db/queries/notodos';
 import { getNotodosResult } from '@/helpers/utils';
-import { db } from "@/db";
+import { fetchThresholdsWithIsAchieved } from '@/db/queries/thresholds';
 
 interface AchievementNotificationsProps {
   userId: string;
 }
 
 export default async function AchievementNotifications({ userId }: AchievementNotificationsProps) {
-  const [achievements, rewards, notodos] = await Promise.all([
+  const [achievements, rewards, notodos, thresholds] = await Promise.all([
     fetchAchievements(userId),
     fetchRewards(userId),
     fetchNotodos(userId),
-    db.user.findUnique({ where: { id: userId } })
+    fetchThresholdsWithIsAchieved(userId)
   ]);
 
   const { totalScore, totalWeight } = getNotodosResult(notodos);
@@ -32,10 +32,9 @@ export default async function AchievementNotifications({ userId }: AchievementNo
   const notNotifiedRewardsData = await Promise.all(
     notNotifiedRewardIds.map((rewardId) => fetchRewardData(rewardId, userId))
   );
-
   const consumableNotNotifiedRewards = notNotifiedRewardsData.filter((rewardData) => rewardData && rewardData.consumable);
 
-  console.log('notNotifiedRewards', notNotifiedRewardsData);
+  const notNotifiedThresholds = thresholds.filter((threshold) => !threshold.notified && threshold.isAchieved);
 
   return (
     <div>
@@ -45,6 +44,10 @@ export default async function AchievementNotifications({ userId }: AchievementNo
       </div>)}
       {consumableNotNotifiedRewards.map((reward) => <div className="flex" key={reward?.reward.id}>
         <h2>{reward?.reward.name}</h2>
+        <button>remove notification</button>
+      </div>)}
+      {notNotifiedThresholds.map((threshold) => <div className="flex" key={threshold.id}>
+        <h2>{threshold.title}</h2>
         <button>remove notification</button>
       </div>)}
     </div>

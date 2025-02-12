@@ -39,3 +39,24 @@ export const fetchThresholdsForSelect = cache(async (): Promise<ThresholdsForSel
     }))
   );
 })
+
+export const fetchThresholdsWithIsAchieved = cache(async (userId: string): Promise<(Threshold & { isAchieved: boolean })[]> => {
+  const notodos = await db.notodo.findMany({
+    where: { userId },
+    include: {
+      thresholds: true,
+      challenges: true
+    }
+  })
+  const thresholds: (Threshold & { isAchieved: boolean })[] = []
+  notodos.forEach(notodo => {
+    const runningChallenges = notodo.challenges.find(challenge => challenge.endTime === null)
+    if (!runningChallenges) return
+    const durationHours = (new Date().getTime() - runningChallenges.startTime.getTime()) / 1000 / 60 / 60
+    notodo.thresholds.forEach(threshold => {
+      const isAchieved = threshold.weight <= durationHours
+      thresholds.push({ ...threshold, isAchieved })
+    })
+  })
+  return thresholds
+})
