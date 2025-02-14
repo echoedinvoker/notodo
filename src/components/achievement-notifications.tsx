@@ -4,7 +4,6 @@ import { fetchRewardData, fetchRewards } from '@/db/queries/rewards';
 import { fetchNotodos } from '@/db/queries/notodos';
 import { getNotodosResult } from '@/helpers/utils';
 import { fetchThresholdsWithIsAchieved } from '@/db/queries/thresholds';
-import { FormButton } from './common';
 import * as actions from "@/actions";
 import { FaTimes } from 'react-icons/fa';
 
@@ -95,7 +94,7 @@ export default async function AchievementNotifications({ userId }: AchievementNo
             {notNotifiedThresholds.map((threshold) => (
               <div key={threshold.id} className="bg-yellow-50 rounded-lg p-4 flex justify-between items-center border border-yellow-200">
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-800 mb-1">{threshold.title}</h3>
+                  <h3 className="text-lg font-semibold text-yellow-800 mb-1">{`${threshold.title} (${threshold.notodoTitle})`}</h3>
                   <p className="text-sm text-yellow-600">Threshold reached!</p>
                 </div>
                 <form action={actions.notifiedThreshold.bind(null, threshold.id)}>
