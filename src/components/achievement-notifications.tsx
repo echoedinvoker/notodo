@@ -4,6 +4,8 @@ import { fetchRewardData, fetchRewards } from '@/db/queries/rewards';
 import { fetchNotodos } from '@/db/queries/notodos';
 import { getNotodosResult } from '@/helpers/utils';
 import { fetchThresholdsWithIsAchieved } from '@/db/queries/thresholds';
+import { FormButton } from './common';
+import * as actions from "@/actions";
 
 interface AchievementNotificationsProps {
   userId: string;
@@ -40,15 +42,21 @@ export default async function AchievementNotifications({ userId }: AchievementNo
     <div>
       {notNotifiedAchievements.map((achievement) => <div className="flex" key={achievement.id}>
         <h2>{achievement.name}</h2>
-        <button>remove notification</button>
+        <form action={actions.notifiedAchievement.bind(null, achievement.id)}>
+          <FormButton>Remove notification</FormButton>
+        </form>
       </div>)}
       {consumableNotNotifiedRewards.map((reward) => <div className="flex" key={reward?.reward.id}>
         <h2>{reward?.reward.name}</h2>
-        <button>remove notification</button>
+        <form action={actions.notifiedReward.bind(null, reward!.reward.id)}>
+          <FormButton>Remove notification</FormButton>
+        </form>
       </div>)}
       {notNotifiedThresholds.map((threshold) => <div className="flex" key={threshold.id}>
         <h2>{threshold.title}</h2>
-        <button>remove notification</button>
+        <form action={actions.notifiedThreshold.bind(null, threshold.id)}>
+          <FormButton>Remove notification</FormButton>
+        </form>
       </div>)}
     </div>
   );

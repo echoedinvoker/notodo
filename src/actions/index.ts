@@ -20,3 +20,6 @@ export { editRewardClaim } from './edit-reward-claim';
 export { deleteRewardClaim } from './delete-reward-claim';
 export { deleteRewardClaimKeep } from './delete-reward-claim-keep';
 export { createAchievement } from './create-achievement';
+export { notifiedAchievement } from './notified-achievement';
+export { notifiedReward } from './notified-reward';
+export { notifiedThreshold } from './notified-threshold';
