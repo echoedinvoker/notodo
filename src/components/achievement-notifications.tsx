@@ -6,6 +6,7 @@ import { getNotodosResult } from '@/helpers/utils';
 import { fetchThresholdsWithIsAchieved } from '@/db/queries/thresholds';
 import { FormButton } from './common';
 import * as actions from "@/actions";
+import { FaTimes } from 'react-icons/fa';
 
 interface AchievementNotificationsProps {
   userId: string;
@@ -39,25 +40,75 @@ export default async function AchievementNotifications({ userId }: AchievementNo
   const notNotifiedThresholds = thresholds.filter((threshold) => !threshold.notified && threshold.isAchieved);
 
   return (
-    <div>
-      {notNotifiedAchievements.map((achievement) => <div className="flex" key={achievement.id}>
-        <h2>{achievement.name}</h2>
-        <form action={actions.notifiedAchievement.bind(null, achievement.id)}>
-          <FormButton>Remove notification</FormButton>
-        </form>
-      </div>)}
-      {consumableNotNotifiedRewards.map((reward) => <div className="flex" key={reward?.reward.id}>
-        <h2>{reward?.reward.name}</h2>
-        <form action={actions.notifiedReward.bind(null, reward!.reward.id)}>
-          <FormButton>Remove notification</FormButton>
-        </form>
-      </div>)}
-      {notNotifiedThresholds.map((threshold) => <div className="flex" key={threshold.id}>
-        <h2>{threshold.title}</h2>
-        <form action={actions.notifiedThreshold.bind(null, threshold.id)}>
-          <FormButton>Remove notification</FormButton>
-        </form>
-      </div>)}
+    <div className="space-y-6">
+      {/* Achievements Card */}
+      {notNotifiedAchievements.length > 0 && (
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Achievements</h2>
+          <div className="space-y-4">
+            {notNotifiedAchievements.map((achievement) => (
+              <div key={achievement.id} className="bg-blue-50 rounded-lg p-4 flex justify-between items-center border border-blue-200">
+                <div>
+                  <h3 className="text-lg font-semibold text-blue-800 mb-1">{achievement.name}</h3>
+                  <p className="text-sm text-blue-600">Achievement unlocked!</p>
+                </div>
+                <form action={actions.notifiedAchievement.bind(null, achievement.id)}>
+                  <button className="text-blue-400 hover:text-blue-600 transition-colors duration-200 rounded-full p-1 hover:bg-blue-100">
+                    <FaTimes size={20} />
+                    <span className="sr-only">Dismiss notification</span>
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Rewards Card */}
+      {consumableNotNotifiedRewards.length > 0 && (
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Rewards</h2>
+          <div className="space-y-4">
+            {consumableNotNotifiedRewards.map((reward) => (
+              <div key={reward?.reward.id} className="bg-green-50 rounded-lg p-4 flex justify-between items-center border border-green-200">
+                <div>
+                  <h3 className="text-lg font-semibold text-green-800 mb-1">{reward?.reward.name}</h3>
+                  <p className="text-sm text-green-600">Reward available!</p>
+                </div>
+                <form action={actions.notifiedReward.bind(null, reward!.reward.id)}>
+                  <button className="text-green-400 hover:text-green-600 transition-colors duration-200 rounded-full p-1 hover:bg-green-100">
+                    <FaTimes size={20} />
+                    <span className="sr-only">Dismiss notification</span>
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Thresholds Card */}
+      {notNotifiedThresholds.length > 0 && (
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Thresholds</h2>
+          <div className="space-y-4">
+            {notNotifiedThresholds.map((threshold) => (
+              <div key={threshold.id} className="bg-yellow-50 rounded-lg p-4 flex justify-between items-center border border-yellow-200">
+                <div>
+                  <h3 className="text-lg font-semibold text-yellow-800 mb-1">{threshold.title}</h3>
+                  <p className="text-sm text-yellow-600">Threshold reached!</p>
+                </div>
+                <form action={actions.notifiedThreshold.bind(null, threshold.id)}>
+                  <button className="text-yellow-400 hover:text-yellow-600 transition-colors duration-200 rounded-full p-1 hover:bg-yellow-100">
+                    <FaTimes size={20} />
+                    <span className="sr-only">Dismiss notification</span>
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -14,13 +14,16 @@ export default async function PrivateHome({
   const history = await getPointHistory(userId);
 
   return (
-    <div>
-      <h1>Points History</h1>
-      <div style={{ width: '100%', height: 400 }}>
-        <PointsPerHourChart history={history || []} />
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">Points History</h1>
       </div>
-      <AchievementNotifications userId={userId} />
+      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div style={{ width: '100%', height: 400 }}>
+          <PointsPerHourChart history={history || []} />
+        </div>
+      </div>
+        <AchievementNotifications userId={userId} />
     </div>
   );
 }
-
