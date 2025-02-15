@@ -77,4 +77,7 @@ export const paths = {
   editAchievementPage(userId: string, achievementId: string) {
     return `/${userId}/achievement/${achievementId}/edit`;
   },
+  achievementShowPage(userId: string, achievementId: string) {
+    return `/${userId}/achievement/${achievementId}`;
+  }
 }
