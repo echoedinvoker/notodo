@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { db } from "..";
+import { Achievement, Threshold } from "@prisma/client";
 
 export type ProcessedThreshold = {
   id: string;
@@ -82,3 +83,44 @@ export const fetchAchievements = cache(async (userId: string): Promise<Processed
     };
   });
 });
+
+export const fetchAchievementDetails = cache(async (achievementId: string) => {
+  const relatedRewardsPromise = db.reward.findMany({
+    include: {
+      achievements: {
+        where: {
+          id: achievementId
+        }
+      }
+    }
+  });
+
+  const achievementDetailsPromise = db.achievement.findUnique({
+    where: { id: achievementId },
+    include: {
+      thresholds: {
+        include: {
+          threshold: {
+            include: {
+              notodo: {
+                include: {
+                  challenges: {
+                    where: {
+                      endTime: null
+                    }
+                  }
+                }
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+
+  const [relatedRewards, achievement] = await Promise.all([relatedRewardsPromise, achievementDetailsPromise]);
+  return {
+    achievement,
+    relatedRewards
+  };
+})
