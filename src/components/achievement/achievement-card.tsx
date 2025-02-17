@@ -4,6 +4,7 @@ import { StatusBadge } from "../common/status-badge";
 import { PointsPerHourDisplay } from "../common/poits-per-hour-display";
 import { ThresholdsList } from "./threshold-list";
 import { paths } from "@/paths";
+import { notifiedAchievement } from "@/actions";
 
 export default function AchievementCard({
   userId,
@@ -15,9 +16,18 @@ export default function AchievementCard({
   totalWeight: number;
 }) {
   return (
-    <div
-      className="bg-white shadow-lg rounded-lg p-6"
-    >
+    <div className="bg-white shadow-lg rounded-lg p-6 relative">
+      {!achievement.notified && achievement.isAchieved && (
+        <form action={notifiedAchievement.bind(null, achievement.id)}>
+          <button 
+            type="submit"
+            className="absolute top-0 right-0 m-2 bg-yellow-300 text-yellow-800 px-3 py-1 rounded-full cursor-pointer hover:bg-yellow-400 transition-colors duration-200"
+          >
+            New Achievement! Click to dismiss
+          </button>
+        </form>
+      )}
+
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-gray-800">{achievement.name}</h2>
         <StatusBadge isAchieved={achievement.isAchieved} />

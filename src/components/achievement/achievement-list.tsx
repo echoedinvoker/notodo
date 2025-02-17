@@ -21,9 +21,11 @@ export default async function AchievementList({
   fetchNotodos,
   fetchAchievements,
 }: AchievementListProps) {
-  const notodos = await fetchNotodos();
+  const [notodos, achievements] = await Promise.all([
+    fetchNotodos(),
+    fetchAchievements(),
+  ]);
   const { totalWeight } = getNotodosResult(notodos);
-  const achievements = await fetchAchievements();
 
   if (achievements.length === 0) redirect(paths.createAchievementPage(userId));
 
