@@ -15,8 +15,7 @@ export default function AchievementCard({
   totalWeight: number;
 }) {
   return (
-    <Link
-      href={paths.achievementShowPage(userId, achievement.id)}
+    <div
       className="bg-white shadow-lg rounded-lg p-6"
     >
       <div className="flex justify-between items-center mb-4">
@@ -45,6 +44,6 @@ export default function AchievementCard({
           Edit Achievement
         </Link>
       </div>
-    </Link>
+    </div>
   );
 }
