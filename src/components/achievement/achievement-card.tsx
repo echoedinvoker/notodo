@@ -17,20 +17,21 @@ export default function AchievementCard({
 }) {
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 relative">
-      {!achievement.notified && achievement.isAchieved && (
-        <form action={notifiedAchievement.bind(null, achievement.id)}>
-          <button 
-            type="submit"
-            className="absolute top-0 right-0 m-2 bg-yellow-300 text-yellow-800 px-3 py-1 rounded-full cursor-pointer hover:bg-yellow-400 transition-colors duration-200"
-          >
-            New Achievement! Click to dismiss
-          </button>
-        </form>
-      )}
-
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-start mb-4">
         <h2 className="text-xl font-bold text-gray-800">{achievement.name}</h2>
-        <StatusBadge isAchieved={achievement.isAchieved} />
+        <div className="flex flex-col items-end space-y-2">
+          {!achievement.notified && achievement.isAchieved && (
+            <form action={notifiedAchievement.bind(null, achievement.id)}>
+              <button 
+                type="submit"
+                className="bg-yellow-300 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium cursor-pointer hover:bg-yellow-400 transition-colors duration-200"
+              >
+                New Achievement!
+              </button>
+            </form>
+          )}
+          <StatusBadge isAchieved={achievement.isAchieved} />
+        </div>
       </div>
 
       <p className="text-sm text-gray-600 mb-4">{achievement.description}</p>
