@@ -54,7 +54,7 @@ export const fetchThresholdsWithIsAchieved = cache(async (userId: string): Promi
     if (!runningChallenges) return
     const durationHours = (new Date().getTime() - runningChallenges.startTime.getTime()) / 1000 / 60 / 60
     notodo.thresholds.forEach(threshold => {
-      const isAchieved = threshold.weight <= durationHours
+      const isAchieved = threshold.duration <= durationHours
       const notodoTitle = notodo.title
       thresholds.push({ ...threshold, isAchieved, notodoTitle })
     })
