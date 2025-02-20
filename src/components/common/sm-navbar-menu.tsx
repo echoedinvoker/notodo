@@ -8,10 +8,9 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
-import Link from "next/link";
 import type { MenuItem } from "../header";
 import React from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface SmallNavbarMenuProps {
   menuItems: MenuItem[];
@@ -27,7 +26,12 @@ export default function SmallNavbarMenu({
   const pathname = usePathname();
 
   const isActive = (href: string) => pathname === href;
-  const isRewardActive = pathname.endsWith('reward');
+  const isRewardActive = pathname.endsWith("reward");
+  const router = useRouter();
+
+  const handleNavigation = (href: string) => {
+    router.push(href);
+  };
 
   const renderMenuItems = () => {
     const items: React.ReactElement[] = [];
@@ -36,35 +40,40 @@ export default function SmallNavbarMenu({
       menuItems.forEach((item, index) => {
         const active = isActive(item.href);
         items.push(
-          <DropdownItem 
+          <DropdownItem
             key={`${item.name}-${index}`}
-            className={active ? 'bg-primary-100 text-primary-600' : ''}
+            className={active ? "bg-primary-100 text-primary-600" : ""}
           >
-            <Link 
-              href={item.href} 
-              className={`w-full ${active ? 'font-bold' : ''}`}
+            <Button
+              onClick={() => handleNavigation(item.href)}
+              className={`w-full text-left ${active ? "font-bold" : ""}`}
             >
               {item.name}
-            </Link>
+            </Button>
           </DropdownItem>,
         );
       });
     }
 
-   React.Children.forEach(children, (child, index) => {
-     if (React.isValidElement(child)) {
-       items.push(
-         <DropdownItem 
-           key={`child-${index}`}
-           className={isRewardActive ? 'bg-primary-100 text-primary-600' : ''}
-         >
-           {React.cloneElement(child as React.ReactElement<{ className?: string }>, {
-             className: `w-full ${isRewardActive ? 'font-bold' : ''} ${child.props.className || ''}`,
-           })}
-         </DropdownItem>
-       );
-     }
-   });
+    React.Children.forEach(children, (child, index) => {
+      if (React.isValidElement(child)) {
+        items.push(
+          <DropdownItem
+            key={`child-${index}`}
+            className={isRewardActive ? "bg-primary-100 text-primary-600" : ""}
+          >
+          {React.cloneElement(child as React.ReactElement<{ className?: string; onClick?: () => void }>, {
+            className: `w-full ${isRewardActive ? 'font-bold' : ''} ${child.props.className || ''}`,
+            onClick: () => {
+              if (child.props.href) {
+                handleNavigation(child.props.href);
+              }
+            },
+          })}
+          </DropdownItem>,
+        );
+      }
+    });
 
     return items;
   };
