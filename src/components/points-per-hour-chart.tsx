@@ -76,7 +76,7 @@ export default function PointsPerHourChart({
         margin={{
           top: 5,
           right: 30,
-          left: 20,
+          left: 10,
           bottom: 5,
         }}
       >
@@ -87,6 +87,7 @@ export default function PointsPerHourChart({
         />
         <YAxis
           domain={["auto", "auto"]}
+          width={20}
         />
         <Tooltip content={<CustomTooltip />} />
         <Line
