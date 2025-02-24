@@ -4,10 +4,10 @@ import { Input, Textarea } from "@nextui-org/react";
 import { FormButton } from "../common";
 import AchievementCreateFormSelect from "./achievement-create-form-select";
 import PointsPerHourInput from "./points-per-hour-input";
-import Link from "next/link";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
 import type { ThresholdsForSelect } from "@/db/queries/thresholds";
+import { useRouter } from "next/navigation";
 
 interface AchievementCreateFormProps {
   thresholds: ThresholdsForSelect[]
@@ -15,6 +15,10 @@ interface AchievementCreateFormProps {
 
 export default function AchievementCreateForm({ thresholds }: AchievementCreateFormProps) {
   const [formState, action] = useFormState(actions.createAchievement, { errors: {} });
+  const router = useRouter();
+  const handleCancel = () => {
+    router.back();
+  }
   return (
     <form
       action={action}
@@ -39,12 +43,13 @@ export default function AchievementCreateForm({ thresholds }: AchievementCreateF
       {formState.errors.description && <p className="text-red-500">{formState.errors.description[0]}</p>}
 
       <div className="flex justify-between items-center mt-6">
-        <Link
-          href="#"
+        <button
+          type="button"
+          onClick={handleCancel}
           className="text-blue-500 hover:text-blue-700 transition duration-300"
         >
           Cancel
-        </Link>
+        </button>
         <FormButton
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
         >

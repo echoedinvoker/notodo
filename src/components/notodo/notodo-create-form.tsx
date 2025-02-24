@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useFormState } from "react-dom";
 import { FormButton } from "@/components/common";
 import { Input, Textarea, Checkbox } from "@nextui-org/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface NotodoCreateFormProps {
   userId: string;
@@ -15,6 +15,11 @@ export default function NotodoCreateForm({ userId }: NotodoCreateFormProps) {
   const [formState, action] = useFormState(actions.createNotodo.bind(null, userId), 
     { errors: {} });
   const [isWeightEnabled, setIsWeightEnabled] = useState(false);
+  const router = useRouter();
+
+  const handleCancel = () => {
+    router.back();
+  }
 
   return (
     <form
@@ -59,12 +64,13 @@ export default function NotodoCreateForm({ userId }: NotodoCreateFormProps) {
       </div>
       
       <div className="flex justify-between items-center mt-6">
-        <Link
-          href="#"
+        <button
+          type="button"
+          onClick={handleCancel}
           className="text-blue-500 hover:text-blue-700 transition duration-300"
         >
           Cancel
-        </Link>
+        </button>
         <FormButton
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
         >

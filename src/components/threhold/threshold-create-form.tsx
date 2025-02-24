@@ -6,6 +6,7 @@ import { useFormState } from "react-dom";
 import * as actions from "@/actions";
 import Link from "next/link";
 import { paths } from "@/paths";
+import { useRouter } from "next/navigation";
 
 interface ThresholdCreateFormProps {
   userId: string;
@@ -17,6 +18,10 @@ export default function ThresholdCreateForm({ userId, notodoId }: ThresholdCreat
     actions.createThreshold.bind(null, { userId, notodoId }),
     { errors: {} }
   )
+  const router = useRouter();
+  const handleCancel = () => {
+    router.back();
+  }
   
   return (
     <form action={action} className="space-y-6">
@@ -56,12 +61,13 @@ export default function ThresholdCreateForm({ userId, notodoId }: ThresholdCreat
       />
       
       <div className="flex justify-between items-center mt-6">
-        <Link
-          href={paths.notodoListPage(userId)}
+        <button
+          type="button"
+          onClick={handleCancel}
           className="text-blue-500 hover:text-blue-700 transition duration-300"
         >
           Cancel
-        </Link>
+        </button>
         <FormButton
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
         >
