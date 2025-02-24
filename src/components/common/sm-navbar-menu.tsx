@@ -28,6 +28,10 @@ export default function SmallNavbarMenu({
   const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     if (isOpen && buttonRef.current && menuRef.current) {
       const buttonRect = buttonRef.current.getBoundingClientRect();
       const menuRect = menuRef.current.getBoundingClientRect();
