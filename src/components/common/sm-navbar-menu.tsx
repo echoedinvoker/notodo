@@ -23,7 +23,7 @@ export default function SmallNavbarMenu({
   const pathname = usePathname();
 
   const isActive = (href: string) => pathname === href;
-  const isRewardActive = pathname.endsWith('reward');
+  const isRewardActive = pathname.endsWith("reward");
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -32,38 +32,50 @@ export default function SmallNavbarMenu({
   }, [pathname]);
 
   useEffect(() => {
-    if (isOpen && buttonRef.current && menuRef.current) {
+    if (isOpen && buttonRef.current) {
       const buttonRect = buttonRef.current.getBoundingClientRect();
-      const menuRect = menuRef.current.getBoundingClientRect();
-      
-      let top = buttonRect.bottom + window.scrollY;
-      let left = buttonRect.left;
+      setMenuPosition({
+        top: buttonRect.bottom + window.scrollY,
+        left: buttonRect.left,
+      });
 
-      // 檢查右邊界
-      if (left + menuRect.width > window.innerWidth) {
-        left = window.innerWidth - menuRect.width - 10; // 10px 作為緩衝
-      }
+      setTimeout(() => {
+        if (buttonRef.current && menuRef.current) {
+          const buttonRect = buttonRef.current.getBoundingClientRect();
+          const menuRect = menuRef.current.getBoundingClientRect();
 
-      // 檢查底部邊界
-      if (top + menuRect.height > window.innerHeight + window.scrollY) {
-        top = buttonRect.top - menuRect.height + window.scrollY;
-      }
+          let top = buttonRect.bottom + window.scrollY;
+          let left = buttonRect.left;
 
-      setMenuPosition({ top, left });
+          if (left + menuRect.width > window.innerWidth) {
+            left = window.innerWidth - menuRect.width - 10;
+          }
+
+          if (top + menuRect.height > window.innerHeight + window.scrollY) {
+            top = buttonRect.top - menuRect.height + window.scrollY;
+          }
+
+          setMenuPosition({ top, left });
+        }
+      }, 10);
     }
   }, [isOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node) &&
-          buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -74,14 +86,17 @@ export default function SmallNavbarMenu({
       menuItems.forEach((item, index) => {
         const active = isActive(item.href);
         items.push(
-          <li key={`${item.name}-${index}`} className={active ? 'bg-primary-100 text-primary-600' : ''}>
-            <Link 
-              href={item.href} 
-              className={`block w-full py-2 px-4 ${active ? 'font-bold' : ''}`}
+          <li
+            key={`${item.name}-${index}`}
+            className={active ? "bg-primary-100 text-primary-600" : ""}
+          >
+            <Link
+              href={item.href}
+              className={`block w-full py-2 px-4 ${active ? "font-bold" : ""}`}
             >
               {item.name}
             </Link>
-          </li>
+          </li>,
         );
       });
     }
@@ -89,14 +104,17 @@ export default function SmallNavbarMenu({
     React.Children.forEach(children, (child, index) => {
       if (React.isValidElement(child)) {
         items.push(
-          <li 
+          <li
             key={`child-${index}`}
-            className={isRewardActive ? 'bg-primary-100 text-primary-600' : ''}
+            className={isRewardActive ? "bg-primary-100 text-primary-600" : ""}
           >
-            {React.cloneElement(child as React.ReactElement<{ className?: string }>, {
-              className: `block w-full py-2 px-4 ${isRewardActive ? 'font-bold' : ''} ${child.props.className || ''}`,
-            })}
-          </li>
+            {React.cloneElement(
+              child as React.ReactElement<{ className?: string }>,
+              {
+                className: `block w-full py-2 px-4 ${isRewardActive ? "font-bold" : ""} ${child.props.className || ""}`,
+              },
+            )}
+          </li>,
         );
       }
     });
@@ -106,36 +124,57 @@ export default function SmallNavbarMenu({
 
   return (
     <div className="md:hidden relative">
-      <button 
+      <button
         ref={buttonRef}
-        onClick={toggleMenu} 
-        className="p-2"
+        onClick={toggleMenu}
+        className={`p-2 transition-all duration-200 ${isOpen
+          ? "bg-primary-100 text-primary-600 rounded-md shadow-inner"
+          : "hover:bg-gray-100 rounded-md"
+          }`}
         aria-label="Open menu"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
+        {isOpen ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        )}
       </button>
       {isOpen && (
-        <ul 
+        <ul
           ref={menuRef}
           className="fixed w-48 bg-white border border-gray-200 rounded shadow-lg z-50"
           style={{
             top: `${menuPosition.top}px`,
             left: `${menuPosition.left}px`,
-            maxHeight: '80vh',
-            overflowY: 'auto'
+            maxHeight: "80vh",
+            overflowY: "auto",
+            visibility: menuPosition.top === 0 ? "hidden" : "visible",
           }}
         >
           {renderMenuItems()}
