@@ -11,9 +11,19 @@ interface NoteCreateFormProps {
   challengeId: string;
 }
 
+// 定義 FormState 類型
+interface FormState {
+  errors: {
+    content?: string[];
+    _form?: string[];
+    [key: string]: string[] | undefined;
+  };
+}
+
 export default function NoteCreateForm({ userId, notodoId, challengeId }: NoteCreateFormProps) {
-  const [formState, action] = useFormState(
-    (state, formData) => actions.createChallengeNote(state, formData, { userId, notodoId, challengeId }),
+  const [formState, action] = useFormState<FormState, FormData>(
+    (state: FormState, formData: FormData) => 
+      actions.createChallengeNote(state, formData, { userId, notodoId, challengeId }),
     { errors: {} }
   );
 
