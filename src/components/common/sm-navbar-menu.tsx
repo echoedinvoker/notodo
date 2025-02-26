@@ -17,7 +17,6 @@ export default function SmallNavbarMenu({
   children,
 }: SmallNavbarMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
   const pathname = usePathname();
@@ -30,36 +29,6 @@ export default function SmallNavbarMenu({
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      setMenuPosition({
-        top: buttonRect.bottom + window.scrollY,
-        left: buttonRect.left,
-      });
-
-      setTimeout(() => {
-        if (buttonRef.current && menuRef.current) {
-          const buttonRect = buttonRef.current.getBoundingClientRect();
-          const menuRect = menuRef.current.getBoundingClientRect();
-
-          let top = buttonRect.bottom + window.scrollY;
-          let left = buttonRect.left;
-
-          if (left + menuRect.width > window.innerWidth) {
-            left = window.innerWidth - menuRect.width - 10;
-          }
-
-          if (top + menuRect.height > window.innerHeight + window.scrollY) {
-            top = buttonRect.top - menuRect.height + window.scrollY;
-          }
-
-          setMenuPosition({ top, left });
-        }
-      }, 10);
-    }
-  }, [isOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -168,14 +137,7 @@ export default function SmallNavbarMenu({
       {isOpen && (
         <ul
           ref={menuRef}
-          className="fixed w-48 bg-white border border-gray-200 rounded shadow-lg z-50"
-          style={{
-            top: `${menuPosition.top}px`,
-            left: `${menuPosition.left}px`,
-            maxHeight: "80vh",
-            overflowY: "auto",
-            visibility: menuPosition.top === 0 ? "hidden" : "visible",
-          }}
+          className="absolute left-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 max-h-[80vh] overflow-y-auto"
         >
           {renderMenuItems()}
         </ul>
