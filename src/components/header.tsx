@@ -3,7 +3,8 @@ import { NotodoWithData } from "@/db/queries/notodos";
 import { RewardClaimWithReward } from "@/db/queries/rewardClaims";
 import { paths } from "@/paths";
 import SmallNavbarMenu from "./common/sm-navbar-menu";
-import NotodoLogoWrapper from "./common/notodo-logo-wrapper";
+import NotodoLogo from "./notodo-logo";
+import Link from "next/link";
 import MediumNavbarMenu from "./common/md-navbar-menu";
 import HeaderRight from "./common/header-right";
 import { ConsumePoints } from "./common";
@@ -34,30 +35,38 @@ export default async function Header({
 
   return (
     <Navbar className="shadow mb-6 rounded-lg text-stone-800">
-      <SmallNavbarMenu
-        menuItems={menuItems}
-        userId={userId}
-      >
-        {fetchNotodos && fetchRewardClaims && userId && (
-          <div className="px-4 py-2">
-            <ConsumePoints
-              fetchNotodos={fetchNotodos}
-              fetchRewardClaims={fetchRewardClaims}
-              userId={userId}
-            />
-          </div>
-        )}
-      </SmallNavbarMenu>
+      <div className="flex items-center md:hidden">
+        <SmallNavbarMenu
+          menuItems={menuItems}
+          userId={userId}
+        >
+          {fetchNotodos && fetchRewardClaims && userId && (
+            <div className="px-4 py-2">
+              <ConsumePoints
+                fetchNotodos={fetchNotodos}
+                fetchRewardClaims={fetchRewardClaims}
+                userId={userId}
+              />
+            </div>
+          )}
+        </SmallNavbarMenu>
+      </div>
 
-      <NotodoLogoWrapper />
+      <div className="flex justify-center md:justify-start flex-1 md:flex-none">
+        <Link href="/" className="flex items-center" prefetch>
+          <NotodoLogo className="h-8 w-auto" animate={true} />
+        </Link>
+      </div>
 
       <MediumNavbarMenu menuItems={menuItems} userId={userId} />
 
-      <HeaderRight
-        fetchNotodos={fetchNotodos}
-        fetchRewardClaims={fetchRewardClaims}
-        userId={userId}
-      />
+      <div className="flex items-center md:flex-none">
+        <HeaderRight
+          fetchNotodos={fetchNotodos}
+          fetchRewardClaims={fetchRewardClaims}
+          userId={userId}
+        />
+      </div>
     </Navbar>
   );
 }
