@@ -93,11 +93,11 @@ export default function OperationFlowSection({ ...props }: OperationFlowSectionP
             <p className="text-lg text-gray-600 mb-6">{steps[activeStep].description}</p>
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
               <div className="text-sm text-gray-500">Example</div>
-              {activeStep === 0 && <p>"I want to stop checking social media during work hours."</p>}
-              {activeStep === 1 && <p>"Create 'No Social Media' NotoDo and activate it during work hours."</p>}
-              {activeStep === 2 && <p>"Set threshold: 4 hours without checking social media = 10 points."</p>}
-              {activeStep === 3 && <p>"Create 'Social Media Free Week' achievement when you reach 200 points."</p>}
-              {activeStep === 4 && <p>"Create 'Movie Night' reward for 100 points, unlocked after 'Social Media Free Week'."</p>}
+              {activeStep === 0 && <p>&quot;I want to stop checking social media during work hours.&quot;</p>}
+              {activeStep === 1 && <p>&quot;Create &apos;No Social Media&apos; NotoDo and activate it during work hours.&quot;</p>}
+              {activeStep === 2 && <p>&quot;Set threshold: 4 hours without checking social media = 10 points.&quot;</p>}
+              {activeStep === 3 && <p>&quot;Create &apos;Social Media Free Week&apos; achievement when you reach 200 points.&quot;</p>}
+              {activeStep === 4 && <p>&quot;Create &apos;Movie Night&apos; reward for 100 points, unlocked after &apos;Social Media Free Week&apos;.&quot;</p>}
             </div>
           </div>
         </div>
