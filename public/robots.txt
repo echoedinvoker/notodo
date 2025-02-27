@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/*
+Disallow: */delete/*
+Disallow: */edit/*
+Disallow: */create/*
+Disallow: */giveup/*
+
+# Host
+Host: https://notodo.live
+
+# Sitemaps
+Sitemap: https://notodo.live/sitemap.xml
