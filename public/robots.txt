@@ -2,10 +2,8 @@
 User-agent: *
 Allow: /
 Disallow: /api/*
-Disallow: */delete/*
-Disallow: */edit/*
-Disallow: */create/*
-Disallow: */giveup/*
+Disallow: /[userId]/*
+Disallow: /[userId]
 
 # Host
 Host: https://notodo.live
