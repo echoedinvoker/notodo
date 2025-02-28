@@ -23,12 +23,16 @@ const EmptyDot = () => (
   <div className="flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full opacity-0"></div>
 );
 
-const DotLineUp = () => (
-  <div className="flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:-translate-y-6"></div>
+const DotLineDown = () => (
+  <div className="relative flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full">
+    <div className="absolute w-1 h-24 bg-stone-300 top-full left-1/2 transform -translate-x-1/2"></div>
+  </div>
 );
 
-const DotLineDown = () => (
-  <div className="flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full after:contents-[''] after:bg-stone-300 after:w-1 after:h-14 after:translate-y-6"></div>
+const DotLineUp = () => (
+  <div className="relative flex flex-none items-center justify-center h-3 w-3 bg-stone-300 rounded-full">
+    <div className="absolute w-1 h-24 bg-stone-300 bottom-full left-1/2 transform -translate-x-1/2"></div>
+  </div>
 );
 
 const EndDot = () => (
