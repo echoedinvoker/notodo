@@ -5,6 +5,7 @@ import { PointsPerHourDisplay } from "../common/poits-per-hour-display";
 import { ThresholdsList } from "./threshold-list";
 import { paths } from "@/paths";
 import { notifiedAchievement } from "@/actions";
+import DeleteAchievementButton from "./delete-archievement-button";
 
 export default function AchievementCard({
   userId,
@@ -47,7 +48,8 @@ export default function AchievementCard({
         <ThresholdsList thresholds={achievement.thresholds} />
       )}
 
-      <div className="mt-4 text-right">
+      <div className="mt-4 flex justify-between items-center">
+        <DeleteAchievementButton achievementId={achievement.id} />
         <Link
           href={paths.editAchievementPage(userId, achievement.id)}
           className="text-sm text-blue-500 hover:text-blue-700 transition duration-300"
