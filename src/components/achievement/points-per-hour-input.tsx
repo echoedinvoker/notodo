@@ -5,9 +5,15 @@ import { useEffect, useState } from "react";
 
 interface PointsPerHourInputProps {
   defaultValue?: number | null;
+  isInvalid?: boolean;
+  errorMessage?: string;
 }
 
-export default function PointsPerHourInput({ defaultValue }: PointsPerHourInputProps) {
+export default function PointsPerHourInput({ 
+  defaultValue, 
+  isInvalid = false,
+  errorMessage 
+}: PointsPerHourInputProps) {
   const [showPointsPerHour, setShowPointsPerHour] = useState(false);
   const [pointsPerHour, setPointsPerHour] = useState(defaultValue?.toString() || '');
 
@@ -36,7 +42,12 @@ export default function PointsPerHourInput({ defaultValue }: PointsPerHourInputP
           className="w-full"
           value={pointsPerHour}
           onChange={(e) => setPointsPerHour(e.target.value)}
+          isInvalid={isInvalid}
+          errorMessage={errorMessage}
         />
+      )}
+      {!showPointsPerHour && (
+        <input type="hidden" name="pointsPerHour" value="0" />
       )}
     </div>
   );

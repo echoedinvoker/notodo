@@ -25,3 +25,4 @@ export { notifiedReward } from './notified-reward';
 export { notifiedThreshold } from './notified-threshold';
 export { createChallengeNote } from './create-challenge-note';
 export { deleteChallengeNote } from './delete-challenge-note';
+export { editAchievement } from './edit-archievement';
