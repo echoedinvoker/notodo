@@ -3,7 +3,12 @@ import { fetchThresholdsForSelect } from "@/db/queries/thresholds";
 import { fetchRelatedThresholdsByAchievementId } from "@/db/queries/achievementsThresholds";
 import { db } from "@/db";
 
-export default async function EditAchievementPage({ params }: { params: { achievementId: string } }) {
+export default async function EditAchievementPage({ params }: {
+  params: {
+    achievementId: string,
+    userId: string,
+  }
+}) {
   const thresholds = await fetchThresholdsForSelect();
   const achievement = await db.achievement.findUnique({
     where: {
@@ -23,6 +28,7 @@ export default async function EditAchievementPage({ params }: { params: { achiev
         thresholds={thresholds}
         achievement={achievement}
         relatedThresholds={relatedThresholds}
+        userId={params.userId}
       />
     </div>
   );
