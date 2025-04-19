@@ -11,7 +11,7 @@ import { z } from "zod";
 const createNotodoSchema = z.object({
   title: z.string().min(2).max(100),
   content: z.string(),
-  weight: z.number().min(0).max(10).optional(),
+  weight: z.number().min(-10).max(10).optional(),
 });
 
 interface CreateNotodoFormState {
