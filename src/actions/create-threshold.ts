@@ -12,7 +12,7 @@ const createThresholdSchema = z.object({
   title: z.string().min(3).max(100),
   content: z.string(),
   duration: z.number().min(1),
-  weight: z.number().min(0).max(10)
+  weight: z.number().min(-10).max(10)
 });
 
 export interface CreateThresholdFormState {
